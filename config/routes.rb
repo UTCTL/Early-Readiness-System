@@ -1,4 +1,8 @@
 EarlyReadinessSystem::Application.routes.draw do
+  get "register/index"
+
+  resources :students
+
   resources :question_options
 
   resources :questions
@@ -6,6 +10,8 @@ EarlyReadinessSystem::Application.routes.draw do
   resources :sections
 
   get "home/index"
+
+  match 'register/' => 'register#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

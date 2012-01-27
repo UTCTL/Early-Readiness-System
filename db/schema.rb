@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120127175152) do
+ActiveRecord::Schema.define(:version => 20120127202354) do
 
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
@@ -37,6 +37,22 @@ ActiveRecord::Schema.define(:version => 20120127175152) do
     t.string   "title"
     t.text     "description"
     t.text     "error"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "students", :force => true do |t|
+    t.string   "name"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.string   "residency"
+    t.string   "email"
+    t.date     "birthday"
+    t.string   "gender"
+    t.string   "highschool"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
