@@ -49,11 +49,15 @@
   </div>
   <div class="field">
     <%= f.label :birthday %><br />
-    <%= f.date_select :birthday %>
+    <%= f.date_select("birthday",:start_year => Time.now.year-20, :end_year => Time.now.year-10) %>
   </div>
   <div class="field">
     <%= f.label :gender %><br />
-    <%= f.text_field :gender %>
+
+    <%= radio_button_tag(:gender, "F") %>
+    <%= label_tag(:gender, "Female") %>
+    <%= radio_button_tag(:gender, "M") %>
+    <%= label_tag(:gender, "Male") %>
   </div>
   <div class="field">
     <%= f.label :highschool %><br />
