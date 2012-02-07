@@ -1,4 +1,8 @@
 EarlyReadinessSystem::Application.routes.draw do
+  devise_for :views
+
+  devise_for :district_users
+
   get "register/index"
 
   resources :students

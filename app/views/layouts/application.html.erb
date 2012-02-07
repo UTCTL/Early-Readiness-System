@@ -7,7 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
+ <p class="notice"><%= notice %></p>
+ <p class="alert"><%= alert %></p>
+ <div id="user_nav>
+ 
+ 	<% if district_user_signed_in? %>
+ 		Signed in as <%= current_district_user.email %>.  Not you?
+ 		<%= link_to "Sign Out", destroy_district_user_session_path %>
+ 	<% else %>
+ 		<%= link_to "Sign Up", new_district_user_registration_path %> or <%= link_to "sign in", new_district_user_session_path %>.
+ 	<% end %>
+ 
+ </div>
 <%= yield %>
 
 </body>
