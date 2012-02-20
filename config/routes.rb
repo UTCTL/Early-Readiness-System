@@ -1,8 +1,4 @@
 EarlyReadinessSystem::Application.routes.draw do
-  devise_for :views
-
-  devise_for :district_users
-
   get "register/index"
 
   resources :students
@@ -15,7 +11,7 @@ EarlyReadinessSystem::Application.routes.draw do
 
   get "home/index"
 
-  match 'register/' => 'students#new'
+  match 'register/' => 'register#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

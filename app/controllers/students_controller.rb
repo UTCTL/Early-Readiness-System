@@ -1,6 +1,4 @@
 class StudentsController < ApplicationController
-	before_filter :authenticate_user!, except => [:show, :index]
-
   # GET /students
   # GET /students.json
   def index

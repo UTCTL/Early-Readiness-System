@@ -1,3 +1,7 @@
+<h1>Early Readiness for High School Graduation
+</h1>
+<p>Online registration</p>
+
 <%= form_for(@student) do |f| %>
   <% if @student.errors.any? %>
     <div id="error_explanation">
@@ -29,7 +33,7 @@
   </div>
   <div class="field">
     <%= f.label :state %><br />
-    <%= f.text_field :state %>
+    <%= f.select :state, options_for_select(us_states) %>
   </div>
   <div class="field">
     <%= f.label :zip %><br />
@@ -37,7 +41,7 @@
   </div>
   <div class="field">
     <%= f.label :residency %><br />
-    <%= f.text_field :residency %>
+    <%= f.select :residency, options_for_select(us_states) %>
   </div>
   <div class="field">
     <%= f.label :email %><br />
@@ -45,17 +49,21 @@
   </div>
   <div class="field">
     <%= f.label :birthday %><br />
-    <%= f.date_select :birthday %>
+    <%= f.date_select("birthday",:start_year => Time.now.year-20, :end_year => Time.now.year-10) %>
   </div>
   <div class="field">
     <%= f.label :gender %><br />
-    <%= f.text_field :gender %>
+
+    <%= radio_button_tag(:gender, "F") %>
+    <%= label_tag(:gender, "Female") %>
+    <%= radio_button_tag(:gender, "M") %>
+    <%= label_tag(:gender, "Male") %>
   </div>
   <div class="field">
     <%= f.label :highschool %><br />
     <%= f.text_field :highschool %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Save and continue" %>
   </div>
 <% end %>

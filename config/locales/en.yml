@@ -3,11 +3,3 @@
 
 en:
   hello: "Hello world"
-  activerecord:
-    attributes:
-      student:
-        address1: "Address (line 1)"
-        address2: "Address (line 2)"
-        email: "E-mail address"
-        zip: "ZIP code"
-        highschool: "High School"
