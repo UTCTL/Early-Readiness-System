@@ -29,8 +29,6 @@
   </div>
   <div class="field">
     <%= f.label :state %><br />
-    <%= f.text_field :state %>
-
     <%= f.select :state, options_for_select(us_states,@student.state) %>
   </div>
   <div class="field">
@@ -39,9 +37,6 @@
   </div>
   <div class="field">
     <%= f.label :residency %><br />
-
-    <%= f.text_field :residency %>
-
     <%= f.select :residency, options_for_select(us_states,@student.state) %>
   </div>
   <div class="field">
@@ -61,6 +56,6 @@
     <%= f.text_field :highschool %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "Register" %>
   </div>
 <% end %>
