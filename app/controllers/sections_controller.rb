@@ -10,11 +10,12 @@ class SectionsController < ApplicationController
     end
   end
 
+
   # GET /sections/1
   # GET /sections/1.json
   def show
     @section = Section.find(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @section }
@@ -80,4 +81,5 @@ class SectionsController < ApplicationController
       format.json { head :ok }
     end
   end
+
 end

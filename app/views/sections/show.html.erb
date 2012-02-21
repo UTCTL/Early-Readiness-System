@@ -15,6 +15,29 @@
   <%= @section.error %>
 </p>
 
-
 <%= link_to 'Edit', edit_section_path(@section) %> |
 <%= link_to 'Back', sections_path %>
+
+ <h3>Questions in this Section</h3>
+        <table>
+          <tr>
+            <th>Text</th>
+            <th>Order</th>
+            <th>Section</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <% @section.question.each do |q| %>
+          <tr>
+            <td><%= q.text %></td>
+            <td><%= q.order %></td>
+            <td><%= link_to 'Show', q %></td>
+            <td><%= link_to 'Edit', edit_question_path(q) %></td>
+            <td><%= link_to 'Destroy', q, confirm: 'Are you sure?', method: :delete %></td>
+          </tr>
+        <% end %>
+  
+        </table>
+
+        <%= link_to 'Add Question', new_question_path %>

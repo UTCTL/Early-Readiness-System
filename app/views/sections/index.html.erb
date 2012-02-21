@@ -1,26 +1,48 @@
 <h1>Listing sections</h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Description</th>
-    <th>Error</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+
 
 <% @sections.each do |section| %>
-  <tr>
-    <td><%= section.title %></td>
-    <td><%= section.description %></td>
-    <td><%= section.error %></td>
-    <td><%= link_to 'Show', section %></td>
-    <td><%= link_to 'Edit', edit_section_path(section) %></td>
-    <td><%= link_to 'Destroy', section, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
+<div class="section" id="<%= section.id %>">
+     <h2><%= link_to section.title, section %></h2>
+    <div class="section_actions">
+      <ul>
+        <li><%= link_to 'Edit', edit_section_path(section) %></li>
+        <li><%= link_to 'Destroy', section, confirm: 'Are you sure?', method: :delete %></li>
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <p class="section_description"><strong>Description:</strong>  <%= section.description %></p>
+    <p class="section_error"><strong>Error:</strong>  <%= section.error %></p>
+    
+  </div>
+
+  <h3>Questions in this Section</h3>
+        <table>
+          <tr>
+            <th>Text</th>
+            <th>Order</th>
+            <th>Section</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <% section.question.each do |q| %>
+          <tr>
+            <td><%= q.text %></td>
+            <td><%= q.order %></td>
+            <td><%= link_to 'Show', q %></td>
+            <td><%= link_to 'Edit', edit_question_path(q) %></td>
+            <td><%= link_to 'Destroy', q, confirm: 'Are you sure?', method: :delete %></td>
+          </tr>
+        <% end %>
+  
+        </table>
+
+        <%= link_to 'Add Question', new_question_path %>
+
 <% end %>
-</table>
+
 
 <br />
 
