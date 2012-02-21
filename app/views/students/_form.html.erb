@@ -29,7 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :state %><br />
+<<<<<<< HEAD
     <%= f.text_field :state %>
+=======
+    <%= f.select :state, options_for_select(us_states,@student.state) %>
+>>>>>>> Sstudent form no populates from LDAP
   </div>
   <div class="field">
     <%= f.label :zip %><br />
@@ -37,7 +41,11 @@
   </div>
   <div class="field">
     <%= f.label :residency %><br />
+<<<<<<< HEAD
     <%= f.text_field :residency %>
+=======
+    <%= f.select :residency, options_for_select(us_states,@student.state) %>
+>>>>>>> Sstudent form no populates from LDAP
   </div>
   <div class="field">
     <%= f.label :email %><br />
