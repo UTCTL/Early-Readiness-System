@@ -24,11 +24,47 @@ class StudentsController < ApplicationController
   # GET /students/new
   # GET /students/new.json
   def new
-    @student = Student.new
+    @student=Student.new
+    username = 'uid=4795ftfx,ou=services,dc=entdir,dc=utexas,dc=edu'
+    password = "n)yexbpw@n7og*ic!o@:5gz0@56qu%+q6:g94"
+    host = 'entdir.utexas.edu'
+    ldap = Net::LDAP.new :host => host,  :port => 636, :encryption => :simple_tls
+    ldap.auth username, password
 
+    filter = Net::LDAP::Filter.eq( "utexasEduPersonEid", "lhorton" )
+    treebase = "dc=entdir,dc=utexas,dc=edu"
+
+    ldap.search( :base => treebase, :filter => filter ) do |entry|
+         name = entry.cn[0].upcase
+         address = entry.homePostalAddress[0].split('$')
+         address1 = address[0]
+         if address.length>2
+          address2=address[1]
+          citystatezip=address[2]
+         else
+          address2=''
+          citystatezip=address[1]
+         end
+         city=citystatezip.split(', ')[0]
+         state=citystatezip.split(', ')[1].split(' ')[0]
+         zip=citystatezip.split(', ')[1].split(' ')[1]
+         fullPhone = entry.homePhone[0].split
+         phone=fullPhone[1]+"-"+fullPhone[2]+"-"+fullPhone[3]
+         birthday=Date.strptime(entry.utexasEduPersonBirthDate[0],'%Y%m%d')
+         email=entry.mail[0].upcase
+          @student.name=name
+          @student.address1=address1
+          @student.address2=address2
+          @student.city=city
+          @student.state=state
+          @student.zip=zip
+          @student.residency=state
+          @student.email=email
+          #@student.phone=phone
+          @student.birthday=birthday
+    end
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @student }
     end
   end
 
