@@ -31,7 +31,7 @@ class StudentsController < ApplicationController
     ldap = Net::LDAP.new :host => host,  :port => 636, :encryption => :simple_tls
     ldap.auth username, password
 
-    filter = Net::LDAP::Filter.eq( "utexasEduPersonEid", "EID" )
+    filter = Net::LDAP::Filter.eq( "utexasEduPersonEid", "lhorton" )
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search( :base => treebase, :filter => filter ) do |entry|
@@ -65,7 +65,6 @@ class StudentsController < ApplicationController
     end
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @student }
     end
   end
 
