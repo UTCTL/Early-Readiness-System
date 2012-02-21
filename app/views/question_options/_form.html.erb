@@ -19,10 +19,13 @@
     <%= f.label :order %><br />
     <%= f.text_field :order %>
   </div>
+
+
   <div class="field">
     <%= f.label :question %><br />
-    <%= f.text_field :question %>
+    <%= select("question_option", "question_id", @questions.collect {|question| [ question.text, question.id ] }, { :include_blank => true }) %>
   </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

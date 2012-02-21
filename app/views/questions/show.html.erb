@@ -17,4 +17,5 @@
 
 
 <%= link_to 'Edit', edit_question_path(@question) %> |
-<%= link_to 'Back', sections_path %>
+<%= link_to 'Back to ' + @question.section.title, @question.section %>
+<%= link_to 'Back to All Questions', questions_path %>

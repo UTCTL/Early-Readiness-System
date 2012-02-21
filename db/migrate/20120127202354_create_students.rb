@@ -12,6 +12,8 @@ class CreateStudents < ActiveRecord::Migration
       t.date :birthday
       t.string :gender
       t.string :highschool
+      t.boolean :interested_ut, :default => false
+      t.boolean :interested_atm, :default => false
 
       t.timestamps
     end

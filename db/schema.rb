@@ -11,7 +11,39 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120127202354) do
+ActiveRecord::Schema.define(:version => 20120221214204) do
+
+  create_table "district_users", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "district_users", ["email"], :name => "index_district_users_on_email", :unique => true
+  add_index "district_users", ["reset_password_token"], :name => "index_district_users_on_reset_password_token", :unique => true
+
+  create_table "exam_subjects", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "exams", :force => true do |t|
+    t.string   "title"
+    t.integer  "subject_id"
+    t.integer  "required_score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
@@ -37,6 +69,15 @@ ActiveRecord::Schema.define(:version => 20120127202354) do
     t.string   "title"
     t.text     "description"
     t.text     "error"
+    t.integer  "order"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "student_scores", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.integer  "student_score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -56,5 +97,23 @@ ActiveRecord::Schema.define(:version => 20120127202354) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "views", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "views", ["email"], :name => "index_views_on_email", :unique => true
+  add_index "views", ["reset_password_token"], :name => "index_views_on_reset_password_token", :unique => true
 
 end

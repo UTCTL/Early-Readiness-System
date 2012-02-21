@@ -25,7 +25,7 @@ class QuestionOptionsController < ApplicationController
   # GET /question_options/new.json
   def new
     @question_option = QuestionOption.new
-
+    @questions = Question.all
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @question_option }
@@ -35,12 +35,14 @@ class QuestionOptionsController < ApplicationController
   # GET /question_options/1/edit
   def edit
     @question_option = QuestionOption.find(params[:id])
+    @question = Question.all
   end
 
   # POST /question_options
   # POST /question_options.json
   def create
     @question_option = QuestionOption.new(params[:question_option])
+    @question = Question.all
 
     respond_to do |format|
       if @question_option.save
