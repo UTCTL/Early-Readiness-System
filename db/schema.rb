@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120223000417) do
+ActiveRecord::Schema.define(:version => 20120223175944) do
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -37,10 +37,12 @@ ActiveRecord::Schema.define(:version => 20120223000417) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "required_score"
+    t.integer  "subtopic_id"
   end
 
   add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
   add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id_id"
+  add_index "exams", ["subtopic_id"], :name => "index_exams_on_subtopic_id"
 
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
@@ -105,6 +107,15 @@ ActiveRecord::Schema.define(:version => 20120223000417) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "subtopics", :force => true do |t|
+    t.string   "name"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subtopics", ["subject_id"], :name => "index_subtopics_on_subject_id"
 
   create_table "views", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

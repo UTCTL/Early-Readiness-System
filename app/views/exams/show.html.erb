@@ -3,6 +3,14 @@
   <b>Subject:</b>
   <%= @subject.name %>
 </p>
+
+<% if @subtopic %>
+<p>
+  <b>Subtopic:</b>
+  <%= @subtopic.name %>
+</p>
+<% end %>
+
 <p>
   <b>Name:</b>
   <%= @exam.name %>

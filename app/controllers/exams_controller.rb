@@ -15,6 +15,7 @@ class ExamsController < ApplicationController
   def show
     @exam = Exam.find(params[:id])
     @subject = @exam.subject
+    @subtopic = @exam.subtopic
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @exam }
@@ -26,7 +27,7 @@ class ExamsController < ApplicationController
   def new
     @exam = Exam.new
     @subjects = Subject.all
-
+    @subtopics = Subtopic.all
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @exam }
@@ -37,13 +38,15 @@ class ExamsController < ApplicationController
   def edit
     @exam = Exam.find(params[:id])
     @subjects = Subject.all
+    @subtopics = Subtopic.all
   end
 
   # POST /exams
   # POST /exams.json
   def create
     @exam = Exam.new(params[:exam])
-    @subjects = Subject.all
+    @subjects = Subject.all    
+    @subtopics = Subtopic.all
     respond_to do |format|
       if @exam.save
         format.html { redirect_to @exam, notice: 'Exam was successfully created.' }
@@ -60,6 +63,7 @@ class ExamsController < ApplicationController
   def update
     @exam = Exam.find(params[:id])
     @subjects = Subject.all
+    @subtopics = Subtopic.all
     respond_to do |format|
       if @exam.update_attributes(params[:exam])
         format.html { redirect_to @exam, notice: 'Exam was successfully updated.' }

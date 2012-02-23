@@ -16,6 +16,11 @@
   </div>
 
   <div class="field">
+    <%= f.label :subtopic %><br />
+    <%= select("exam", "subtopic_id", @subtopics.collect {|s| [ s.name, s.id ] }, {:include_blank => 'None'}) %>
+  </div>
+
+  <div class="field">
     <%= f.label :name %><br />
     <%= f.text_field :name %>
   </div>
