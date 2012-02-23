@@ -3,6 +3,7 @@
 <table>
   <tr>
     <th>Subject</th>
+    <th>Subtopic</th>
     <th>Name</th>
     <th>Required Score</th>
     <th></th>
@@ -14,6 +15,11 @@
   <tr>
     
     <td><%= exam.subject.name %></td>
+    <% if !exam.subtopic %>
+    <td>&nbsp;</td>
+    <% else %>
+    <td><%= exam.subtopic.name %></td>
+    <% end %>
     <td><%= exam.name %></td>
     <td><%= exam.required_score %></td>
     <td><%= link_to 'Show', exam %></td>

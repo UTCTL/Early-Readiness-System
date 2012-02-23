@@ -55,6 +55,22 @@
     <%= f.label :highschool %><br />
     <%= f.text_field :highschool %>
   </div>
+
+
+  <h2>Exams</h2>
+<div class="clear"></div>
+   <% Exam.all.each do |exam| -%>
+    <div>
+      <%= check_box_tag :exam_ids, exam.id, @student.exams.include?(exam), :name => 'student[exam_ids][]' -%>
+      <% if exam.subtopic %>
+      <%= label_tag :exam_ids, exam.subtopic.name + ' ' + exam.name -%>
+      <% else %>
+      <%= label_tag :exam_ids, exam.subject.name + ' ' + exam.name -%>
+      <% end %>
+    </div>
+  <% end -%>
+
+
   <div class="actions">
     <%= f.submit "Register" %>
   </div>

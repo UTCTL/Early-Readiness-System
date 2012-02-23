@@ -3,7 +3,7 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = Student.all
-
+    @exams = Exam.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -15,6 +15,7 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
     @scores = @student.scores
+    @exams = Exam.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @student }
@@ -25,6 +26,7 @@ class StudentsController < ApplicationController
   # GET /students/new.json
   def new
     @student=Student.new
+    @exams = Exam.all
     username = 'uid=4795ftfx,ou=services,dc=entdir,dc=utexas,dc=edu'
     password = "n)yexbpw@n7og*ic!o@:5gz0@56qu%+q6:g94"
     host = 'entdir.utexas.edu'
@@ -71,13 +73,14 @@ class StudentsController < ApplicationController
   # GET /students/1/edit
   def edit
     @student = Student.find(params[:id])
+    @exams = Exam.all
   end
 
   # POST /students
   # POST /students.json
   def create
     @student = Student.new(params[:student])
-
+    @exams = Exam.all
     respond_to do |format|
       if @student.save
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
@@ -93,7 +96,7 @@ class StudentsController < ApplicationController
   # PUT /students/1.json
   def update
     @student = Student.find(params[:id])
-
+    @exams = Exam.all
     respond_to do |format|
       if @student.update_attributes(params[:student])
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }
