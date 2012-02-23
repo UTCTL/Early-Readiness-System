@@ -1,9 +1,9 @@
 EarlyReadinessSystem::Application.routes.draw do
-  resources :student_scores
+  resources :scores
+
+  resources :subjects
 
   resources :exams
-
-  resources :exam_subjects
 
   get "register/index"
 

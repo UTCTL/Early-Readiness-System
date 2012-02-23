@@ -2,8 +2,9 @@
 
 <table>
   <tr>
-    <th>Title</th>
     <th>Subject</th>
+    <th>Name</th>
+    <th>Required Score</th>
     <th></th>
     <th></th>
     <th></th>
@@ -11,10 +12,12 @@
 
 <% @exams.each do |exam| %>
   <tr>
-    <td><%= exam.title %></td>
-    <td><%= ExamSubject.find(exam.subject_id).name %></td>
+    
+    <td><%= exam.subject.name %></td>
+    <td><%= exam.name %></td>
+    <td><%= exam.required_score %></td>
     <td><%= link_to 'Show', exam %></td>
-    <td><%= link_to 'Edit Exam', edit_exam_path(exam) %></td>
+    <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
     <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>

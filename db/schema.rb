@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120221214204) do
+ActiveRecord::Schema.define(:version => 20120223000417) do
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -31,19 +31,16 @@ ActiveRecord::Schema.define(:version => 20120221214204) do
   add_index "district_users", ["email"], :name => "index_district_users_on_email", :unique => true
   add_index "district_users", ["reset_password_token"], :name => "index_district_users_on_reset_password_token", :unique => true
 
-  create_table "exam_subjects", :force => true do |t|
+  create_table "exams", :force => true do |t|
     t.string   "name"
+    t.integer  "subject_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "required_score"
   end
 
-  create_table "exams", :force => true do |t|
-    t.string   "title"
-    t.integer  "subject_id"
-    t.integer  "required_score"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
+  add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id_id"
 
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
@@ -65,19 +62,24 @@ ActiveRecord::Schema.define(:version => 20120221214204) do
 
   add_index "questions", ["section_id"], :name => "index_questions_on_section_id"
 
+  create_table "scores", :force => true do |t|
+    t.integer  "student_score"
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scores", ["exam_id"], :name => "index_scores_on_exam_id"
+  add_index "scores", ["exam_id"], :name => "index_scores_on_exam_id_id"
+  add_index "scores", ["student_id"], :name => "index_scores_on_student_id"
+  add_index "scores", ["student_id"], :name => "index_scores_on_student_id_id"
+
   create_table "sections", :force => true do |t|
     t.string   "title"
     t.text     "description"
     t.text     "error"
     t.integer  "order"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "student_scores", :force => true do |t|
-    t.integer  "student_id"
-    t.integer  "exam_id"
-    t.integer  "student_score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -94,6 +96,12 @@ ActiveRecord::Schema.define(:version => 20120221214204) do
     t.date     "birthday"
     t.string   "gender"
     t.string   "highschool"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

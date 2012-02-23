@@ -1,13 +1,16 @@
 <p id="notice"><%= notice %></p>
-
 <p>
-  <b>Title:</b>
-  <%= @exam.title %>
+  <b>Subject:</b>
+  <%= @subject.name %>
+</p>
+<p>
+  <b>Name:</b>
+  <%= @exam.name %>
 </p>
 
 <p>
-  <b>Subject:</b>
-  <%= ExamSubject.find(@exam.subject_id).name %>
+  <b>Required Score:</b>
+  <%= @exam.required_score %>
 </p>
 
 
