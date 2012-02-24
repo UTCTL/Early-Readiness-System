@@ -80,6 +80,9 @@ class StudentsController < ApplicationController
   def edit
     @student = Student.find(params[:id])
     @exams = Exam.all
+    @sections = Section.all
+    @questions = Question.all
+
   end
 
   # POST /students
