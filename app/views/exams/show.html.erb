@@ -1,7 +1,7 @@
 <p id="notice"><%= notice %></p>
 <p>
   <b>Subject:</b>
-  <%= @subject.name %>
+  <%= link_to @subject.name, @subject %>
 </p>
 
 <% if @subtopic %>

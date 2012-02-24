@@ -81,5 +81,4 @@ class SectionsController < ApplicationController
       format.json { head :ok }
     end
   end
-
 end

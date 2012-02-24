@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120223175944) do
+ActiveRecord::Schema.define(:version => 20120224165458) do
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -53,6 +53,17 @@ ActiveRecord::Schema.define(:version => 20120223175944) do
   end
 
   add_index "question_options", ["question_id"], :name => "index_question_options_on_question_id"
+
+  create_table "question_responses", :force => true do |t|
+    t.text     "text"
+    t.integer  "student_id"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "question_responses", ["question_id"], :name => "index_question_responses_on_question_id"
+  add_index "question_responses", ["student_id"], :name => "index_question_responses_on_student_id"
 
   create_table "questions", :force => true do |t|
     t.text     "text"

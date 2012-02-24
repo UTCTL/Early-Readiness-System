@@ -65,7 +65,7 @@
  
   </tr>
 
-<% @student.exams.each do |exam| %>
+<% @exams.each do |exam| %>
   <tr>
     <% if exam.subtopic %>
       <td><%= exam.subject.name + ' ' + exam.subtopic.name %></td>
@@ -80,6 +80,13 @@
 <% end %>
 </table>
 
+
+<h3>Survey Responses</h3>
+
+<% @question_responses.each do |response| %>
+  <p><strong><%= response.question.text  %></strong></p>
+  <p><%= response.text %></p>
+<% end %>
 
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

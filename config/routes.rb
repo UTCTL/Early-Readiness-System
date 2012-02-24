@@ -1,4 +1,6 @@
 EarlyReadinessSystem::Application.routes.draw do
+  resources :question_responses
+
   resources :subtopics
 
   resources :scores

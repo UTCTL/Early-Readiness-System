@@ -17,7 +17,7 @@
 
 <%= link_to 'Edit', edit_section_path(@section) %> |
 <%= link_to 'Back', sections_path %>
-
+<% if !@section.questions.empty? %>
  <h3>Questions in this Section</h3>
         <table>
           <tr>
@@ -27,7 +27,7 @@
             <th></th>
             <th></th>
           </tr>
-          <% @section.question.each do |q| %>
+          <% @section.questions.each do |q| %>
           <tr>
             <td><%= q.text %></td>
             <td><%= q.order %></td>
@@ -38,5 +38,5 @@
         <% end %>
   
         </table>
-
+<% end %>
         <%= link_to 'Add Question', new_question_path %>

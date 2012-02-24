@@ -3,7 +3,6 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = Student.all
-    @exams = Exam.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -15,7 +14,8 @@ class StudentsController < ApplicationController
   def show
     @student = Student.find(params[:id])
     @scores = @student.scores
-    @exams = Exam.all
+    @exams = @student.exams.sort_by{|e| e[:subject_id]}
+    @question_responses = @student.question_responses
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @student }
@@ -27,6 +27,12 @@ class StudentsController < ApplicationController
   def new
     @student=Student.new
     @exams = Exam.all
+    @sections = Section.all
+    @questions = Question.all
+    @questions.each do |q|
+        @student.question_responses.build(:question_id => q.id)  
+    end
+
     username = 'uid=4795ftfx,ou=services,dc=entdir,dc=utexas,dc=edu'
     password = "n)yexbpw@n7og*ic!o@:5gz0@56qu%+q6:g94"
     host = 'entdir.utexas.edu'

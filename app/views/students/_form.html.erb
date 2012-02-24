@@ -59,7 +59,9 @@
 
   <h2>Exams</h2>
 <div class="clear"></div>
-   <% Exam.all.each do |exam| -%>
+  <% Subject.all.each do |subject| %>
+  <h3><%= subject.name %></h3>
+   <% subject.exams.each do |exam| -%>
     <div>
       <%= check_box_tag :exam_ids, exam.id, @student.exams.include?(exam), :name => 'student[exam_ids][]' -%>
       <% if exam.subtopic %>
@@ -69,6 +71,20 @@
       <% end %>
     </div>
   <% end -%>
+  <% end %>
+
+    <h2>Survey Questions</h2>
+<div class="clear"></div>
+  <% i = 0 %>
+  <%= f.fields_for :question_responses do |builder| %>
+        <%= builder.label @questions[i].text %>
+        <%= builder.hidden_field :question_id %><br/>
+           
+        <%= builder.text_area :text, :rows => 3 %><br />
+        <% i+=1 %>
+<% end %>
+
+
 
 
   <div class="actions">
