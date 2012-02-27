@@ -27,6 +27,7 @@ class StudentsController < ApplicationController
   def new
     @student=Student.new
     @exams = Exam.all
+    @subjects = Subject.all
     @sections = Section.all
     @questions = Question.all
     @questions.each do |q|
@@ -89,7 +90,10 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(params[:student])
+    @subjects = Subject.all
     @exams = Exam.all
+    @sections = Section.all
+    @questions = Question.all
     respond_to do |format|
       if @student.save
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
