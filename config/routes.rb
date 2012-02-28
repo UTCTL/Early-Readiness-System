@@ -23,6 +23,8 @@ EarlyReadinessSystem::Application.routes.draw do
 
   get "home/index"
 
+  match 'login/' => 'home#login'
+
   match 'register/' => 'students#new'
 
   # The priority is based upon order of creation:

@@ -1,6 +1,17 @@
 <% provide(:title, 'Home') %>
 <h1>Early Readiness High School Graduation Option Registration</h1>
+<<<<<<< HEAD
 <p>
   This is the home page for the Early Readiness High School Graduation Option.
 </p>
 
+=======
+
+<%= form_tag("/login", :method => "post") do %>
+ <%= label_tag(:username, "Username:") %>
+  <%= text_field_tag(:username) %><br />
+  <%= label_tag(:password, "Password:") %>
+  <%= password_field_tag(:password) %><br />
+  <%= submit_tag("Login") %>
+<% end %>
+>>>>>>> Adding login page
