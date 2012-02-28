@@ -27,9 +27,11 @@ class StudentsController < ApplicationController
   def new
     @student=Student.new
     @exams = Exam.all
-    @subjects = Subject.all
     @sections = Section.all
     @questions = Question.all
+    @subjects = Subject.all
+   
+
     @questions.each do |q|
         @student.question_responses.build(:question_id => q.id)  
     end
@@ -83,8 +85,8 @@ class StudentsController < ApplicationController
     @exams = Exam.all
     @sections = Section.all
     @questions = Question.all
-
-  end
+    @subjects = Subject.all
+    end
 
   # POST /students
   # POST /students.json
@@ -94,6 +96,9 @@ class StudentsController < ApplicationController
     @exams = Exam.all
     @sections = Section.all
     @questions = Question.all
+
+  
+
     respond_to do |format|
       if @student.save
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
@@ -109,7 +114,9 @@ class StudentsController < ApplicationController
   # PUT /students/1.json
   def update
     @student = Student.find(params[:id])
-    @exams = Exam.all
+    @subjects = Subject.all
+    @questions = Question.all
+
     respond_to do |format|
       if @student.update_attributes(params[:student])
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }
