@@ -82,10 +82,19 @@
 
 
 <h3>Survey Responses</h3>
-
 <% @question_responses.each do |response| %>
   <p><strong><%= response.question.text  %></strong></p>
   <p><%= response.text %></p>
+<% end %>
+
+<h2>Interested in</h2>
+<div class="clear"></div>
+<% if @student.universities %>
+<% @student.universities.each do |university| %>
+  <p><strong><%= university.name  %></strong></p>
+<% end %>
+<% else %>
+<p><em>Not interested in these universities</em></p>
 <% end %>
 
 <%= link_to 'Edit', edit_student_path(@student) %> |

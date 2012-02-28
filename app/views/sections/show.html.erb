@@ -39,4 +39,27 @@
   
         </table>
 <% end %>
+
+<% if !@section.universities.empty? %>
+ <h3>Universities in this Section</h3>
+        <table>
+          <tr>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+          <% @section.universities.each do |u| %>
+          <tr>
+            <td><%= u.name %></td>
+            <td><%= link_to 'Show', u %></td>
+            <td><%= link_to 'Edit', edit_university_path(u) %></td>
+            <td><%= link_to 'Destroy', u, confirm: 'Are you sure?', method: :delete %></td>
+          </tr>
+        <% end %>
+  
+        </table>
+<% end %>
+
         <%= link_to 'Add Question', new_question_path %>
+        <%= link_to 'Add University', new_university_path %>

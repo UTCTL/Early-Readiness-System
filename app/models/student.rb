@@ -1,5 +1,3 @@
-
-
 class Student < ActiveRecord::Base
 	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool, :presence => true
 	validate :oneExamPerSubject
@@ -9,6 +7,8 @@ class Student < ActiveRecord::Base
 
 	has_many :question_responses
 	has_many :questions, :through => :question_responses
+
+	has_many :universities
 
 	accepts_nested_attributes_for :question_responses, :questions
 

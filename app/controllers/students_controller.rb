@@ -3,6 +3,8 @@ class StudentsController < ApplicationController
   # GET /students.json
   def index
     @students = Student.all
+
+    @universities = University.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -16,6 +18,8 @@ class StudentsController < ApplicationController
     @scores = @student.scores
     @exams = @student.exams.sort_by{|e| e[:subject_id]}
     @question_responses = @student.question_responses
+
+    @universities = University.all
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @student }
@@ -27,14 +31,15 @@ class StudentsController < ApplicationController
   def new
     @student=Student.new
     @exams = Exam.all
-    @sections = Section.all
     @questions = Question.all
     @subjects = Subject.all
-   
+    @universities = University.all
 
     @questions.each do |q|
         @student.question_responses.build(:question_id => q.id)  
     end
+
+
 
     username = 'uid=4795ftfx,ou=services,dc=entdir,dc=utexas,dc=edu'
     password = "n)yexbpw@n7og*ic!o@:5gz0@56qu%+q6:g94"
@@ -86,6 +91,8 @@ class StudentsController < ApplicationController
     @sections = Section.all
     @questions = Question.all
     @subjects = Subject.all
+    
+    @universities = University.all
     end
 
   # POST /students
@@ -97,6 +104,7 @@ class StudentsController < ApplicationController
     @sections = Section.all
     @questions = Question.all
 
+    @universities = University.all
   
 
     respond_to do |format|
@@ -117,6 +125,7 @@ class StudentsController < ApplicationController
     @subjects = Subject.all
     @questions = Question.all
 
+    @universities = University.all
     respond_to do |format|
       if @student.update_attributes(params[:student])
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }

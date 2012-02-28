@@ -1,4 +1,6 @@
 EarlyReadinessSystem::Application.routes.draw do
+  resources :universities
+
   resources :question_responses
 
   resources :subtopics

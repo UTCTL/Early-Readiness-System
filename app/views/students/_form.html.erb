@@ -1,52 +1,3 @@
-<script type="text/javascript">
-  $j = jQuery.noConflict();
-  $j(document).ready(function(){
-
-    $j('form').submit(function(){
-        //console.log('hello');
-        var valid_input = true;
-        //console.log('Valid input is ' + valid_input+'.');
-        
-        $j('.subject_exams').each(function(){
-          var oneChecked = false;
-          //console.log('Valid input is ' + valid_input+' in .subject_exams each.');
-          var n = $j(this).find('input:checked').length;
-            //console.log(n + 'boxes checked in this subject');
-            if(n>=1) {
-              oneChecked = true;
-            } else {
-              $j(this).addClass('field_with_errors');
-            }
-            if (oneChecked == false) {
-              valid_input = false;
-              //console.log('Valid input is ' + valid_input+' because oneChecked is false.');
-            }
-
-          //console.log('Valid input is ' + valid_input+' at the end of the subject_exams loop.');
-        });
-                
-        //console.log('Valid input is ' + valid_input+' just before we check if it is true or false.');        
-        if (valid_input) {
-         // return true;
-          } else {
-          
-          if($j('#error_explanation').length>0){
-            var error_count = parseInt($j('#error_explanation h2').html().split(' ')[0]) + 1;
-            var error_message = error_count + ' errors prohibited this student from being saved:';
-            console.log(error_message);
-            $j('#error_explanation h2').empty();
-            $j('#error_explanation h2').html(error_message);
-             $j('#error_explanation ul').append('<li>You must select at least one exam from each subject!</li>');
-          } else{
-          $j('form').prepend('<div id="error_explanation"><h2>1 error prohibited this student from being saved:</h2><ul><li>You must select at least one exam from each subject!</li></ul>');
-        }
-          // alert('You must select at least one exam from each subject!');
-          return false;
-        }
-});
-  });
-
-</script>
 <%= form_for(@student) do |f| %>
   <% if @student.errors.any? %>
     <div id="error_explanation">
@@ -135,6 +86,14 @@
         <% i+=1 %>
 <% end %>
 
+  <% @universities.each do |university| %>
+    <div>
+      <%= check_box_tag :university_ids, university.id, @student.universities.include?(university), :name => 'student[university_ids][]' -%>     
+      <%= label_tag :university_ids, university.name -%>
+     </div>
+
+  <% end %>
+  
 
   <div class="actions">
     <%= f.submit "Register" %>

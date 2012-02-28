@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120224165458) do
+ActiveRecord::Schema.define(:version => 20120228212914) do
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -41,7 +41,6 @@ ActiveRecord::Schema.define(:version => 20120224165458) do
   end
 
   add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
-  add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id_id"
   add_index "exams", ["subtopic_id"], :name => "index_exams_on_subtopic_id"
 
   create_table "question_options", :force => true do |t|
@@ -84,9 +83,7 @@ ActiveRecord::Schema.define(:version => 20120224165458) do
   end
 
   add_index "scores", ["exam_id"], :name => "index_scores_on_exam_id"
-  add_index "scores", ["exam_id"], :name => "index_scores_on_exam_id_id"
   add_index "scores", ["student_id"], :name => "index_scores_on_student_id"
-  add_index "scores", ["student_id"], :name => "index_scores_on_student_id_id"
 
   create_table "sections", :force => true do |t|
     t.string   "title"
@@ -127,6 +124,17 @@ ActiveRecord::Schema.define(:version => 20120224165458) do
   end
 
   add_index "subtopics", ["subject_id"], :name => "index_subtopics_on_subject_id"
+
+  create_table "universities", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "student_id"
+    t.integer  "section_id"
+  end
+
+  add_index "universities", ["section_id"], :name => "index_universities_on_section_id"
+  add_index "universities", ["student_id"], :name => "index_universities_on_student_id"
 
   create_table "views", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
