@@ -1,9 +1,12 @@
 EarlyReadinessSystem::Application.routes.draw do
+
   resources :student_genders
 
   resources :interested_universities
 
   resources :genders
+
+  resources :sessions
 
   resources :universities
 
@@ -17,6 +20,7 @@ EarlyReadinessSystem::Application.routes.draw do
 
   resources :exams
 
+
   get "register/index"
 
   resources :students
@@ -27,7 +31,7 @@ EarlyReadinessSystem::Application.routes.draw do
 
   resources :sections
 
-  get "home/index"
+  match 'login/' => 'sessions#new'
 
   match 'register/' => 'students#new'
 
@@ -80,7 +84,7 @@ EarlyReadinessSystem::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'home#index'
+  #root :to => 'home#index'
 
   # See how all your routes lay out with "rake routes"
 
