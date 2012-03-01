@@ -7,6 +7,7 @@ gem 'rails', '3.1.1'
 
 gem 'sqlite3'
 gem 'net-ldap'
+gem 'acts-as-taggable-on', '~> 2.2.2'
 
 # Gems used only for assets and not required
 # in production environments by default.

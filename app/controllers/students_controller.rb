@@ -1,10 +1,13 @@
 class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
+
+
   def index
     @students = Student.all
-
+    @genders = Gender.all
     @universities = University.all
+    @subjects = Subject.all
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -15,10 +18,11 @@ class StudentsController < ApplicationController
   # GET /students/1.json
   def show
     @student = Student.find(params[:id])
+    @gender = Gender.find(@student.gender_id)
     @scores = @student.scores
+    @subjects = Subject.all
     @exams = @student.exams.sort_by{|e| e[:subject_id]}
     @question_responses = @student.question_responses
-
     @universities = University.all
     respond_to do |format|
       format.html # show.html.erb
@@ -34,6 +38,7 @@ class StudentsController < ApplicationController
     @questions = Question.all
     @subjects = Subject.all
     @universities = University.all
+    @genders = Gender.all
 
     @questions.each do |q|
         @student.question_responses.build(:question_id => q.id)  
@@ -47,7 +52,7 @@ class StudentsController < ApplicationController
     ldap = Net::LDAP.new :host => host,  :port => 636, :encryption => :simple_tls
     ldap.auth username, password
 
-    filter = Net::LDAP::Filter.eq( "utexasEduPersonEid", "lhorton" )
+    filter = Net::LDAP::Filter.eq( "utexasEduPersonEid", "lnd322" )
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search( :base => treebase, :filter => filter ) do |entry|
@@ -91,7 +96,7 @@ class StudentsController < ApplicationController
     @sections = Section.all
     @questions = Question.all
     @subjects = Subject.all
-    
+    @genders = Gender.all
     @universities = University.all
     end
 
@@ -99,11 +104,12 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(params[:student])
+
     @subjects = Subject.all
     @exams = Exam.all
     @sections = Section.all
     @questions = Question.all
-
+    @genders = Gender.all
     @universities = University.all
   
 
@@ -124,7 +130,7 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @subjects = Subject.all
     @questions = Question.all
-
+    @genders = Gender.all
     @universities = University.all
     respond_to do |format|
       if @student.update_attributes(params[:student])

@@ -1,43 +1,79 @@
-<h1>Listing students</h1>
+<h1>All students</h1>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Address1</th>
-    <th>Address2</th>
-    <th>City</th>
-    <th>State</th>
-    <th>Zip</th>
-    <th>Residency</th>
-    <th>Email</th>
-    <th>Birthday</th>
-    <th>Gender</th>
-    <th>Highschool</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @students.each do |student| %>
-  <tr>
-    <td><%= student.name %></td>
-    <td><%= student.address1 %></td>
-    <td><%= student.address2 %></td>
-    <td><%= student.city %></td>
-    <td><%= student.state %></td>
-    <td><%= student.zip %></td>
-    <td><%= student.residency %></td>
-    <td><%= student.email %></td>
-    <td><%= student.birthday %></td>
-    <td><%= student.gender %></td>
-    <td><%= student.highschool %></td>
-    <td><%= link_to 'Show', student %></td>
-    <td><%= link_to 'Edit', edit_student_path(student) %></td>
-    <td><%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
 
 <%= link_to 'New Student', new_student_path %>
+
+
+<% @students.each do |student| %>
+  <div class="student">
+    <nav class="student_controls">
+    <ul>
+    <li><%= link_to 'Show', student %></li>
+    <li><%= link_to 'Edit', edit_student_path(student) %></li>
+    <li><%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %></li>
+    </ul>
+  </nav>
+  <div class="student_information">
+  <h2 class="student_name"><%= link_to student.name, student %></h2><h3 class="student_eid">Eid</h3>
+  <div class="clear"></div>
+  <div class="student_address">
+    <p><%= student.address1 %><br/>
+        <% if student.address2? %> 
+        <%= student.address2 %><br/>
+        <% end %>
+        <%= student.city %>, <%= student.state %> <%= student.zip %>
+    </p>
+    <span class-"student_residency"><strong>Residency:</strong> <%= student.residency %></span>
+</div>
+<div class="student_demographics">
+    <div class="student_birthdate"><p><%= student.birthday.to_formatted_s(:long_ordinal) %></p></div>
+    <% if student.gender %>
+    <div class="student_gender"><p><%= link_to student.gender.gender, student.gender %></p></div>
+    <% end %>
+    <div class="student_highschool"><p><%= student.highschool %></p></div>
+</div><div class="clear"></div>
+<div class="student_universities">
+  <% if student.universities %>
+    <% student.universities.each do |university| %>
+      <div class="<%= university.name %>"><%= link_to 'Interested in' + university.name, university %></div>
+    <% end %>
+   <% end %>
+</div><div class="clear"></div>
+    <span class="email"><a href="mailto:<%= student.email %>"><%= student.email %></a></span>
+    <div class="clear"></div>
+  </div>
+<div class="student_exams">
+  <h3>Exam scores</h3>
+
+<% @subjects.each do |subject| %>
+<div class="each_subject">
+  <%= link_to subject.name, subject %><br/>
+  <% student.exams.each do |exam| %>
+    <% if exam.subject == subject %>
+    <% if exam.subtopic %>
+      <%= exam.name + ' ' + exam.subtopic.name %><br/>
+    <% else %>
+      <%= exam.name  %><br/>
+    <% end %>
+    <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+</div>
+
+<div class="student_responses">
+<% student.question_responses.each do |response| %>
+<div class="question_response">
+<strong><%= response.question.text %></strong><br/>
+<%= response.text %>
+</div>
+<% end %>
+</div>
+    <div class="clear"></div>
+  
+    </div>
+<% end %>
+
+
+<br />

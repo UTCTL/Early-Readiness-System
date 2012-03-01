@@ -1,4 +1,10 @@
 EarlyReadinessSystem::Application.routes.draw do
+  resources :student_genders
+
+  resources :interested_universities
+
+  resources :genders
+
   resources :universities
 
   resources :question_responses

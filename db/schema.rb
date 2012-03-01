@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120228212914) do
+ActiveRecord::Schema.define(:version => 20120301204446) do
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -38,10 +38,28 @@ ActiveRecord::Schema.define(:version => 20120228212914) do
     t.datetime "updated_at"
     t.integer  "required_score"
     t.integer  "subtopic_id"
+    t.string   "shortname"
+    t.string   "subshortname"
   end
 
   add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
   add_index "exams", ["subtopic_id"], :name => "index_exams_on_subtopic_id"
+
+  create_table "genders", :force => true do |t|
+    t.string   "gender"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "interested_universities", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "university_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "interested_universities", ["student_id"], :name => "index_interested_universities_on_student_id"
+  add_index "interested_universities", ["university_id"], :name => "index_interested_universities_on_university_id"
 
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
@@ -94,6 +112,16 @@ ActiveRecord::Schema.define(:version => 20120228212914) do
     t.datetime "updated_at"
   end
 
+  create_table "student_genders", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "gender_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "student_genders", ["gender_id"], :name => "index_student_genders_on_gender_id"
+  add_index "student_genders", ["student_id"], :name => "index_student_genders_on_student_id"
+
   create_table "students", :force => true do |t|
     t.string   "name"
     t.string   "address1"
@@ -104,10 +132,10 @@ ActiveRecord::Schema.define(:version => 20120228212914) do
     t.string   "residency"
     t.string   "email"
     t.date     "birthday"
-    t.string   "gender"
     t.string   "highschool"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "gender_id"
   end
 
   create_table "subjects", :force => true do |t|
@@ -124,6 +152,23 @@ ActiveRecord::Schema.define(:version => 20120228212914) do
   end
 
   add_index "subtopics", ["subject_id"], :name => "index_subtopics_on_subject_id"
+
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
 
   create_table "universities", :force => true do |t|
     t.string   "name"

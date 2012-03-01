@@ -2,15 +2,24 @@ class Student < ActiveRecord::Base
 	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool, :presence => true
 	validate :oneExamPerSubject
 
+	belongs_to :gender
+
 	has_many :scores
 	has_many :exams, :through => :scores
 
 	has_many :question_responses
 	has_many :questions, :through => :question_responses
 
-	has_many :universities
+	has_many :interested_universities
+	has_many :universities, :through => :interested_universities
 
-	accepts_nested_attributes_for :question_responses, :questions
+	accepts_nested_attributes_for :question_responses, :questions, :gender, :exams, :scores
+
+	
+  # Alias for <tt>acts_as_taggable_on :tags</tt>:
+  #acts_as_taggable
+  #acts_as_taggable_on :state, :zip, :residency, :gender, :highschool, :universities, :exams
+
 
 	def oneExamPerSubject
 		@subjects = Subject.all

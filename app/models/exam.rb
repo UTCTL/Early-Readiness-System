@@ -3,4 +3,6 @@ class Exam < ActiveRecord::Base
   validates_numericality_of :required_score, :only_integer => true, :message => "Score must be a whole number."
   belongs_to :subject
   belongs_to :subtopic
+  has_many :scores
+  has_many :students, :through => :scores
 end

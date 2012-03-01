@@ -16,6 +16,7 @@ class ExamsController < ApplicationController
     @exam = Exam.find(params[:id])
     @subject = @exam.subject
     @subtopic = @exam.subtopic
+    @students = @exam.students
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @exam }

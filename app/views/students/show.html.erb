@@ -1,61 +1,40 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @student.name %>
-</p>
-
-<p>
-  <b>Address1:</b>
-  <%= @student.address1 %>
-</p>
-
-<p>
-  <b>Address2:</b>
-  <%= @student.address2 %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @student.city %>
-</p>
-
-<p>
-  <b>State:</b>
-  <%= @student.state %>
-</p>
-
-<p>
-  <b>Zip:</b>
-  <%= @student.zip %>
-</p>
-
-<p>
-  <b>Residency:</b>
-  <%= @student.residency %>
-</p>
-
-<p>
-  <b>Email:</b>
-  <%= @student.email %>
-</p>
-
-<p>
-  <b>Birthday:</b>
-  <%= @student.birthday %>
-</p>
-
-<p>
-  <b>Gender:</b>
-  <%= @student.gender %>
-</p>
-
-<p>
-  <b>Highschool:</b>
-  <%= @student.highschool %>
-</p>
-
-<h3>Exam scores</h3>
+ <div class="student">
+    <nav class="student_controls">
+    <ul>
+    <li><%= link_to 'Show', @student %></li>
+    <li><%= link_to 'Edit', edit_student_path(@student) %></li>
+    <li><%= link_to 'Destroy', @student, confirm: 'Are you sure?', method: :delete %></li>
+    </ul>
+  </nav>
+  <h2 class="student_name"><%= link_to @student.name, @student %></h2><h3 class="student_eid">Eid</h3>
+  <div class="clear"></div>
+  <div class="student_address">
+    <p><%= @student.address1 %><br/>
+        <% if @student.address2? %> 
+        <%= @student.address2 %><br/>
+        <% end %>
+        <%= @student.city %>, <%= @student.state %> <%= @student.zip %>
+    </p>
+    <span class-"student_residency"><strong>Residency:</strong> <%= @student.residency %></span>
+</div>
+<div class="student_demographics">
+    <div class="student_birthdate"><p><%= @student.birthday.to_formatted_s(:long_ordinal) %></p></div>
+    <% if @student.gender %>
+    <div class="student_gender"><p><%= link_to @student.gender.gender, @student.gender %></p></div>
+    <% end %>
+    <div class="student_highschool"><p><%= @student.highschool %></p></div>
+</div>
+<div class="student_universities">
+  <% if @student.universities %>
+    <% @student.universities.each do |university| %>
+      <div class="<%= university.name %>"><%= link_to 'Interested in' + university.name, university %></div>
+    <% end %>
+   <% end %>
+</div>
+<div class="exams">
+  <h3>Exam scores</h3>
 
 <table>
   <tr>
@@ -65,7 +44,7 @@
  
   </tr>
 
-<% @exams.each do |exam| %>
+<% @student.exams.each do |exam| %>
   <tr>
     <% if exam.subtopic %>
       <td><%= exam.subject.name + ' ' + exam.subtopic.name %></td>
@@ -79,23 +58,21 @@
   </tr>
 <% end %>
 </table>
-
-
-<h3>Survey Responses</h3>
-<% @question_responses.each do |response| %>
-  <p><strong><%= response.question.text  %></strong></p>
-  <p><%= response.text %></p>
-<% end %>
-
-<h2>Interested in</h2>
+</div>
 <div class="clear"></div>
-<% if @student.universities %>
-<% @student.universities.each do |university| %>
-  <p><strong><%= university.name  %></strong></p>
+    <span class="email"><a href="mailto:<%= @student.email %>"><%= @student.email %></a></span>
+    
+<div class="student_responses">
+<% @question_responses.each do |response| %>
+<div class="question_response">
+<strong><%= response.question.text %></strong><br/>
+<%= response.text %>
+</div>
 <% end %>
-<% else %>
-<p><em>Not interested in these universities</em></p>
-<% end %>
+</div>
+    <div class="clear"></div>
+  
+    </div>
 
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

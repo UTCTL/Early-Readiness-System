@@ -48,8 +48,14 @@
     <%= f.date_select :birthday %>
   </div>
   <div class="field">
-    <%= f.label :gender %><br />
-    <%= f.text_field :gender %>
+    <%= f.label :gender %><br/>
+    <% @genders.each do |g| %>
+    <div class="radio_buttons">
+    <%= radio_button_tag 'student[gender_id]', g.id, @student.gender == g %>
+    <%= f.label g.gender %>
+    </div>
+    <% end %>
+
   </div>
   <div class="field">
     <%= f.label :highschool %><br />

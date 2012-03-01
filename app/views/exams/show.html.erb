@@ -17,9 +17,19 @@
 </p>
 
 <p>
+  <b>Short Name:</b>
+  <%= @exam.shortname %>
+</p>
+<p>
   <b>Required Score:</b>
   <%= @exam.required_score %>
 </p>
+
+<h2>Students With This Exam: <%= @students.count.to_s %></h2>
+<div class="clear"></div>
+<% @students.each do |student| %>
+	<p><%= link_to student.name, student %></p>
+<% end %>
 
 
 <%= link_to 'Edit', edit_exam_path(@exam) %> |

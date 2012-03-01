@@ -1,9 +1,112 @@
 body {
-  background-color: #fff;
-  color: #333;
+  background: #0F1B27;
+  color: #fff;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
   line-height: 18px; }
+
+.container{
+  width: 960px;
+  margin: auto;
+}
+
+.content{
+  background: #fff;
+  padding: 20px;
+  color: #000;
+  border-radius: 10px;
+}
+
+h1{
+  font-weight: 400;
+}
+
+.student{
+  margin: 0 -20px;
+  padding: 10px 20px;
+}
+
+.student:nth-child(odd){
+  background: #A09D9C;
+}
+
+
+.student:nth-child(even){
+  background: #B3B3B3;
+}
+
+.student nav.student_controls ul {
+  list-style-type:none;
+  float: right;
+}
+
+.student nav.student_controls ul li{
+  float: left;
+  margin: 0 20px;
+}
+
+.student nav.student_controls ul li:last-child{
+  margin-right: 10px;
+}
+
+
+.student nav.student_controls ul li a{
+  color: #fff;
+}
+
+.student h2.student_name{
+  color: #0E1B25;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 26px;
+  font-weight: 200;
+}
+
+.student h3.student_eid{
+  float: left;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.student .student_information{
+  display: block;
+  float: left;
+  width: 300px;
+  margin: 3px;
+}
+
+.student .student_exams{
+ display: block;
+  float: left;
+  width: 300px;
+  margin: 3px; 
+}
+
+.student .student_responses{
+ display: block;
+  float: left;
+  width: 300px;
+  margin: 3px; 
+}
+
+.student .each_subject{
+  width: 50%;
+  display: block;
+  float: left;
+  margin: 10px 0;
+}
+
+.student .student_address{
+  dispay: block;
+  width: 50%;
+  float: left;
+} 
+
+.student .student_demographics{
+  display: block;
+  width: 50%;
+  float: left;
+}
 
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
@@ -44,7 +147,6 @@ div {
   background-color: #f0f0f0;
   h2 {
     text-align: left;
-    font-weight: bold;
     padding: 5px 5px 5px 15px;
     font-size: 12px;
     margin: -7px;

@@ -5,7 +5,9 @@
     <th>Subject</th>
     <th>Subtopic</th>
     <th>Name</th>
+    <th>Short Name</th>
     <th>Required Score</th>
+    <th>Students</th>
     <th></th>
     <th></th>
     <th></th>
@@ -21,7 +23,18 @@
     <td><%= exam.subtopic.name %></td>
     <% end %>
     <td><%= exam.name %></td>
-    <td><%= exam.required_score %></td>
+    <% if exam.shortname %>
+
+    <td><%= exam.shortname %>
+        <% if exam.subshortname %>
+        <%= exam.subshortname %>
+        <% end %>
+    </td>
+        <% else %>
+       <td> &nbsp;</td>
+        <% end %>
+        <td><%= exam.required_score %></td>
+    <td><%= exam.students.count.to_s %></td>
     <td><%= link_to 'Show', exam %></td>
     <td><%= link_to 'Edit', edit_exam_path(exam) %></td>
     <td><%= link_to 'Destroy', exam, confirm: 'Are you sure?', method: :delete %></td>
