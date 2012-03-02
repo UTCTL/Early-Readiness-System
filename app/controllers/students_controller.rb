@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
 
   before_filter :authorize
 
+
   def index
     @students = Student.all
     @genders = Gender.all
@@ -34,6 +35,18 @@ class StudentsController < ApplicationController
   # GET /students/new
   # GET /students/new.json
   def new
+    if AdminUser.find_by_eid(session[:eid]) 
+      logged_in = AdminUser.find_by_eid(session[:eid])
+      redirect_to(students_path, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
+      return
+    end
+
+    if Student.find_by_eid(session[:eid]) 
+      logged_in = Student.find_by_eid(session[:eid])
+      redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
+      return
+    end
+
     @student=Student.new
     @exams = Exam.all
     @questions = Question.all

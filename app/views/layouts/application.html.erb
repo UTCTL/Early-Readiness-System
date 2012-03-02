@@ -11,6 +11,11 @@
 	<header>
 		<h1>Early Readiness High School Graduation Option</h1>
 	</header>
+<div class="session_information">
+<% if !session[:eid].nil? %>
+	<%= session[:eid] %><%= link_to 'logout', log_out_path %>
+<% end %>
+</div>
 
 <div class="content">
 <%= yield %>

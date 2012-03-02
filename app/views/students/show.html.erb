@@ -1,5 +1,11 @@
 <p id="notice"><%= notice %></p>
 
+<% if AdminUser.find_by_eid(session[:eid]) %>
+    <%= link_to 'All Students', students_path %>
+  <% end %>
+<%= link_to 'Edit Information', edit_student_path(@student) %>
+
+
  <div class="student">
     <nav class="student_controls">
     <ul>
@@ -75,6 +81,3 @@
     <div class="clear"></div>
   
     </div>
-
-<%= link_to 'Edit', edit_student_path(@student) %> |
-<%= link_to 'Back', students_path %>
