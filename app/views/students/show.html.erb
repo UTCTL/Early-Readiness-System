@@ -8,7 +8,7 @@
     <li><%= link_to 'Destroy', @student, confirm: 'Are you sure?', method: :delete %></li>
     </ul>
   </nav>
-  <h2 class="student_name"><%= link_to @student.name, @student %></h2><h3 class="student_eid">Eid</h3>
+  <h2 class="student_name"><%= link_to @student.name, @student %></h2><h3 class="student_eid"><% if @student.eid %><%= @student.eid %><% end %></h3>
   <div class="clear"></div>
   <div class="student_address">
     <p><%= @student.address1 %><br/>
@@ -22,7 +22,9 @@
 <div class="student_demographics">
     <div class="student_birthdate"><p><%= @student.birthday.to_formatted_s(:long_ordinal) %></p></div>
     <% if @student.gender %>
-    <div class="student_gender"><p><%= link_to @student.gender.gender, @student.gender %></p></div>
+    <div class="student_gender">
+      <%= link_to @student.gender.gender, @student.gender %>
+    </div>
     <% end %>
     <div class="student_highschool"><p><%= @student.highschool %></p></div>
 </div>

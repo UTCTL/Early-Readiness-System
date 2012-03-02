@@ -14,7 +14,8 @@
     </ul>
   </nav>
   <div class="student_information">
-  <h2 class="student_name"><%= link_to student.name, student %></h2><h3 class="student_eid">Eid</h3>
+  <h2 class="student_name"><%= link_to student.name, student %></h2>
+  <% if student.eid %><h3 class="student_eid"><%= student.eid %></h3><% end  %>
   <div class="clear"></div>
   <div class="student_address">
     <p><%= student.address1 %><br/>
@@ -35,7 +36,7 @@
 <div class="student_universities">
   <% if student.universities %>
     <% student.universities.each do |university| %>
-      <div class="<%= university.name %>"><%= link_to 'Interested in' + university.name, university %></div>
+      <div class="<%= university.shortname %>"><%= link_to 'Interested in ' + university.shortname.upcase.gsub('_','&'), university %></div>
     <% end %>
    <% end %>
 </div><div class="clear"></div>
@@ -47,16 +48,25 @@
 
 <% @subjects.each do |subject| %>
 <div class="each_subject">
-  <%= link_to subject.name, subject %><br/>
+  <h4 class-"subject"><%= link_to subject.name, subject %></h4><br/>
   <% student.exams.each do |exam| %>
     <% if exam.subject == subject %>
-    <% if exam.subtopic %>
-      <%= exam.name + ' ' + exam.subtopic.name %><br/>
-    <% else %>
-      <%= exam.name  %><br/>
+      <% if exam.subtopic %>
+          <%= exam.shortname %> <% if exam.subtopic.name.size <= 9 %><%= exam.subtopic.name %> <% end %>
+          <% if exam.subshortname %>
+            <%= exam.subshortname %><br/>
+        <% end %>
+      <% else %>
+        <% exam.subject %> 
+        <% if exam.shortname %>
+          <%= exam.shortname  %> <%= subject.name %>
+          <% if exam.subshortname %>
+            <%= exam.subshortname %><br/>
+          <% end %>
+        <% end %>
     <% end %>
-    <% end %>
-    <% end %>
+  <% end %>
+<% end %>
   </div>
 <% end %>
 

@@ -57,6 +57,7 @@ class StudentsController < ApplicationController
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
+      eid = session[:eid]
       name = entry.cn[0].upcase
       address = entry.homePostalAddress[0].split('$')
       address1 = address[0]
@@ -74,6 +75,7 @@ class StudentsController < ApplicationController
       phone=fullPhone[1]+"-"+fullPhone[2]+"-"+fullPhone[3]
       birthday=Date.strptime(entry.utexasEduPersonBirthDate[0], '%Y%m%d')
       email=entry.mail[0].upcase
+      @student.eid = eid
       @student.name=name
       @student.address1=address1
       @student.address2=address2

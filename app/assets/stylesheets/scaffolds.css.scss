@@ -108,6 +108,28 @@ h1{
   float: left;
 }
 
+.student .ut a {
+  display: block;
+  background: #C55B0A;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 4px 0;
+  width: 110px;
+}
+
+.student .a_m a {
+  display: block;
+  background: #740032;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 4px 0;
+  width: 120px;
+}
+
 p, ol, ul, td {
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
