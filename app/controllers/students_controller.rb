@@ -6,7 +6,11 @@ class StudentsController < ApplicationController
 
 
   def index
+
+    @user = AdminUser.find_by_eid(session[:eid])
+    
     @students = Student.all
+    @accepted = Student.accepted
     @genders = Gender.all
     @universities = University.all
     @subjects = Subject.all
@@ -35,11 +39,11 @@ class StudentsController < ApplicationController
   # GET /students/new
   # GET /students/new.json
   def new
-    if AdminUser.find_by_eid(session[:eid]) 
-      logged_in = AdminUser.find_by_eid(session[:eid])
-      redirect_to(students_path, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
-      return
-    end
+   # if AdminUser.find_by_eid(session[:eid]) 
+   #   logged_in = AdminUser.find_by_eid(session[:eid])
+   #   redirect_to(students_path, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
+   #   return
+   # end
 
     if Student.find_by_eid(session[:eid]) 
       logged_in = Student.find_by_eid(session[:eid])

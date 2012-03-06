@@ -5,4 +5,9 @@ class Exam < ActiveRecord::Base
   belongs_to :subtopic
   has_many :scores
   has_many :students, :through => :scores
+
+  scope :pending_score, joins(:scores).merge(Score.score_pending)
+  scope :has_score, joins(:scores).merge(Score.score_present)
+
+
 end

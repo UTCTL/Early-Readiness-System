@@ -16,12 +16,15 @@ class Student < ActiveRecord::Base
 
 	accepts_nested_attributes_for :question_responses, :questions, :gender, :exams, :scores
 
-	
-  # Alias for <tt>acts_as_taggable_on :tags</tt>:
-  #acts_as_taggable
-  #acts_as_taggable_on :state, :zip, :residency, :gender, :highschool, :universities, :exams
+	scope :accepted, where(:accepted => true)
+	scope :has_scores, joins(:exams).merge(Exam.has_score)
+	scope :needs_scores, joins(:scores).merge(Exam.pending_score).group(:eid)
+	scope :male, where(:gender_id => 1)
+	scope :female, where(:gender_id => 2)
+	scope :ut, joins(:universities).merge(University.ut)
+	scope :a_m, joins(:universities).merge(University.a_m)
 
-
+  	#helper vaildation method
 	def oneExamPerSubject
 		@subjects = Subject.all
 		@oneInEach = true
