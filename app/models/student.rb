@@ -17,12 +17,13 @@ class Student < ActiveRecord::Base
 	accepts_nested_attributes_for :question_responses, :questions, :gender, :exams, :scores
 
 	scope :accepted, where(:accepted => true)
-	scope :has_scores, joins(:exams).merge(Exam.has_score)
+	scope :has_scores, joins(:scores).merge(Exam.has_score).group(:eid)
 	scope :needs_scores, joins(:scores).merge(Exam.pending_score).group(:eid)
 	scope :male, where(:gender_id => 1)
 	scope :female, where(:gender_id => 2)
 	scope :ut, joins(:universities).merge(University.ut)
 	scope :a_m, joins(:universities).merge(University.a_m)
+
 
   	#helper vaildation method
 	def oneExamPerSubject

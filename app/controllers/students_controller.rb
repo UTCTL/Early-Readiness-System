@@ -8,11 +8,19 @@ class StudentsController < ApplicationController
   def index
 
     @user = AdminUser.find_by_eid(session[:eid])
-    
-    @students = Student.all
+    if params[:scope]
+      @students = Student.send(params[:scope])
+    elsif params[:exam]
+      @students = Exam.find(params[:exam]).students
+    else
+      @students = Student.all
+    end
+    @needs_scores = Student.needs_scores
+    @has_scores = Student.has_scores
     @accepted = Student.accepted
     @genders = Gender.all
     @universities = University.all
+    @exams = Exam.all(:order => :subject_id)
     @subjects = Subject.all
     respond_to do |format|
       format.html # index.html.erb

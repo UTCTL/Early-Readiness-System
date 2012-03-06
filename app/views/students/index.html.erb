@@ -50,7 +50,7 @@
 
 <% @subjects.each do |subject| %>
 <div class="each_subject">
-  <h4 class-"subject"><%= link_to subject.name, subject %></h4>
+  <h4 class="subject"><%= link_to subject.name, subject %></h4>
   <% student.exams.each do |exam| %>
     <% if exam.subject == subject %>
       <% exam_name_display = '' %>
@@ -71,7 +71,13 @@
         <% end %>
       <% end %>
 
-  <%= link_to exam_name_display, exam %><br/>
+  <%= link_to exam_name_display, exam %> 
+  <% if exam.scores.first.student_score %>
+  <%= exam.scores.first.student_score %>
+  <% else %>
+  <span class="pending">Score Pending</span>
+  <% end %>
+  <br/>
   <% end %>
 <% end %>
   </div>

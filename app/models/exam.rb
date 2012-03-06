@@ -9,5 +9,4 @@ class Exam < ActiveRecord::Base
   scope :pending_score, joins(:scores).merge(Score.score_pending)
   scope :has_score, joins(:scores).merge(Score.score_present)
 
-
 end
