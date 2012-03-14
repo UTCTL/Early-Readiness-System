@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
 def destroy
   session[:eid] = nil
-  redirect_to new_student_path, notice: "Logged out!"
+  redirect_to root_url, notice: "Logged out!"
 end
 
 end
