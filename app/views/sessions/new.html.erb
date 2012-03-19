@@ -1,18 +1,21 @@
 <% provide(:title, 'Home') %>
-<h2>Log In</h2>
-<% if logged_in %>
-<p>You are already logged in. <%= link_to 'Logout', log_out_path%>.</p>
-<% else %>
-<p>Login with your UT EID and password. If you do not have a UT EID, <a href="https://idmanager.its.utexas.edu/eid_self_help/?geid=">click here</a> to get one.
-<%= form_tag(sessions_path,:class=>'form-inline') do %>
+<h1>Early Readiness High School Graduation Option Registration</h1>
+<h1>Log In</h1>
+
+<%= form_tag sessions_path do %>
+ <% flash.each do |key, msg| %>
+    <%= content_tag :div, msg, :class => [key, " message"], :id => "notice_ #{key}" %>
+    <%= content_tag :script, :type => "text/javascript" do -%>
+        setTimeout("new Effect.Fade('notice_<%= key %>');", 15000);
+    <% end %>
+<% end %>
   <div class="field">
-          <%= label_tag :username %>
+          <%= label_tag :username %><br />
           <%= text_field_tag :username, params[:username] %>
   </div>
   <div class="field">
-          <%= label_tag :password %>
+          <%= label_tag :password %><br />
           <%= password_field_tag :password %>
   </div>
-  <%= submit_tag "Log in",:class=>"btn btn-primary" %>
-<% end %>
+  <div class="actions"><%= submit_tag "Log In" %>
 <% end %>

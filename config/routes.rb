@@ -26,6 +26,9 @@ EarlyReadinessSystem::Application.routes.draw do
 
   resources :pages
 
+
+  get "register/index"
+
   resources :students
 
   resources :question_options

@@ -1,0 +1,180 @@
+body {
+  background: #0F1B27;
+  color: #fff;
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px; }
+
+.container{
+  width: 960px;
+  margin: auto;
+}
+
+.content{
+  background: #fff;
+  padding: 20px;
+  color: #000;
+  border-radius: 10px;
+}
+
+h1{
+  font-weight: 400;
+}
+
+.student{
+  margin: 0 -20px;
+  padding: 10px 20px;
+}
+
+.student:nth-child(odd){
+  background: #A09D9C;
+}
+
+
+.student:nth-child(even){
+  background: #B3B3B3;
+}
+
+.student nav.student_controls ul {
+  list-style-type:none;
+  float: right;
+}
+
+.student nav.student_controls ul li{
+  float: left;
+  margin: 0 20px;
+}
+
+.student nav.student_controls ul li:last-child{
+  margin-right: 10px;
+}
+
+
+.student nav.student_controls ul li a{
+  color: #fff;
+}
+
+.student h2.student_name{
+  color: #0E1B25;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 26px;
+  font-weight: 200;
+}
+
+.student h3.student_eid{
+  float: left;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.student .student_information{
+  display: block;
+  float: left;
+  width: 300px;
+  margin: 3px;
+}
+
+.student .student_exams{
+ display: block;
+  float: left;
+  width: 300px;
+  margin: 3px; 
+}
+
+.student .student_responses{
+ display: block;
+  float: left;
+  width: 300px;
+  margin: 3px; 
+}
+
+.student .each_subject{
+  width: 50%;
+  display: block;
+  float: left;
+  margin: 0;
+}
+
+.student .student_address{
+  dispay: block;
+  width: 50%;
+  float: left;
+} 
+
+.student .student_demographics{
+  display: block;
+  width: 50%;
+  float: left;
+}
+
+.student .ut a {
+  display: block;
+  background: #C55B0A;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 4px 0;
+  width: 110px;
+}
+
+.student .a_m a {
+  display: block;
+  background: #740032;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 3px 5px;
+  margin: 4px 0;
+  width: 120px;
+}
+
+p, ol, ul, td {
+  font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 13px;
+  line-height: 18px; }
+
+pre {
+  background-color: #eee;
+  padding: 10px;
+  font-size: 11px; }
+
+a {
+  color: #000;
+  &:visited {
+    color: #666; }
+  &:hover {
+    color: #fff;
+    background-color: #000; } }
+
+div {
+  &.field, &.actions {
+    margin-bottom: 10px; } }
+
+#notice {
+  color: green; }
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: table; }
+
+#error_explanation {
+  width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff; }
+  ul li {
+    font-size: 12px;
+    list-style: square; } }
