@@ -1,11 +1,1 @@
-.bundle
-db/*.sqlite3
-log/*.log
-tmp/
-.sass-cache/
-
-app/.DS_Store
-
-app/views/home/.DS_Store
-
-app/views/.DS_Store
+git add .gitignore
