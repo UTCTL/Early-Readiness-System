@@ -1,0 +1,2 @@
+module InterestedUniversitiesHelper
+end
