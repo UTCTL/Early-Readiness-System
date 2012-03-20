@@ -7,14 +7,13 @@ class StudentsController < ApplicationController
 
   def index
 
+
     @user = AdminUser.find_by_eid(session[:eid])
-    if params[:scope]
-      @students = Student.send(params[:scope])
-    elsif params[:exam]
-      @students = Exam.find(params[:exam]).students
-    else
-      @students = Student.all
-    end
+
+    @students = Student.scoped
+    @students = @students.gender(params[:gender]) unless params[:gender].blank?
+    @students = @students.exam(params[:exam]) unless params[:gender].blank?
+    
     @needs_scores = Student.needs_scores
     @has_scores = Student.has_scores
     @accepted = Student.accepted
