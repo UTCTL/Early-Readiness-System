@@ -7,15 +7,11 @@
 
 
 <% @students.each do |student| %>
-  <div class="student">
-    <nav class="student_controls">
-    <ul>
-    <li><%= link_to 'Show', student %></li>
-    <li><%= link_to 'Edit', edit_student_path(student) %></li>
-    <li><%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %></li>
-    </ul>
+  <div class="student row">
+    <nav class="student_controls span12">
+    <%= link_to 'Show', student %>  <%= link_to 'Edit', edit_student_path(student) %>  <%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %>
   </nav>
-  <div class="student_information">
+  <div class="student_information span6 row">
   <h2 class="student_name"><%= link_to student.name, student %></h2>
   <% if student.eid %><h3 class="student_eid"><%= student.eid %></h3><% end  %>
   <div class="clear"></div>
@@ -28,14 +24,14 @@
     </p>
     <span class-"student_residency"><strong>Residency:</strong> <%= student.residency %></span>
 </div>
-<div class="student_demographics">
+<div class="student_demographics span3">
     <div class="student_birthdate"><p><%= student.birthday.to_formatted_s(:long_ordinal) %></p></div>
     <% if student.gender %>
     <div class="student_gender"><p><%= link_to student.gender.gender, student.gender %></p></div>
     <% end %>
     <div class="student_highschool"><p><%= student.highschool %></p></div>
 </div><div class="clear"></div>
-<div class="student_universities">
+<div class="student_universities span3">
   <% if student.universities %>
     <% student.universities.each do |university| %>
       <div class="<%= university.shortname %>"><%= link_to 'Interested in ' + university.shortname.upcase.gsub('_','&'), university %></div>
@@ -45,11 +41,11 @@
     <span class="email"><a href="mailto:<%= student.email %>"><%= student.email %></a></span>
     <div class="clear"></div>
   </div>
-<div class="student_exams">
+<div class="student_exams span6 row">
   <h3>Exam scores</h3>
 
 <% @subjects.each do |subject| %>
-<div class="each_subject">
+<div class="each_subject span2">
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
   <% student.exams.each do |exam| %>
     <% if exam.subject == subject %>
@@ -85,7 +81,7 @@
 
 </div>
 
-<div class="student_responses">
+<div class="student_responses span6">
 <% student.question_responses.each do |response| %>
 <div class="question_response">
 <strong><%= response.question.text %></strong><br/>

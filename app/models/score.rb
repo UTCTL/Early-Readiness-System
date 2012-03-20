@@ -5,4 +5,5 @@ class Score < ActiveRecord::Base
 
   scope :score_present, where("scores.student_score IS NOT NULL")
   scope :score_pending, where("scores.student_score IS NULL")
+
 end

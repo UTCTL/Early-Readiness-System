@@ -25,6 +25,12 @@ class Student < ActiveRecord::Base
 	scope :a_m, joins(:universities).merge(University.a_m)
 
 
+	def self.exams(exam_id)
+		query = exam_id
+		joins(:scores).where("scores.exam_id = ?", query).group(:eid)
+	end
+
+
   	#helper vaildation method
 	def oneExamPerSubject
 		@subjects = Subject.all
