@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def authorize
-  	redirect_to login_url, alert: "Not authorized" if session[:eid].nil?
+  	redirect_to login_url, notice: "Please login to continue" if session[:eid].nil?
   end
 
   def logged_in
