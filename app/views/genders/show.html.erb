@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Gender:</b>
+  <%= @gender.gender %>
+</p>
+
+<% @students.each do |student| %>
+	<p><%= link_to student.name, student %></p>
+<% end %>
+
+
+<%= link_to 'Edit', edit_gender_path(@gender) %> |
+<%= link_to 'Back', genders_path %>

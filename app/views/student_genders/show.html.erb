@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Student:</b>
+  <%= @student_gender.student %>
+</p>
+
+<p>
+  <b>Gender:</b>
+  <%= @student_gender.gender %>
+</p>
+
+
+<%= link_to 'Edit', edit_student_gender_path(@student_gender) %> |
+<%= link_to 'Back', student_genders_path %>

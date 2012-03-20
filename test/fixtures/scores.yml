@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  student_score: 1
+  student_id: 
+  exam_id: 
+
+two:
+  student_score: 1
+  student_id: 
+  exam_id: 
