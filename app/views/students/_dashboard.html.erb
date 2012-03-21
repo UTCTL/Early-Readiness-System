@@ -16,7 +16,7 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 <div class="row">
 <div class="quick_stats span2">
 	<h4>Quick Stats</h4>
-	<div class="registered"><strong>Registered</strong> <%= @students.count.to_s %></div>
+	<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
 	<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
 	<div class="scores"><strong>With Scores</strong> <%= @has_scores.count.count.to_s %></div>
 	<div class="accepted"><strong>Accepted</strong> <%= @accepted.count.to_s %></div>
@@ -83,3 +83,11 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 </div>
 
 </div>
+ 
+<%= form_for @search do |f| %>
+  <p>
+    <%= f.label :name_contains %>
+    <%= f.text_field :name_contains %>
+  </p>
+  <p class="button"><%= f.submit "Search" %></p>
+<% end %>

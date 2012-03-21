@@ -9,6 +9,11 @@ gem 'sqlite3'
 gem 'net-ldap'
 gem 'acts-as-taggable-on', '~> 2.2.2'
 
+#gem "meta_where"  # Last officially released gem
+#gem "meta_where", :git => "git://github.com/ernie/meta_where.git" # Track git repo
+gem "meta_search"  # Last officially released gem
+# gem "meta_search", :git => "git://github.com/ernie/meta_search.git" # Track git repo
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
