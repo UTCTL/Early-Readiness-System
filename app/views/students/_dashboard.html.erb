@@ -44,7 +44,12 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 	<div id="exams" class="span8">
 
 	<div class="each_subject row">
-
+ 
+<%= form_for @search do |f| %>
+  <p>
+    <%= f.label :name_contains %>
+    <%= f.text_field :name_contains %>
+  </p>
 <% @subjects.each do |subject| %>
 <div class="each_subject span2">
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
@@ -75,6 +80,10 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 		
   	<% end #subtopic %>
 <%= link_to exam_name_display, students_path(:exams => exam) %> <br/>
+<% f.collection_checks :scores_exam_id_in, subject.exams.all,
+    :id, :name, :class => 'exams_class' do |check| %>
+  	<%= check.box %> <%= check.label %>
+	<% end %>
 	<% end #end exam %>
   </div>
   <% end #end subject %>
@@ -83,11 +92,8 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 </div>
 
 </div>
- 
-<%= form_for @search do |f| %>
-  <p>
-    <%= f.label :name_contains %>
-    <%= f.text_field :name_contains %>
-  </p>
+
+
+
   <p class="button"><%= f.submit "Search" %></p>
 <% end %>

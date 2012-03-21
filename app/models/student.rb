@@ -25,7 +25,7 @@ class Student < ActiveRecord::Base
 	scope :a_m, joins(:universities).merge(University.a_m)
 
 
-	def self.exams(query)
+	def self.exam_ids(query)
 		joins(:scores).merge Score.where(:exam_id => query).group(:eid)
 	end
 

@@ -10,7 +10,7 @@ class StudentsController < ApplicationController
     @user = AdminUser.find_by_eid(session[:eid])
     
       @search = Student.search(params[:search]) 
-      @results = @search.all 
+      @results = @search.group(:eid)
 
 
 
@@ -22,7 +22,7 @@ class StudentsController < ApplicationController
     params[:scope].split(".").each{|scope| @students = @students.send(scope)} unless params[:scope].blank?
     params[:exams].split(".").each{|exam| @students = @students.exams(exam)} unless params[:exams].blank?
 
-    #@students = @results unless @results.blank?
+    @students = @results unless @results.blank?
     
 
     @needs_scores = Student.needs_scores
