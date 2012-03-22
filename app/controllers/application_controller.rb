@@ -14,4 +14,9 @@ class ApplicationController < ActionController::Base
   end
   helper_method :logged_in
 
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:error] = "Access Denied"
+    redirect_to root_url
+  end
+
 end
