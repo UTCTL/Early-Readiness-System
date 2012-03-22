@@ -25,8 +25,12 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 
 <div class="filter_options row">
 	<h4>Filter Students</h4>
-	<div id="demographics" class="span2">
-	
+	<div id="demographics" class="span3">
+	<%= form_for @search do |f| %>
+ 
+    <%= f.label :name_contains %>
+    <%= f.text_field :name_contains %>
+ 
 		<div id="clear_filter">
 			<%= link_to "All Students", students_path %>
 		</div>
@@ -39,71 +43,29 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 		<%= link_to "Male", students_path(:scope => "male" ) %>
 		</div>
 
+	
 	</div>
 
-	<div id="exams" class="span8">
+ <div id="exams" class="span6">
 
-	<div class="each_subject row">
  
-<%= form_for @search do |f| %>
-  <p>
-    <%= f.label :name_contains %>
-    <%= f.text_field :name_contains %>
-  </p>
+<div class="row">
 <% @subjects.each do |subject| %>
 <div class="each_subject span2">
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
-  	<% exam_name_display = '' %>  	
-  	<% subject.exams.each do |exam| %>
-	
-	
-      
-    <% if exam.subtopic %>
-
-        <% exam_name_display = exam_name_display +  exam.shortname %>
-        <% if exam.subtopic.name.size <= 9 %>
-        	<% exam_name_display = exam_name_display + ' ' + exam.subtopic.name %>
-        <% end #end exam subtopic size %> 
-        
-        <% if exam.subshortname %>
-          <% exam_name_display = exam_name_display + ' ' + exam.subshortname %>
-        <% end #end exam subhosrtname %>
-      
-     <% else #no subtopic %>
-        <% if exam.shortname %>
-        	
-        	<% exam_name_display = exam_name_display + ' ' + exam.shortname + ' ' + subject.name %>
-        	
-        	<% if exam.subshortname %>
-            	<% exam_name_display = exam_name_display + ' ' + exam.subshortname %>
-          	<% end #end exam.subshortname %>
-        <% end #end exam.shortname %>
- 
-		
-  	<% end #subtopic %>
-	
-
-
-	<% end #end exam %>
-
-
-  </div>
-
-
-
-  <% end #end subject %>
-	</div>
-	
-<% f.collection_checks :scores_exam_id_in, @exams,
+<% f.collection_checks :scores_exam_id_in, subject.exams.all,
     :id, :displayname, :class => 'exams_class' do |check| %>   
   	
     <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
  	  	<%= check.box %> <%= check.label %>
  	  	  	  	 	
 	<% end %>
-
+</div>
+  <% end #end subject %>
 
 </div>
+
+
 </div>
 
 </div>
