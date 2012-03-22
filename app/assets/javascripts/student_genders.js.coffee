@@ -4,8 +4,6 @@
 
 $(document).ready ->
   $("label").click ->
-    $checkbox = $(this).toggleClass("selected").find(":checkbox")
-    if $(this).hasClass("selected")
-      $checkbox.attr "checked", "checked"
-    else
-      $checkbox.removeAttr "checked"
+    $(this).toggleClass "selected"
+
+  $(":checked").next("label").addClass "selected"

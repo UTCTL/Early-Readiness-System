@@ -55,8 +55,7 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
   	<% exam_name_display = '' %>  	
   	<% subject.exams.each do |exam| %>
-	<% f.collection_checks :scores_exam_id_in, subject.exams.all,
-    :id, :name, :class => 'exams_class' do |check| %>   
+	
 	
       
     <% if exam.subtopic %>
@@ -85,17 +84,25 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 	
 
 
-    <% check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
- 	  	<%= check.box %> <%= check.label %>
- 	  	 <% exam_name_display = '' %>
- 	  	 <% break %>
-	<% end %>
 	<% end #end exam %>
 
 
   </div>
+
+
+
   <% end #end subject %>
 	</div>
+	
+<% f.collection_checks :scores_exam_id_in, @exams,
+    :id, :displayname, :class => 'exams_class' do |check| %>   
+  	
+    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
+ 	  	<%= check.box %> <%= check.label %>
+ 	  	  	  	 	
+	<% end %>
+
+
 </div>
 </div>
 
