@@ -1,4 +1,6 @@
 class QuestionResponsesController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize 
   # GET /question_responses
   # GET /question_responses.json
   def index

@@ -1,4 +1,7 @@
 class StudentGendersController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /student_genders
   # GET /student_genders.json
   def index

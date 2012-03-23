@@ -1,4 +1,7 @@
 class QuestionOptionsController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /question_options
   # GET /question_options.json
   def index

@@ -11,10 +11,12 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 <div class="user_info">
 	<h4>Your Information</h4>
 	<p><%= @user.name %></p>
+	<p>Role: <%= @user.role %></p>
 
 </div>
 <div class="row">
-<div class="quick_stats span2">
+<div class="span3">
+<div class="quick_stats">
 	<h4>Quick Stats</h4>
 	<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
 	<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
@@ -23,9 +25,9 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 
 </div>
 
-<div class="filter_options row">
+<div class="filter_options">
 	<h4>Filter Students</h4>
-	<div id="demographics" class="span3">
+	<div id="demographics">
 	<%= form_for @search do |f| %>
  
     <%= f.label :name_contains %>
@@ -45,13 +47,14 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 
 	
 	</div>
+</div>
+</div>
 
- <div id="exams" class="span6">
-
- 
+ <div id="exams" class="span9">
 <div class="row">
+ 
 <% @subjects.each do |subject| %>
-<div class="each_subject span2">
+<div class="each_subject span3">
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
 <% f.collection_checks :scores_exam_id_in, subject.exams.all,
     :id, :displayname, :class => 'exams_class' do |check| %>   
@@ -63,14 +66,17 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 </div>
   <% end #end subject %>
 
+
+ <p class="button span2"><%= f.submit "Search" %></p>
+
+</div>
+</div>
+
 </div>
 
 
-</div>
 
-</div>
-
-
-
-  <p class="button"><%= f.submit "Search" %></p>
+ 
 <% end %>
+
+</div>

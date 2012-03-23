@@ -15,10 +15,12 @@
 </a>
 <% if !session[:eid].nil? %>
 <ul class="nav pull-right">
-  <li><%= link_to 'Logout', log_out_path%></li>
+  <li>
+ <%= link_to 'Logout', log_out_path%></li>
 </ul>
 <% end %>
     </div>
+     <a href="#">Logged in as <%= session[:eid] %></a>
   </div>
 </div>
 <div class="container">

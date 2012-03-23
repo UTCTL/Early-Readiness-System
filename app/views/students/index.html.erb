@@ -8,8 +8,12 @@
 
 <% @students.each do |student| %>
   <div class="student row">
+    
     <nav class="student_controls span12">
-    <%= link_to 'Show', student %>  <%= link_to 'Edit', edit_student_path(student) %>  <%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %>
+    <%= link_to 'Show', student %> 
+
+<% if can? :edit, Student %> <%= link_to 'Edit', edit_student_path(student) %><% end %>
+<% if can? :destroy, Student %>  <%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %> <% end %>
   </nav>
   <div class="student_information span6 row">
   <h2 class="student_name"><%= link_to student.name, student %></h2>

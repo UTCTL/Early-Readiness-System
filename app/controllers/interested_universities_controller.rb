@@ -1,4 +1,7 @@
 class InterestedUniversitiesController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /interested_universities
   # GET /interested_universities.json
   def index

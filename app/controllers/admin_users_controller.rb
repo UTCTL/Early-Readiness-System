@@ -1,8 +1,7 @@
 class AdminUsersController < ApplicationController
   
-  
+  load_and_authorize_resource
   before_filter :authorize
-
   # GET /admin_users
   # GET /admin_users.json
   def index

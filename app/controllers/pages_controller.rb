@@ -4,4 +4,7 @@ class PagesController < ApplicationController
     	format.html # index.html.erb
     end
   end
+
+
+  
 end
