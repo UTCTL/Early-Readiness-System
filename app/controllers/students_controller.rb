@@ -8,14 +8,13 @@ class StudentsController < ApplicationController
   def index
 
     @user = AdminUser.find_by_eid(session[:eid])
+    @accessible_students = Student
 
     if can? :manage, Student
       if @user.role == 'UT'
-        @accessible_students = Student.ut
+        @accessible_students = @accessible_students.ut
       elsif @user.role == 'A_M'
-        @accessible_students = Student.a_m
-        else
-        @accessible_students = Student.all
+        @accessible_students = @accessible_students.a_m   
       end
     end
 
