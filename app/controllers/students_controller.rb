@@ -8,8 +8,20 @@ class StudentsController < ApplicationController
   def index
 
     @user = AdminUser.find_by_eid(session[:eid])
+
+    if can? :manage, Student
+      if @user.role == 'UT'
+        @accessible_students = Student.ut
+      elsif @user.role == 'A_M'
+        @accessible_students = Student.a_m
+        else
+        @accessible_students = Student.all
+      end
+    end
+
+
     
-      @search = Student.search(params[:search]) 
+      @search = @accessible_students.search(params[:search]) 
       @results = @search.group(:eid)
 
 
