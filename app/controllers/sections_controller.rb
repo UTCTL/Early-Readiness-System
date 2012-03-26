@@ -1,4 +1,7 @@
 class SectionsController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /sections
   # GET /sections.json
   def index

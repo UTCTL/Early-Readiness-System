@@ -11,10 +11,12 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 <div class="user_info">
 	<h4>Your Information</h4>
 	<p><%= @user.name %></p>
+	<p>Role: <%= @user.role %></p>
 
 </div>
 <div class="row">
-<div class="quick_stats span2">
+<div class="span3">
+<div class="quick_stats">
 	<h4>Quick Stats</h4>
 	<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
 	<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
@@ -23,10 +25,14 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 
 </div>
 
-<div class="filter_options row">
+<div class="filter_options">
 	<h4>Filter Students</h4>
-	<div id="demographics" class="span2">
-	
+	<div id="demographics">
+	<%= form_for @search do |f| %>
+ 
+    <%= f.label :name_contains %>
+    <%= f.text_field :name_contains %>
+ 
 		<div id="clear_filter">
 			<%= link_to "All Students", students_path %>
 		</div>
@@ -39,61 +45,38 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 		<%= link_to "Male", students_path(:scope => "male" ) %>
 		</div>
 
+	
 	</div>
+</div>
+</div>
 
-	<div id="exams" class="span8">
-
-	<div class="each_subject row">
+ <div id="exams" class="span9">
+<div class="row">
  
-<%= form_for @search do |f| %>
-  <p>
-    <%= f.label :name_contains %>
-    <%= f.text_field :name_contains %>
-  </p>
 <% @subjects.each do |subject| %>
-<div class="each_subject span2">
+<div class="each_subject span3">
   <h4 class="subject"><%= link_to subject.name, subject %></h4>
-  	<% subject.exams.each do |exam| %>
-      <% exam_name_display = '' %>
-      
-    <% if exam.subtopic %>
-
-        <% exam_name_display = exam_name_display +  exam.shortname %>
-        <% if exam.subtopic.name.size <= 9 %>
-        	<% exam_name_display = exam_name_display + ' ' + exam.subtopic.name %>
-        <% end #end exam subtopic size %> 
-        
-        <% if exam.subshortname %>
-          <% exam_name_display = exam_name_display + ' ' + exam.subshortname %>
-        <% end #end exam subhosrtname %>
-      
-     <% else #no subtopic %>
-        <% if exam.shortname %>
-        	
-        	<% exam_name_display = exam_name_display + ' ' + exam.shortname + ' ' + subject.name %>
-        	
-        	<% if exam.subshortname %>
-            	<% exam_name_display = exam_name_display + ' ' + exam.subshortname %>
-          	<% end #end exam.subshortname %>
-        <% end #end exam.shortname %>
- 
-		
-  	<% end #subtopic %>
-<%= link_to exam_name_display, students_path(:exams => exam) %> <br/>
 <% f.collection_checks :scores_exam_id_in, subject.exams.all,
-    :id, :name, :class => 'exams_class' do |check| %>
-  	<%= check.box %> <%= check.label %>
+    :id, :displayname, :class => 'exams_class' do |check| %>   
+  	
+    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
+ 	  	<%= check.box %> <%= check.label %>
+ 	  	  	  	 	
 	<% end %>
-	<% end #end exam %>
-  </div>
+</div>
   <% end #end subject %>
-	</div>
-</div>
-</div>
+
+
+ <p class="button span2"><%= f.submit "Search" %></p>
 
 </div>
+</div>
+
+</div>
 
 
 
-  <p class="button"><%= f.submit "Search" %></p>
+ 
 <% end %>
+
+</div>

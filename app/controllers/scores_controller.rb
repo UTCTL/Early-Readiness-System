@@ -1,4 +1,7 @@
 class ScoresController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /scores
   # GET /scores.json
   def index

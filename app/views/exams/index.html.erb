@@ -23,15 +23,11 @@
     <td><%= exam.subtopic.name %></td>
     <% end %>
     <td><%= exam.name %></td>
-    <% if exam.shortname %>
+    <% if exam.displayname %>
 
-    <td><%= exam.shortname %>
-        <% if exam.subshortname %>
-        <%= exam.subshortname %>
-        <% end %>
-    </td>
+    <td><%= exam.displayname %></td>
         <% else %>
-       <td> &nbsp;</td>
+       <td><% exam.name %></td>
         <% end %>
         <td><%= exam.required_score %></td>
     <td><%= exam.students.count.to_s %></td>

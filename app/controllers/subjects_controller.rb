@@ -1,4 +1,7 @@
 class SubjectsController < ApplicationController
+  load_and_authorize_resource
+  before_filter :authorize
+
   # GET /subjects
   # GET /subjects.json
   def index

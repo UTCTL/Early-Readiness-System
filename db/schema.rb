@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120207214200) do
+ActiveRecord::Schema.define(:version => 20120322183413) do
+
+  create_table "admin_users", :force => true do |t|
+    t.string   "name"
+    t.string   "eid"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -31,6 +39,37 @@ ActiveRecord::Schema.define(:version => 20120207214200) do
   add_index "district_users", ["email"], :name => "index_district_users_on_email", :unique => true
   add_index "district_users", ["reset_password_token"], :name => "index_district_users_on_reset_password_token", :unique => true
 
+  create_table "exams", :force => true do |t|
+    t.string   "name"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "required_score"
+    t.integer  "subtopic_id"
+    t.string   "shortname"
+    t.string   "subshortname"
+    t.string   "displayname"
+  end
+
+  add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
+  add_index "exams", ["subtopic_id"], :name => "index_exams_on_subtopic_id"
+
+  create_table "genders", :force => true do |t|
+    t.string   "gender"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "interested_universities", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "university_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "interested_universities", ["student_id"], :name => "index_interested_universities_on_student_id"
+  add_index "interested_universities", ["university_id"], :name => "index_interested_universities_on_university_id"
+
   create_table "question_options", :force => true do |t|
     t.text     "prompt"
     t.integer  "order"
@@ -40,6 +79,17 @@ ActiveRecord::Schema.define(:version => 20120207214200) do
   end
 
   add_index "question_options", ["question_id"], :name => "index_question_options_on_question_id"
+
+  create_table "question_responses", :force => true do |t|
+    t.text     "text"
+    t.integer  "student_id"
+    t.integer  "question_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "question_responses", ["question_id"], :name => "index_question_responses_on_question_id"
+  add_index "question_responses", ["student_id"], :name => "index_question_responses_on_student_id"
 
   create_table "questions", :force => true do |t|
     t.text     "text"
@@ -51,13 +101,35 @@ ActiveRecord::Schema.define(:version => 20120207214200) do
 
   add_index "questions", ["section_id"], :name => "index_questions_on_section_id"
 
+  create_table "scores", :force => true do |t|
+    t.integer  "student_score"
+    t.integer  "student_id"
+    t.integer  "exam_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scores", ["exam_id"], :name => "index_scores_on_exam_id"
+  add_index "scores", ["student_id"], :name => "index_scores_on_student_id"
+
   create_table "sections", :force => true do |t|
     t.string   "title"
     t.text     "description"
     t.text     "error"
+    t.integer  "order"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "student_genders", :force => true do |t|
+    t.integer  "student_id"
+    t.integer  "gender_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "student_genders", ["gender_id"], :name => "index_student_genders_on_gender_id"
+  add_index "student_genders", ["student_id"], :name => "index_student_genders_on_student_id"
 
   create_table "students", :force => true do |t|
     t.string   "name"
@@ -69,11 +141,57 @@ ActiveRecord::Schema.define(:version => 20120207214200) do
     t.string   "residency"
     t.string   "email"
     t.date     "birthday"
-    t.string   "gender"
     t.string   "highschool"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "gender_id"
+    t.string   "eid"
+    t.boolean  "accepted"
   end
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subtopics", :force => true do |t|
+    t.string   "name"
+    t.integer  "subject_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "subtopics", ["subject_id"], :name => "index_subtopics_on_subject_id"
+
+  create_table "taggings", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
+    t.string   "taggable_type"
+    t.integer  "tagger_id"
+    t.string   "tagger_type"
+    t.string   "context",       :limit => 128
+    t.datetime "created_at"
+  end
+
+  add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+
+  create_table "tags", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "universities", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "student_id"
+    t.integer  "section_id"
+    t.string   "shortname"
+  end
+
+  add_index "universities", ["section_id"], :name => "index_universities_on_section_id"
+  add_index "universities", ["student_id"], :name => "index_universities_on_student_id"
 
   create_table "views", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

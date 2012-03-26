@@ -13,7 +13,11 @@
 
 <p>
   <b>Name:</b>
+  <% if @exam.displayname %>
+  <%= @exam.displayname %>
+  <% else %>
   <%= @exam.name %>
+  <% end %>
 </p>
 
 <p>
