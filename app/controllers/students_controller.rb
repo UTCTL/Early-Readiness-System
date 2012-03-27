@@ -11,10 +11,12 @@ class StudentsController < ApplicationController
     @accessible_students = Student
 
     if can? :manage, Student
-      if @user.role == 'UT'
-        @accessible_students = @accessible_students.ut
-      elsif @user.role == 'A_M'
-        @accessible_students = @accessible_students.a_m   
+      if @user.role == 'Highschool'
+        @accessible_students = @user.highschool.students
+      elsif @user.role == 'District'
+        @accessible_students = @user.district.students 
+      elsif @user.role == 'University'
+        @accessible_students = @user.university.students
       end
     end
 
@@ -103,7 +105,7 @@ class StudentsController < ApplicationController
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
          if AdminUser.find_by_eid(session[:eid]) 
-            eid = 'hello567'
+            eid = 'sample567'
           else
             eid = session[:eid]
         end

@@ -12,6 +12,17 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 	<h4>Your Information</h4>
 	<p><%= @user.name %></p>
 	<p>Role: <%= @user.role %></p>
+	<% if @user.highschool %>
+	<p>From <%= link_to @user.highschool.name, @user.highschool %>
+
+	<% elsif @user.university %>
+	<p>From <%= link_to @user.university.name, @user.university %>
+
+
+	<% elsif @user.district %>
+	<p>From <%= link_to @user.district.name, @user.district %>
+
+	<% end %>
 
 </div>
 <div class="row">

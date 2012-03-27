@@ -4,7 +4,7 @@ class Student < ActiveRecord::Base
 	validates_uniqueness_of :eid
 
 	belongs_to :gender
-	belongs_to :highschool
+	belongs_to :highschool, :foreign_key => "highschool_id"
 
 	has_many :scores
 	has_many :exams, :through => :scores
