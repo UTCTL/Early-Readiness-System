@@ -26,7 +26,7 @@ class StudentsController < ApplicationController
       if @user.role == 'Highschool'
         @accessible_students = @user.highschool.students
       elsif @user.role == 'District'
-        @accessible_students = @user.district.students 
+        @accessible_students = @user.district.students
       elsif @user.role == 'University'
         @accessible_students = @user.university.students
       end
@@ -34,23 +34,18 @@ class StudentsController < ApplicationController
 
 
     
-      @search = @accessible_students.search(params[:search]) 
+      @search = @accessible_students.search(params[:search])       
       @results = @search.group(:eid)
 
       @registered = @accessible_students
 
-    
-
-#    params[:scope].split(".").each{|scope| @accessible_students = @accessible_students.send(scope)} unless params[:scope].blank?
-#    params[:exams].split(".").each{|exam| @accessible_students = @accessible_students.exams(exam)} unless params[:exams].blank?
-
-    @students = @results unless @results.blank?
+      @students = @results
+   
     
 
     @needs_scores = @accessible_students.needs_scores
     @has_scores = @accessible_students.has_scores
     @accepted = @accessible_students.accepted
-    @genders = Gender.all
     @universities = University.all
     @exams = Exam.all(:order => :subject_id)
     @subjects = Subject.all

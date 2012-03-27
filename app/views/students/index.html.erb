@@ -5,7 +5,12 @@
 
 <%= link_to 'New Student', new_student_path %>
 
+<% if @students.empty? %>
 
+<div class="student row">
+ <div class="span12"> <em>Sorry, no students found.</em></div>
+</div>
+<% else %>
 <% @students.each do |student| %>
   <div class="student row">
     
@@ -101,6 +106,7 @@
     <div class="clear"></div>
   
     </div>
+<% end %>
 <% end %>
 
 

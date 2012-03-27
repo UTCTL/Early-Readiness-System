@@ -47,15 +47,26 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
  
     <%= f.label :name_contains %>
     <%= f.text_field :name_contains %>
- 
+ <div class="gender_filter">
+ <h3>Gender</h3>
     <% f.collection_checks :gender_id_in, Gender.all,
     :id, :gender, :class => 'gender_class' do |check| %>   
   	
-    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
- 	  	<%= check.box %> <%= check.label %>
+  	<%= check.box %> <%= check.label %>
  	  	  	  	 	
 	<% end %>
-	
+</div>	
+<% if @user.district %>
+ <div class="higschool_filter">
+ 	<h3>Highschools in Your District </h3>
+    <% f.collection_checks :highschool_id_in, @user.district.highschools,
+    :id, :name, :class => 'highschool_class' do |check| %>   
+  	
+  	<%= check.box %> <%= check.label %>
+ 	  	  	  	 	
+	<% end %>
+</div>	
+<% end %>
 	</div>
 </div>
 </div>
