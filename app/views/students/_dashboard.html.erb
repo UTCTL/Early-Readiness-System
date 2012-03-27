@@ -1,103 +1,136 @@
 <div id="dashboard_header">
-<h2>Welcome, <% if @user  %> 
-	<%= @user.name %>
-<% end %>
-</h2>
-<div class="clear"></div>
-<div class="info_block">
-Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.
-</div>
 
-<div class="user_info">
-	<% if @user %>
-	<h4>Your Information</h4>
-	<p><%= @user.name %></p>
-	<% if @user.role %>
-		<p>Role: <%= @user.role %></p>
+	<h2>Welcome, <% if @user  %> 
+		<%= @user.name %>
 	<% end %>
-	<% if @user.highschool %>
-	<p>From <%= link_to @user.highschool.name, @user.highschool %>
+	</h2>
 
-	<% elsif @user.university %>
-	<p>From <%= link_to @user.university.name, @user.university %>
-
-
-	<% elsif @user.district %>
-	<p>From <%= link_to @user.district.name, @user.district %>
-
-	<% end %>
-	<% end %>
-
-</div>
-<div class="row">
-<div class="span3">
-<div class="quick_stats">
-	<h4>Quick Stats</h4>
-	<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
-	<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
-	<div class="scores"><strong>With Scores</strong> <%= @has_scores.count.count.to_s %></div>
-	<div class="accepted"><strong>Accepted</strong> <%= @accepted.count.to_s %></div>
-
-</div>
-
-<div class="filter_options">
-	<h4>Filter Students</h4>
-	<div id="demographics">
-	<%= form_for @search do |f| %>
- 
-    <%= f.label :name_contains %>
-    <%= f.text_field :name_contains %>
- <div class="gender_filter">
- <h3>Gender</h3>
-    <% f.collection_checks :gender_id_in, Gender.all,
-    :id, :gender, :class => 'gender_class' do |check| %>   
-  	
-  	<%= check.box %> <%= check.label %>
- 	  	  	  	 	
-	<% end %>
-</div>	
-<% if @user.district %>
- <div class="higschool_filter">
- 	<h3>Highschools in Your District </h3>
-    <% f.collection_checks :highschool_id_in, @user.district.highschools,
-    :id, :name, :class => 'highschool_class' do |check| %>   
-  	
-  	<%= check.box %> <%= check.label %>
- 	  	  	  	 	
-	<% end %>
-</div>	
-<% end %>
+	<div class="info_block">
+	Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.
 	</div>
-</div>
-</div>
 
- <div id="exams" class="span9">
-<div class="row">
- 
-<% @subjects.each do |subject| %>
-<div class="each_subject span3">
-  <h4 class="subject"><%= link_to subject.name, subject %></h4>
-<% f.collection_checks :scores_exam_id_in, subject.exams.all,
-    :id, :displayname, :class => 'exams_class' do |check| %>   
-  	
-    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
- 	  	<%= check.box %> <%= check.label %>
- 	  	  	  	 	
+	<div class="user_info">
+		<% if @user %>
+			<h4>Your Information</h4>
+			<p><%= @user.name %></p>
+			
+			<% if @user.role %>
+				<p>Role: <%= @user.role %></p>
+			<% end %>
+			
+			<% if @user.highschool %>
+				<p>From <%= link_to @user.highschool.name, @user.highschool %>
+			<% elsif @user.university %>
+				<p>From <%= link_to @user.university.name, @user.university %>
+			<% elsif @user.district %>
+				<p>From <%= link_to @user.district.name, @user.district %>
+			<% end %>
+
+		<% end %>
+
+	</div>
+
+	<div class="row">
+
+	<div class="span3 quick_stats">
+		<h4>Quick Stats</h4>
+		<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
+		<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
+		<div class="scores"><strong>With Scores</strong> <%= @has_scores.count.count.to_s %></div>
+		<div class="accepted"><strong>Accepted</strong> <%= @accepted.count.to_s %></div>
+	</div>
+
+	<div class="span3 filter_options">
+		
+		<h4>Filter Students</h4>
+		
+			<%= form_for @search do |f| %>
+	 
+		    <%= f.label :name_contains, "Search Students" %>
+		    <%= f.text_field :name_contains %>
+		 <div class="gender_filter">
+	 <h3>Gender</h3>
+	    <% f.collection_checks :gender_id_in, Gender.all,
+	    :id, :gender, :class => 'gender_class' do |check| %>   
+	  	
+	  	<%= check.box %> <%= check.label %>
+	 	  	  	  	 	
+		<% end %>
+	</div>	
+	<% if @user.district %>
+	 <div class="higschool_filter">
+	 	<h3>Highschools in Your District </h3>
+	    <% f.collection_checks :highschool_id_in, @user.district.highschools,
+	    :id, :name, :class => 'highschool_class' do |check| %>   
+	  	
+	  	<%= check.box %> <%= check.label %>
+	 	  	  	  	 	
+		<% end %>
+	</div>	
 	<% end %>
-</div>
-  <% end #end subject %>
-
-
- <p class="button span2"><%= f.submit "Search" %></p>
-
-</div>
-</div>
-
-</div>
 
 
 
- 
-<% end %>
+
+	<% if @user.role == "SuperAdmin" %>
+	 <div class="district_filter">
+	 	
+	<% District.all.each do |d| %>
+		
+		<% the_district_id = d.id %>
+		<div class="district_class">
+		  <%= check_box_tag :highschool_district_id_in, d.id, false,:name => 'search[highschool_district_id_in][]' %>
+
+	   		<%= f.label d.name %>
+	 	
+	    <% f.collection_checks :highschool_id_in, d.highschools,
+	    :id, :name, :class => 'highschool_class' do |check| %>   
+	  
+	  	<%= check.box %> <%= check.label %>
+	 	  	  	  	 	
+		<% end %>
+	  
+		<% end %>
+	</div>
+	</div>
+
+	<% end %>
+	</div>
+	</div>
+	</div>
+	</div>
+		</div>
+	</div>
+	 <div id="exams" class="span9">
+	<div class="row">
+	 
+	<% @subjects.each do |subject| %>
+	<div class="each_subject span3">
+	  <h4 class="subject"><%= link_to subject.name, subject %></h4>
+	<% f.collection_checks :scores_exam_id_in, subject.exams.all,
+	    :id, :displayname, :class => 'exams_class' do |check| %>   
+	  	
+	    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
+	 	  	<%= check.box %> <%= check.label %>
+
+	 	  	  	  	 	
+		<% end %>
+	</div>
+	  <% end #end subject %>
+
+
+	 <p class="button span2"><%= f.submit "Search" %></p>
+
+	</div>
+	</div>
+
+	</div>
+	<% end %>
+	</div>
+
+
+
+	 
+	
 
 </div>
