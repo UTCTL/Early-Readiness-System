@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120326212939) do
+ActiveRecord::Schema.define(:version => 20120306154538) do
 
   create_table "admin_users", :force => true do |t|
     t.string   "name"
@@ -19,14 +19,7 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.string   "role"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "university_id"
-    t.integer  "highschool_id"
-    t.integer  "district_id"
   end
-
-  add_index "admin_users", ["district_id"], :name => "index_admin_users_on_district_id"
-  add_index "admin_users", ["highschool_id"], :name => "index_admin_users_on_highschool_id"
-  add_index "admin_users", ["university_id"], :name => "index_admin_users_on_university_id"
 
   create_table "district_users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -46,12 +39,6 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
   add_index "district_users", ["email"], :name => "index_district_users_on_email", :unique => true
   add_index "district_users", ["reset_password_token"], :name => "index_district_users_on_reset_password_token", :unique => true
 
-  create_table "districts", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "exams", :force => true do |t|
     t.string   "name"
     t.integer  "subject_id"
@@ -61,7 +48,6 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.integer  "subtopic_id"
     t.string   "shortname"
     t.string   "subshortname"
-    t.string   "displayname"
   end
 
   add_index "exams", ["subject_id"], :name => "index_exams_on_subject_id"
@@ -72,15 +58,6 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "highschools", :force => true do |t|
-    t.string   "name"
-    t.integer  "district_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "highschools", ["district_id"], :name => "index_highschools_on_district_id"
 
   create_table "interested_universities", :force => true do |t|
     t.integer  "student_id"
@@ -163,16 +140,15 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.string   "residency"
     t.string   "email"
     t.date     "birthday"
-    t.string   "highschool_name"
+    t.string   "highschool"
+    t.boolean  "interested_ut",  :default => false
+    t.boolean  "interested_atm", :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "gender_id"
     t.string   "eid"
     t.boolean  "accepted"
-    t.integer  "highschool_id"
   end
-
-  add_index "students", ["highschool_id"], :name => "index_students_on_highschool_id"
 
   create_table "subjects", :force => true do |t|
     t.string   "name"

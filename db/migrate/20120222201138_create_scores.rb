@@ -4,7 +4,7 @@ class CreateScores < ActiveRecord::Migration
       t.integer :student_score
       t.references :student
       t.references :exam
-
+      t.references :subject
       t.timestamps
     end
     add_index :scores, :student_id
