@@ -1,0 +1,25 @@
+<h1>Listing highschools</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>District</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @highschools.each do |highschool| %>
+  <tr>
+    <td><%= highschool.name %></td>
+    <td><% if highschool.district %><%= link_to highschool.district.name, highschool.district %><% end %></td>
+    <td><%= link_to 'Show', highschool %></td>
+    <td><%= link_to 'Edit', edit_highschool_path(highschool) %></td>
+    <td><%= link_to 'Destroy', highschool, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Highschool', new_highschool_path %>

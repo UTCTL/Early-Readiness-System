@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @highschool.name %>
+</p>
+
+<p>
+  <b>District:</b>
+  <% if @highschool.district %><%= link_to @highschool.district.name, @highschool.district %><% end %>
+</p>
+
+
+<%= link_to 'Edit', edit_highschool_path(@highschool) %> |
+<%= link_to 'Back', highschools_path %>
