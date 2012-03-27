@@ -9,9 +9,12 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 </div>
 
 <div class="user_info">
+	<% if @user %>
 	<h4>Your Information</h4>
 	<p><%= @user.name %></p>
-	<p>Role: <%= @user.role %></p>
+	<% if @user.role %>
+		<p>Role: <%= @user.role %></p>
+	<% end %>
 	<% if @user.highschool %>
 	<p>From <%= link_to @user.highschool.name, @user.highschool %>
 
@@ -22,6 +25,7 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
 	<% elsif @user.district %>
 	<p>From <%= link_to @user.district.name, @user.district %>
 
+	<% end %>
 	<% end %>
 
 </div>
@@ -44,18 +48,13 @@ Welcome to the Administration Dashboard.  Here you can view the status of studen
     <%= f.label :name_contains %>
     <%= f.text_field :name_contains %>
  
-		<div id="clear_filter">
-			<%= link_to "All Students", students_path %>
-		</div>
-		
-		<div id="girls">
-		<%= link_to "Female", students_path(:scope => "female" ) %>
-		</div>
-		
-		<div id="boys">
-		<%= link_to "Male", students_path(:scope => "male" ) %>
-		</div>
-
+    <% f.collection_checks :gender_id_in, Gender.all,
+    :id, :gender, :class => 'gender_class' do |check| %>   
+  	
+    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
+ 	  	<%= check.box %> <%= check.label %>
+ 	  	  	  	 	
+	<% end %>
 	
 	</div>
 </div>

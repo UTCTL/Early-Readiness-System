@@ -7,7 +7,19 @@ class StudentsController < ApplicationController
 
   def index
 
-    @user = AdminUser.find_by_eid(session[:eid])
+  if Student.find_by_eid(session[:eid]) 
+      logged_in = Student.find_by_eid(session[:eid])
+      redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
+      return
+    end
+
+
+
+    if AdminUser.find_by_eid(session[:eid])
+      @user =  AdminUser.find_by_eid(session[:eid])
+    end
+    
+
     @accessible_students = Student
 
     if can? :manage, Student
@@ -25,26 +37,24 @@ class StudentsController < ApplicationController
       @search = @accessible_students.search(params[:search]) 
       @results = @search.group(:eid)
 
-
-
-    @students = Student.scoped
-    @registered = @students
+      @registered = @accessible_students
 
     
 
-    params[:scope].split(".").each{|scope| @students = @students.send(scope)} unless params[:scope].blank?
-    params[:exams].split(".").each{|exam| @students = @students.exams(exam)} unless params[:exams].blank?
+#    params[:scope].split(".").each{|scope| @accessible_students = @accessible_students.send(scope)} unless params[:scope].blank?
+#    params[:exams].split(".").each{|exam| @accessible_students = @accessible_students.exams(exam)} unless params[:exams].blank?
 
     @students = @results unless @results.blank?
     
 
-    @needs_scores = Student.needs_scores
-    @has_scores = Student.has_scores
-    @accepted = Student.accepted
+    @needs_scores = @accessible_students.needs_scores
+    @has_scores = @accessible_students.has_scores
+    @accepted = @accessible_students.accepted
     @genders = Gender.all
     @universities = University.all
     @exams = Exam.all(:order => :subject_id)
     @subjects = Subject.all
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -63,6 +73,8 @@ class StudentsController < ApplicationController
     @exams = @student.exams.sort_by{|e| e[:subject_id]}
     @question_responses = @student.question_responses
     @universities = University.all
+   
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @student }
