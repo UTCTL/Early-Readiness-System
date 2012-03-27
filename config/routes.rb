@@ -1,5 +1,9 @@
 EarlyReadinessSystem::Application.routes.draw do
 
+  resources :highschools
+
+  resources :districts
+
   resources :admin_users
 
   get "log_out" => "sessions#destroy", :as => "log_out"

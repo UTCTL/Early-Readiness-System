@@ -3,6 +3,8 @@ class University < ActiveRecord::Base
 	has_many :interested_universities
 	has_many :students, :through => :interested_universities
 
+	has_many :admin_users
+
 	belongs_to :section
 
 	accepts_nested_attributes_for :section

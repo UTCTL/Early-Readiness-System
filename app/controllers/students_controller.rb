@@ -53,7 +53,9 @@ class StudentsController < ApplicationController
   # GET /students/1.json
   def show
     @student = Student.find(params[:id])
-    @gender = Gender.find(@student.gender_id)
+    if(@student.gender_id)
+      @gender = Gender.find(@student.gender_id)
+    end
     @scores = @student.scores
     @subjects = Subject.all
     @exams = @student.exams.sort_by{|e| e[:subject_id]}
@@ -68,11 +70,7 @@ class StudentsController < ApplicationController
   # GET /students/new
   # GET /students/new.json
   def new
-   # if AdminUser.find_by_eid(session[:eid]) 
-   #   logged_in = AdminUser.find_by_eid(session[:eid])
-   #   redirect_to(students_path, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
-   #   return
-   # end
+ 
 
     if Student.find_by_eid(session[:eid]) 
       logged_in = Student.find_by_eid(session[:eid])
@@ -82,6 +80,7 @@ class StudentsController < ApplicationController
 
     @student=Student.new
     @exams = Exam.all
+    @highschools = Highschool.all
     @questions = Question.all
     @subjects = Subject.all
     @universities = University.all
@@ -103,7 +102,12 @@ class StudentsController < ApplicationController
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
-      eid = session[:eid]
+         if AdminUser.find_by_eid(session[:eid]) 
+            eid = 'hello567'
+          else
+            eid = session[:eid]
+        end
+      
       name = entry.cn[0].upcase
       address = entry.homePostalAddress[0].split('$')
       address1 = address[0]
@@ -143,10 +147,12 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @exams = Exam.all
     @sections = Section.all
+    @highschools = Highschool.all
     @questions = Question.all
     @subjects = Subject.all
     @genders = Gender.all
     @universities = University.all
+
     end
 
   # POST /students
@@ -154,15 +160,29 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(params[:student])
 
+
     @subjects = Subject.all
     @exams = Exam.all
+    @highschools = Highschool.all
     @sections = Section.all
     @questions = Question.all
     @genders = Gender.all
     @universities = University.all
   
+ 
+
+
 
     respond_to do |format|
+    @highschool_name = params[:student][:highschool_name]
+
+    if Highschool.find_by_name(@highschool_name)
+      @the_highschool = Highschool.find_by_name(@highschool_name)
+      @student.highschool = @the_highschool
+    else 
+      @newschool = @student.build_highschool(:name => @highschool_name)
+      @student.highschool = @newschool
+     end
       if @student.save
         format.html { redirect_to @student, notice: 'Student was successfully created.' }
         format.json { render json: @student, status: :created, location: @student }
@@ -179,10 +199,21 @@ class StudentsController < ApplicationController
     @student = Student.find(params[:id])
     @subjects = Subject.all
     @questions = Question.all
+    @highschools = Highschool.all
     @genders = Gender.all
     @universities = University.all
+
     respond_to do |format|
-      if @student.update_attributes(params[:student])
+  @highschool_name = params[:student][:highschool_name]
+   if Highschool.find_by_name(@highschool_name)
+      @the_highschool = Highschool.find_by_name(@highschool_name)
+      @student.highschool = @the_highschool
+    else 
+      @newschool = @student.build_highschool(:name => @highschool_name)
+      @student.highschool = @newschool
+     end
+  if @student.update_attributes(params[:student])
+  
         format.html { redirect_to @student, notice: 'Student was successfully updated.' }
         format.json { head :ok }
       else

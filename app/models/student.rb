@@ -1,9 +1,10 @@
 class Student < ActiveRecord::Base
-	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool, :presence => true
+	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool_name, :presence => true
 	validate :oneExamPerSubject
 	validates_uniqueness_of :eid
 
 	belongs_to :gender
+	belongs_to :highschool
 
 	has_many :scores
 	has_many :exams, :through => :scores

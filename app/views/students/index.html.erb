@@ -33,7 +33,12 @@
     <% if student.gender %>
     <div class="student_gender"><p><%= link_to student.gender.gender, student.gender %></p></div>
     <% end %>
-    <div class="student_highschool"><p><%= student.highschool %></p></div>
+       <div class="student_highschool"><p>
+    <% if student.highschool %>
+      <%= link_to student.highschool.name, student.highschool %>
+    <% else %>
+        <%= student.highschool_name %>
+    <% end %></p></div>
 </div><div class="clear"></div>
 <div class="student_universities span3">
   <% if student.universities %>
