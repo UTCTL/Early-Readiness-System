@@ -52,7 +52,7 @@
 	 		<h3>Gender</h3>
 	    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
 	    			<%= check.box %> 
-	    			<%= check.label %> 	
+	    			<%= check.label %> 	<div class="clear"></div>
 	    		<% end #end collection_checks of genders%>
 	    </div><!-- end gender_filter -->
 
@@ -77,13 +77,13 @@
 	 				<% District.all.each do |d| %>
 						<div class="district_class">
 						  <%= check_box_tag :highschool_district_id_in, d.id, false,:name => 'search[highschool_district_id_in][]' %>
-						  <%= f.label d.name %>				 	
+						  <%= f.label d.name %>		<div class="clear"></div>		 	
 				    
 				    	  	<% f.collection_checks :highschool_id_in, d.highschools,
 				    :id, :name, :class => 'highschool_class' do |check| %>   
 				  
 							  	<%= check.box %> 
-							  	<%= check.label %>
+							  	<%= check.label %><div class="clear"></div>
 							 	  	  	  	 	
 							<% end #end highschool id collection checks%>
 						</div><!--end district_class -->
@@ -104,7 +104,7 @@
 	    :id, :displayname, :class => 'exams_class' do |check| %>   
 	  	
 	    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
-	 	  	<%= check.box %> <%= check.label %>
+	 	  	<%= check.box %> <%= check.label %><div class="clear"></div>
 
 	 	  	  	  	 	
 		<% end #end exams %>
