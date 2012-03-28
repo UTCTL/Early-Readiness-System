@@ -14,14 +14,14 @@
   Early Readiness High School Graduation Option
 </a>
 <% if !session[:eid].nil? %>
+
 <ul class="nav pull-right">
-  <li>
- <%= link_to 'Logout', log_out_path%></li>
+  <li class="divider-vertical"></li>
+  <li><%= link_to 'Logout ' + session[:eid], log_out_path%></li>
 </ul>
 <% end %>
     </div>
-     <a href="#">Logged in as <%= session[:eid] %></a>
-  </div>
+</div>
 </div>
 <div class="container">
 <% flash.each do |name, msg| %>

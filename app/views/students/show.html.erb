@@ -1,83 +1,98 @@
-<p id="notice"><%= notice %></p>
-
 <% if AdminUser.find_by_eid(session[:eid]) %>
-    <%= link_to 'All Students', students_path %>
-  <% end %>
-<%= link_to 'Edit Information', edit_student_path(@student) %>
-
-
- <div class="student">
-    <nav class="student_controls">
-    <ul>
-    <li><%= link_to 'Show', @student %></li>
-    <li><%= link_to 'Edit', edit_student_path(@student) %></li>
-    <li><%= link_to 'Destroy', @student, confirm: 'Are you sure?', method: :delete %></li>
-    </ul>
-  </nav>
-  <h2 class="student_name"><%= link_to @student.name, @student %></h2><h3 class="student_eid"><% if @student.eid %><%= @student.eid %><% end %></h3>
-  <div class="clear"></div>
-  <div class="student_address">
-    <p><%= @student.address1 %><br/>
-        <% if @student.address2? %> 
-        <%= @student.address2 %><br/>
-        <% end %>
-        <%= @student.city %>, <%= @student.state %> <%= @student.zip %>
-    </p>
-    <span class-"student_residency"><strong>Residency:</strong> <%= @student.residency %></span>
-</div>
-<div class="student_demographics">
-    <div class="student_birthdate"><p><%= @student.birthday.to_formatted_s(:long_ordinal) %></p></div>
-    <% if @student.gender %>
-    <div class="student_gender">
-      <%= link_to @student.gender.gender, @student.gender %>
-    </div>
-    <% end %>
-    <div class="student_highschool"><p><%= @student.highschool_name %></p></div>
-</div>
-<div class="student_universities">
-  <% if @student.universities %>
-    <% @student.universities.each do |university| %>
-      <div class="<%= university.name %>"><%= link_to 'Interested in' + university.name, university %></div>
-    <% end %>
-   <% end %>
-</div>
-<div class="exams">
-  <h3>Exam scores</h3>
-
-<table>
-  <tr>
-    <th>Subject</th>
-    <th>Exam</th>
-    <th>Required Score</th>
- 
-  </tr>
-
-<% @student.exams.each do |exam| %>
-  <tr>
-    <% if exam.subtopic %>
-      <td><%= exam.subject.name + ' ' + exam.subtopic.name %></td>
-    <% else %>
-      <td><%= exam.subject.name  %></td>
-    <% end %>
-    <td><%= exam.name %></td>
-    <td><%= exam.required_score %></td>
-
-  
-  </tr>
+<%= link_to 'All Students', students_path %>
 <% end %>
-</table>
+<div class="student">
+	<h2><%= @student.name %> <a href="mailto:<%= @student.email %>"><i class="icon-envelope"></i></a></h2>
+	<div class="clear"></div>
+	<div class="span12">
+	<dl class="dl-horizontal">
+		<dt>
+			Address
+		</dt>
+		<dd>
+			<%= @student.address1 %>
+			<br/>
+			<% if @student.address2? %>
+			<%= @student.address2 %>
+			<br/>
+			<% end %>
+			<%= @student.city %>, <%= @student.state %> <%= @student.zip %>
+		</dd>
+		<dt>
+			E-mail
+		</dt>
+		<dd>
+			<a href="mailto:<%= @student.email %>"><%= @student.email %></a>
+		</dd>
+		<dt>
+			Residency
+		</dt>
+		<dd>
+			<%= @student.residency %>
+		</dd>
+		<dt>
+			Birthday
+		</dt>
+		<dd>
+			<%= @student.birthday.to_formatted_s(:long_ordinal) %>
+		</dd>
+		<% if @student.gender %>
+		<dt>
+			Gender
+		</dt>
+		<dd>
+			<%= link_to @student.gender.gender, @student.gender %>
+		</dd>
+		<% end %>
+		<dt>
+			High School
+		</dt>
+		<dd>
+			<%= @student.highschool_name %>
+		</dd>
+		<dt>
+			Universities
+		</dt>
+		<dd>
+		<% if @student.universities %>
+		
+			<% @student.universities.each do |university| %>
+			<div class="<%= university.name %>">
+				<%= link_to 'Interested in' + university.name, university %>
+			</div>
+			<% end %>
+		
+		<% end %>
+		</dd>
+	</dl>
+	</div>
+	<div class="exams">
+		<h3>Exam scores</h3>
+		<table>
+			<tr>
+				<th>Subject</th>
+				<th>Exam</th>
+				<th>Required Score</th>
+			</tr>
+			<% @student.exams.each do |exam| %>
+			<tr>
+				<% if exam.subtopic %> <td><%= exam.subject.name + ' ' + exam.subtopic.name %></td>
+				<% else %> <td><%= exam.subject.name  %></td>
+				<% end %> <td><%= exam.name %></td>
+				<td><%= exam.required_score %></td>
+			</tr>
+			<% end %>
+		</table>
+	</div>
+	<div class="clear"></div>
+	<div class="student_responses">
+		<% @question_responses.each do |response| %>
+		<div class="question_response">
+			<strong><%= response.question.text %></strong>
+			<br/>
+			<%= response.text %>
+		</div>
+		<% end %>
+	</div>
+	<div class="clear"></div>
 </div>
-<div class="clear"></div>
-    <span class="email"><a href="mailto:<%= @student.email %>"><%= @student.email %></a></span>
-    
-<div class="student_responses">
-<% @question_responses.each do |response| %>
-<div class="question_response">
-<strong><%= response.question.text %></strong><br/>
-<%= response.text %>
-</div>
-<% end %>
-</div>
-    <div class="clear"></div>
-  
-    </div>
