@@ -1,112 +1,116 @@
 <%= form_for(@student) do |f| %>
-  <% if @student.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+<% if @student.errors.any? %>
+<div id="error_explanation">
+	<h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
+	<ul>
+		<% @student.errors.full_messages.each do |msg| %>
+		<li>
+			<%= msg %>
+		</li>
+		<% end %>
+	</ul>
+</div>
+<% end %>
+<div class="control-group">
+	<div class="field">
+		<%= f.hidden_field :eid %>
 
-      <ul>
-      <% @student.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.hidden_field :eid %>
-
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :address1 %><br />
-    <%= f.text_field :address1 %>
-  </div>
-  <div class="field">
-    <%= f.label :address2 %><br />
-    <%= f.text_field :address2 %>
-  </div>
-  <div class="field">
-    <%= f.label :city %><br />
-    <%= f.text_field :city %>
-  </div>
-  <div class="field">
-    <%= f.label :state %><br />
-    <%= f.select :state, options_for_select(us_states,@student.state) %>
-  </div>
-  <div class="field">
-    <%= f.label :zip %><br />
-    <%= f.text_field :zip %>
-  </div>
-  <div class="field">
-    <%= f.label :residency %><br />
-    <%= f.select :residency, options_for_select(us_states,@student.state) %>
-  </div>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :birthday %><br />
-    <%= f.date_select :birthday %>
-  </div>
-  <div class="field">
-
-    <%= f.label :gender %><br/>
-    <% @genders.each do |g| %>
-    <div class="radio_buttons">
-    <%= radio_button_tag 'student[gender_id]', g.id, @student.gender == g %>
-    <%= f.label g.gender %>
-    </div>
-    <% end %>
-
-  </div>
-  <div class="field">
-    <%= f.label :highschool_name %><br />
-    <%= f.text_field :highschool_name %>
-  </div>
-
-
-  <h2>Exams</h2>
+		<%= f.label :name %>
+		<br />
+		<%= f.text_field :name %>
+	</div>
+	<div class="field">
+		<%= f.label :address1 %>
+		<br />
+		<%= f.text_field :address1 %>
+	</div>
+	<div class="field">
+		<%= f.label :address2 %>
+		<br />
+		<%= f.text_field :address2 %>
+	</div>
+	<div class="field">
+		<%= f.label :city %>
+		<br />
+		<%= f.text_field :city %>
+	</div>
+	<div class="field">
+		<%= f.label :state %>
+		<br />
+		<%= f.select :state, options_for_select(us_states,@student.state) %>
+	</div>
+	<div class="field">
+		<%= f.label :zip %>
+		<br />
+		<%= f.text_field :zip %>
+	</div>
+	<div class="field">
+		<%= f.label :residency %>
+		<br />
+		<%= f.select :residency, options_for_select(us_states,@student.state) %>
+	</div>
+	<div class="field">
+		<%= f.label :email %>
+		<br />
+		<%= f.text_field :email %>
+	</div>
+	<div class="field">
+		<%= f.label :birthday %>
+		<br />
+		<%= f.date_select :birthday %>
+	</div>
+	<div class="field">
+		<%= f.label :gender %>
+		<br/>
+		<% @genders.each do |g| %>
+		<div class="radio_buttons">
+			<%= radio_button_tag 'student[gender_id]', g.id, @student.gender == g %>
+			<%= f.label g.gender %>
+		</div>
+		<% end %>
+	</div>
+	<div class="field">
+		<%= f.label :highschool_name %>
+		<br />
+		<%= f.text_field :highschool_name %>
+	</div>
+</div>
+<h2>Exams</h2>
 <div class="clear"></div>
-  <% @subjects.each do |subject| %>
-  <h3><%= subject.name %></h3>
-   <div class="subject_exams">
-   <% subject.exams.each do |exam| -%>
-    <div>
-      <%= check_box_tag :exam_ids, exam.id, @student.exams.include?(exam), :name => 'student[exam_ids][]' -%>
-      <% if exam.subtopic %>
-      <%= label_tag :exam_ids, exam.subtopic.name + ' ' + exam.name -%>
-      <% else %>
-      <%= label_tag :exam_ids, exam.subject.name + ' ' + exam.name -%>
-      <% end %>
-    </div>
-  <% end -%>
-    </div>
-  <% end %>
-
-    <h2>Survey Questions</h2>
-    <div class="clear"></div>
-  <% i = 0 %>
-  <%= f.fields_for :question_responses do |builder| %>
-        <%= builder.label @questions[i].text %>
-        <%= builder.hidden_field :question_id %><br/>
-           
-        <%= builder.text_area :text, :rows => 3 %><br />
-        <% i+=1 %>
+<% @subjects.each do |subject| %> <h3><%= subject.name %></h3>
+<div class="subject_exams">
+	<% subject.exams.each do |exam| -%>
+	<div class="control-group">
+		<%= check_box_tag :exam_ids, exam.id, @student.exams.include?(exam), :name => 'student[exam_ids][]' -%>
+		<% if exam.subtopic %>
+		<%= label_tag :exam_ids, exam.subtopic.name + ' ' + exam.name -%>
+		<% else %>
+		<%= label_tag :exam_ids, exam.subject.name + ' ' + exam.name -%>
+		<% end %>
+	</div>
+	<% end -%>
+</div>
+<% end %> <h2>Survey Questions</h2>
+<div class="clear"></div>
+<% i = 0 %>
+<%= f.fields_for :question_responses do |builder| %>
+<div class="control-group">
+	<%= builder.label @questions[i].text %>
+	<%= builder.hidden_field :question_id %>
+	<br/>
+	<%= builder.text_area :text, :rows => 3 %>
+	<br />
+	<% i+=1 %>
+</div>
 <% end %>
 
-  <% @universities.each do |university| %>
-    <div>
-      <%= check_box_tag :university_ids, university.id, @student.universities.include?(university), :name => 'student[university_ids][]' -%>     
-      <%= label_tag :university_ids, university.name -%>
-     </div>
-
-  <% end %>
-  
-
-  <div class="actions">
-    <%= f.submit "Register" %>
-  </div>
+<% @universities.each do |university| %>
+<div class="control-group">
+	<%= check_box_tag :university_ids, university.id, @student.universities.include?(university), :name => 'student[university_ids][]' -%>
+	<%= label_tag :university_ids, university.name -%>
+</div>
 <% end %>
-
-
+<div class="actions">
+	<%= f.submit "Register" %>
+</div>
+<% end %> 

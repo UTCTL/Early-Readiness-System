@@ -1,18 +1,22 @@
-<% provide(:title, 'Home') %>
-<h2>Log In</h2>
+<% provide(:title, 'Home') %> <h2>Log In</h2>
 <% if logged_in %>
-<p>You are already logged in. <%= link_to 'Logout', log_out_path%>.</p>
+<p>
+	You are already logged in. <%= link_to 'Logout', log_out_path%>.
+</p>
 <% else %>
-<p>Login with your UT EID and password. If you do not have a UT EID, <a href="https://idmanager.its.utexas.edu/eid_self_help/?geid=">click here</a> to get one.
-<%= form_tag(sessions_path,:class=>'form-inline') do %>
-  <div class="field">
-          <%= label_tag :username %>
-          <%= text_field_tag :username, params[:username] %>
-  </div>
-  <div class="field">
-          <%= label_tag :password %>
-          <%= password_field_tag :password %>
-  </div>
-  <%= submit_tag "Log in",:class=>"btn btn-primary" %>
-<% end %>
-<% end %>
+<p>
+	Login with your UT EID and password. If you do not have a UT EID, <a href="https://idmanager.its.utexas.edu/eid_self_help/?geid=">click here</a> to get one.
+	<%= form_tag(sessions_path) do %>
+	<div class="control-group">
+		<div class="field">
+			<%= label_tag :username %>
+			<%= text_field_tag :username, params[:username] %>
+		</div>
+		<div class="field">
+			<%= label_tag :password %>
+			<%= password_field_tag :password %>
+		</div>
+		<%= submit_tag "Log in",:class=>"btn" %>
+	</div>
+	<% end %>
+	<% end %>
