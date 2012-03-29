@@ -17,6 +17,8 @@ class StudentsController < ApplicationController
 
     if AdminUser.find_by_eid(session[:eid])
       @user =  AdminUser.find_by_eid(session[:eid])
+    else
+      @user =AdminUser.find_by_eid('lnd322')
     end
     
 

@@ -16,6 +16,12 @@
 <% if !session[:eid].nil? %>
 
 <ul class="nav pull-right">
+  
+  <% if can? :manage, Student %>
+  <li class="divider-vertical"></li>
+  <li><%= link_to 'Dashboard', students_path %></li>
+  <% end %>
+
   <li class="divider-vertical"></li>
   <li><%= link_to 'Logout ' + session[:eid], log_out_path%></li>
 </ul>

@@ -1,4 +1,4 @@
-<%= form_for(@student) do |f| %>
+<%= simple_form_for @student, :html => {:class => 'form-horizontal'} do |f| %>
 <% if @student.errors.any? %>
 <div id="error_explanation">
 	<h2><%= pluralize(@student.errors.count, "error") %> prohibited this student from being saved:</h2>
@@ -11,6 +11,35 @@
 	</ul>
 </div>
 <% end %>
+<%= f.input :eid, :as => :hidden %>
+<%= f.input :name %>
+<%= f.input :address1 %>
+<%= f.input :address2 %>
+<%= f.input :city %>
+<%= f.input :state, :collection => us_states %>
+<%= f.input :zip %>
+<%= f.input :residency, :collection => us_states %>
+<%= f.input :email %>
+<%= f.input :birthday %>
+<%= f.association :gender, :as => :radio_buttons %>
+<%= f.association :highschool, :as => :string %>
+<% @subjects.each do |subject| %>
+  <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
+<% end %>
+<% i = 0 %>
+<%= f.fields_for :question_responses do |builder| %>
+<div class="control-group">
+  <%= builder.label @questions[i].text %>
+  <%= builder.hidden_field :question_id %>
+  <br/>
+  <%= builder.text_area :text, :rows => 3 %>
+  <br />
+  <% i+=1 %>
+</div>
+<% end %>
+<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
+<%= f.button :submit %>
+<!--
 <div class="control-group">
 	<div class="field">
 		<%= f.hidden_field :eid %>
@@ -112,5 +141,5 @@
 <% end %>
 <div class="actions">
 	<%= f.submit "Register" %>
-</div>
+</div>-->
 <% end %> 

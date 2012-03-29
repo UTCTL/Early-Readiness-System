@@ -44,9 +44,9 @@
 		
 		<h4>Filter Students</h4>
 		
-			<%= form_for @search do |f| %>
+			<%= simple_form_for @search, :html => {:class => 'form-horizontal'} do |f| %>
 	 
-		    <%= f.text_field :name_contains, :placeholder => "Search..." %>
+		    <%= f.input :name_contains, :placeholder => "Search..." %>
 		 
 		<div class="gender_filter">
 	 		<h3>Gender</h3>
@@ -80,7 +80,8 @@
 						  <%= f.label d.name %>		<div class="clear"></div>		 	
 				    
 				    	  	<% f.collection_checks :highschool_id_in, d.highschools,
-				    :id, :name, :class => 'highschool_class' do |check| %>   
+				    :id, :name, :class => 'highschool_class' do |check| %>  
+				     
 				  
 							  	<%= check.box %> 
 							  	<%= check.label %><div class="clear"></div>

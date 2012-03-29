@@ -14,6 +14,7 @@ gem 'acts-as-taggable-on', '~> 2.2.2'
 gem "meta_search"  # Last officially released gem
 # gem "meta_search", :git => "git://github.com/ernie/meta_search.git" # Track git repo
 gem 'cancan'
+gem 'simple_form'
 
 
 # Gems used only for assets and not required

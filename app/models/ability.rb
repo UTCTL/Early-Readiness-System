@@ -15,7 +15,7 @@ class Ability
     elsif Student.find_by_eid(user) #logged in as student
       can :read, Student, :eid => user
       can :create, Student
-    elsif
+    else
     	can :create, Student
     end
   end
