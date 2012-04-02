@@ -83,7 +83,7 @@
         <% end %>
       <% end %>
 
-  <%= link_to exam_name_display, exam %> 
+  <%= link_to exam.displayname, exam %> 
   <% if exam.scores.first.student_score %>
   <%= exam.scores.first.student_score %>
   <% else %>

@@ -37,11 +37,11 @@ class StudentsController < ApplicationController
 
 #     params[:search].compact
      
-    if params[:search]  
-        if params[:search][:highschool_id_in]
-          params[:search][:highschool_id_in] = params[:search][:highschool_id_in].compact
-        end
-    end
+#    if params[:search]  
+#      if params[:search][:highschool_id_in]
+#          params[:search][:highschool_id_in] = params[:search][:highschool_id_in].compact
+#      end
+#    end
 
 
       @search = @accessible_students.search(params[:search])       
@@ -50,6 +50,8 @@ class StudentsController < ApplicationController
       @registered = @accessible_students
 
       @students = @results
+
+      #params[:search] = params[:search].clear
    
     
 
