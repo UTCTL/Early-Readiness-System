@@ -68,7 +68,7 @@
 	</div>
 	<div class="exams">
 		<h3>Exam scores</h3>
-		<table class="table table-striped">
+		<table class="table table-striped table-bordered">
 			<tr>
 				<th>Subject</th>
 				<th>Exam</th>
@@ -85,12 +85,14 @@
 		</table>
 	</div>
 	<div class="clear"></div>
+	<hr />
 	<div class="student_responses">
 		<% @question_responses.each do |response| %>
 		<div class="question_response">
-			<strong><%= response.question.text %></strong>
-			<br/>
+			<h3><%= response.question.text %></h3>
+			<p>
 			<%= response.text %>
+			</p>
 		</div>
 		<% end %>
 	</div>

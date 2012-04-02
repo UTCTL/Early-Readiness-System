@@ -11,6 +11,8 @@
 	</ul>
 </div>
 <% end %>
+<div class="row">
+	<div class="span4">
 <%= f.input :eid, :as => :hidden %>
 <%= f.input :name %>
 <%= f.input :address1 %>
@@ -18,24 +20,36 @@
 <%= f.input :city %>
 <%= f.input :state, :collection => us_states %>
 <%= f.input :zip %>
+</div>
+<div class="span4">
+
 <%= f.input :residency, :collection => us_states %>
 <%= f.input :email %>
 <%= f.input :birthday %>
 <%= f.association :gender, :as => :radio_buttons, :label_method  => :gender %>
 <%= f.input :highschool_name %>
+</div>
+</div>
+<hr />
+<h2>Exams</h2>
 <% @subjects.each do |subject| %>
   <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
+
 <% end %>
+<hr />
+<h2>Questions</h2>
 <% i = 0 %>
 <%= f.simple_fields_for :question_responses do |builder| %>
    <%= builder.hidden_field :question_id %>
   
-  <%= builder.input :text, :as => :text, :label => @questions[i].text, :rows => 30 %>
+  <%= builder.input :text, :as => :text, :label => @questions[i].text, :cols => 80 %>
 
   <% i+=1 %>
 <% end %>
 <%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
-<%= f.button :submit %>
+<div class="well">
+<%=f.button :submit, "Register", :class=>'btn btn-primary btn-large'%>
+</div>
 <!--<div class="control-group">
 	<div class="field">
 		<%= f.hidden_field :eid %>
