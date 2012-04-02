@@ -35,7 +35,15 @@ class StudentsController < ApplicationController
     end
 
 
-    
+#     params[:search].compact
+     
+    if params[:search]  
+        if params[:search][:highschool_id_in]
+          params[:search][:highschool_id_in] = params[:search][:highschool_id_in].compact
+        end
+    end
+
+
       @search = @accessible_students.search(params[:search])       
       @results = @search.group(:eid)
 

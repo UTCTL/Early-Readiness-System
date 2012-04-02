@@ -21,26 +21,22 @@
 <%= f.input :residency, :collection => us_states %>
 <%= f.input :email %>
 <%= f.input :birthday %>
-<%= f.association :gender, :as => :radio_buttons %>
-<%= f.association :highschool, :as => :string %>
+<%= f.association :gender, :as => :radio_buttons, :label_method  => :gender %>
+<%= f.input :highschool_name %>
 <% @subjects.each do |subject| %>
   <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
 <% end %>
 <% i = 0 %>
-<%= f.fields_for :question_responses do |builder| %>
-<div class="control-group">
-  <%= builder.label @questions[i].text %>
-  <%= builder.hidden_field :question_id %>
-  <br/>
-  <%= builder.text_area :text, :rows => 3 %>
-  <br />
+<%= f.simple_fields_for :question_responses do |builder| %>
+   <%= builder.hidden_field :question_id %>
+  
+  <%= builder.input :text, :as => :text, :label => @questions[i].text, :rows => 30 %>
+
   <% i+=1 %>
-</div>
 <% end %>
 <%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
 <%= f.button :submit %>
-<!--
-<div class="control-group">
+<!--<div class="control-group">
 	<div class="field">
 		<%= f.hidden_field :eid %>
 

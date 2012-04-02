@@ -46,25 +46,29 @@
 		
 			<%= simple_form_for @search, :html => {:class => 'form-horizontal'} do |f| %>
 	 
-		    <%= f.input :name_contains, :placeholder => "Search..." %>
+		    <%= f.input :name_contains, :placeholder => "Search...", :label => '' %>
 		 
 		<div class="gender_filter">
 	 		<h3>Gender</h3>
+	 		<%= f.input :gender do %>
 	    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
 	    			<%= check.box %> 
 	    			<%= check.label %> 	<div class="clear"></div>
 	    		<% end #end collection_checks of genders%>
+	    	<% end %>
 	    </div><!-- end gender_filter -->
 
 	    	
 		<% if @user.district %>
 			<div class="higschool_filter">
 			 	<h3>Highschools in Your District </h3>
-			    <% f.collection_checks :highschool_id_in, @user.district.highschools, :id, :name, :class => 'highschool_class' do |check| %>   
+	 		<%= f.input :highschool do %>
+			    <%= f.collection_checks :highschool_id_in, @user.district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
 			    	<%= check.box %>
 			    	<%= check.label %>
-			    <% end #end collection_checks of highschools %>
-			</div>	<!-- end highschool_filter-->
+			    <% end %>
+			<% end %>
+			</div>
 		<% end #end user.district %>
 
 
@@ -74,21 +78,16 @@
 	 			
 	 			<h3>Districts and Highschools</h3>
 	 				
-	 				<% District.all.each do |d| %>
+	 				<% #District.all.each do |d| %>
 						<div class="district_class">
-						  <%= check_box_tag :highschool_district_id_in, d.id, false,:name => 'search[highschool_district_id_in][]' %>
-						  <%= f.label d.name %>		<div class="clear"></div>		 	
-				    
-				    	  	<% f.collection_checks :highschool_id_in, d.highschools,
-				    :id, :name, :class => 'highschool_class' do |check| %>  
-				     
-				  
-							  	<%= check.box %> 
-							  	<%= check.label %><div class="clear"></div>
-							 	  	  	  	 	
-							<% end #end highschool id collection checks%>
+								<%= f.input :highschool do %>
+			    <%= f.collection_checks :highschool_id_in, Highschool.all, :id, :name, :class => 'highschool_class' do |check| %>
+			    	<%= check.box %>
+			    	<%= check.label %>
+			    <% end %>
+			<% end %>
 						</div><!--end district_class -->
-					<% end #end district loop %>				
+					<% #end #end district loop %>				
 			</div><!--end district_filter -->
 		<% end #end superadmin %>
 	
@@ -97,23 +96,25 @@
 	
 	<div id="exams" class="span9">
 	<div class="row">
-	 
+	
 	<% @subjects.each do |subject| %>
-	<div class="each_subject span3">
-	  <h4 class="subject"><%= link_to subject.name, subject %></h4>
-	<% f.collection_checks :scores_exam_id_in, subject.exams.all,
-	    :id, :displayname, :class => 'exams_class' do |check| %>   
-	  	
-	    <% #check.label = check.label.gsub(/>.*<\//, '>'+exam_name_display+'</').html_safe %> 
-	 	  	<%= check.box %> <%= check.label %><div class="clear"></div>
+  	<div class="span2">
+  	<%= f.input :scores_exam_id_in, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
+  	</div>
+	<% end %>
 
-	 	  	  	  	 	
-		<% end #end exams %>
-	</div><!-- end subject-->
-	  <% end #end subject %>
+
 
 
 	 <p class="button span2"><%= f.submit "Search" %></p>
+
+	 <p>Remember what happened last time?</p>
+
+	 <% if params[:search] %>
+	 <% params[:search].each do |option| %>
+	 	<%= option.to_s%>
+	 <% end %>
+	 <% end %>
 
 	</div><!-- end span3-->
 	</div><!--end row-->
