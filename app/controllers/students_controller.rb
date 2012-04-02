@@ -205,7 +205,7 @@ class StudentsController < ApplicationController
       @student.highschool = @newschool
      end
       if @student.save
-        format.html { redirect_to @student, notice: 'Student was successfully created.' }
+        format.html { redirect_to @student, notice: 'You have successfully registered.' }
         format.json { render json: @student, status: :created, location: @student }
       else
         format.html { render action: "new" }
