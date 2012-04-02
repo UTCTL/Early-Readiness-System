@@ -1,23 +1,25 @@
 <div id="dashboard_header">
-
+	<div class="page-header">
 	<h2>Welcome, <% if @user  %> 
 		<%= @user.name %>
 	<% end %>
 	</h2>
+</div>
+
 
 	<div class="info_block">
-	Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.
+	<p>Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.</p>
 	</div>
 
 	<div class="user_info">
 		<% if @user %>
-			<h4>Your Information</h4>
+			<h3>Your Information</h3>
 			<p><%= @user.name %></p>
 			
 			<% if @user.role %>
 				<p>Role: <%= @user.role %></p>
 			<% end %>
-			
+			<hr />
 			<% if @user.highschool %>
 				<p>From <%= link_to @user.highschool.name, @user.highschool %>
 			<% elsif @user.university %>
@@ -129,11 +131,13 @@
 
 
 
-	 <p class="button span2"><%= f.submit "Search" %></p>
-
+	 
 	
 	</div><!-- end span3-->
 	</div><!--end row-->
+	<div class="well">
+<%= f.submit "Search", :class=>'btn btn-primary btn-large' %>
+</div>
 
 	<% end #end form %>
 </div>

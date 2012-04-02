@@ -1,51 +1,52 @@
 <%= render :partial => "dashboard" %>
-
+<div class="page-header">
 <h1>All students</h1>
+</div>
 
-
-<%= link_to 'New Student', new_student_path %>
-
+<div class="well">
+<%= link_to 'New Student', new_student_path, :class=>'btn btn-primary' %>
+</div>
 <% if @students.empty? %>
 
-<div class="student row">
+<div class="row">
  <div class="span12"> <em>Sorry, no students found.</em></div>
 </div>
 <% else %>
 <% @students.each do |student| %>
-  <div class="student row">
+  <div class="row well">
     
-    <nav class="student_controls span12">
-    <%= link_to 'Show', student %> 
+    <ul class="nav nav-pills">
+    <li><%= link_to 'Show', student %></li>
 
-<% if can? :edit, Student %> <%= link_to 'Edit', edit_student_path(student) %><% end %>
-<% if can? :destroy, Student %>  <%= link_to 'Destroy', student, confirm: 'Are you sure?', method: :delete %> <% end %>
-  </nav>
+<li><% if can? :edit, Student %> <%= link_to 'Edit', edit_student_path(student) %><% end %></li>
+<li><% if can? :destroy, Student %>  <%= link_to 'Delete', student, confirm: 'Are you sure?', method: :delete %> <% end %></li>
+  </ul>
   <div class="student_information span6 row">
-  <h2 class="student_name"><%= link_to student.name, student %></h2>
-  <% if student.eid %><h3 class="student_eid"><%= student.eid %></h3><% end  %>
+  <h2><%= link_to student.name, student %></h2>
+  <% if student.eid %><h3><%= student.eid %></h3><% end  %>
   <div class="clear"></div>
-  <div class="student_address">
+  <div>
     <p><%= student.address1 %><br/>
         <% if student.address2? %> 
         <%= student.address2 %><br/>
         <% end %>
         <%= student.city %>, <%= student.state %> <%= student.zip %>
     </p>
-    <span class-"student_residency"><strong>Residency:</strong> <%= student.residency %></span>
+    <span><strong>Residency:</strong> <%= student.residency %></span>
 </div>
-<div class="student_demographics span3">
-    <div class="student_birthdate"><p><%= student.birthday.to_formatted_s(:long_ordinal) %></p></div>
+<div class="span3">
+    <div><p><%= student.birthday.to_formatted_s(:long_ordinal) %></p></div>
     <% if student.gender %>
-    <div class="student_gender"><p><%= link_to student.gender.gender, student.gender %></p></div>
+    <div><p><%= link_to student.gender.gender, student.gender %></p></div>
     <% end %>
-       <div class="student_highschool"><p>
+       <div><p>
     <% if student.highschool %>
       <%= link_to student.highschool.name, student.highschool %>
     <% else %>
         <%= student.highschool_name %>
     <% end %></p></div>
 </div><div class="clear"></div>
-<div class="student_universities span3">
+<div class="span3">
   <% if student.universities %>
     <% student.universities.each do |university| %>
       <div class="<%= university.shortname %>"><%= link_to 'Interested in ' + university.shortname.upcase.gsub('_','&'), university %></div>
@@ -56,6 +57,7 @@
     <div class="clear"></div>
   </div>
   <div class="span6">
+    <hr />
     <div class="row">
 <div class="student_exams">
   <h3>Exam scores</h3>
@@ -97,8 +99,9 @@
 
 </div>
 </div>
-
+<hr />
 <div class="student_responses row">
+  <h3>Questions</h3>
 <% student.question_responses.each do |response| %>
 <div class="question_response">
 <strong><%= response.question.text %></strong><br/>
