@@ -42,6 +42,14 @@
     </p>
     <span><strong>Residency:</strong> <%= student.residency %></span>
 </address>
+<p>
+<% if student.universities %>
+    <% student.universities.each do |university| %>
+      <span class="btn btn-mini <%= university.shortname %>"><%= link_to 'Interested in ' + university.shortname.upcase.gsub('_','&'), university %></span>
+    <% end %>
+   <% end %></p>
+    <span class="email"><a href="mailto:<%= student.email %>"><%= student.email %></a></span>
+
           </div>
       </td>
     </tr>

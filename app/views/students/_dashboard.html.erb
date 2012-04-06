@@ -1,17 +1,20 @@
-<div id="dashboard_header">
-	<div class="page-header">
+<div id="dashboard_header row">
+	<div class="page-header span12">
 	<h2>Welcome, <% if @user  %> 
 		<%= @user.name %>
 	<% end %>
 	</h2>
 </div>
-
-
-	<div class="info_block">
+</div>
+<div class="row">
+	<div class="info_block span12">
 	<p>Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.</p>
 	</div>
+</div>
 
-	<div class="user_info">
+
+<div class="row">
+	<div class="user_info span6">
 		<% if @user %>
 			<h3>Your Information</h3>
 			<p><%= @user.name %></p>
@@ -19,7 +22,7 @@
 			<% if @user.role %>
 				<p>Role: <%= @user.role %></p>
 			<% end %>
-			<hr />
+			
 			<% if @user.highschool %>
 				<p>From <%= link_to @user.highschool.name, @user.highschool %>
 			<% elsif @user.university %>
@@ -32,115 +35,113 @@
 
 	</div><!-- end userinfo-->
 
-	<div class="row">
-	<div class="span3">
-	<div class="quick_stats">
+
+	<div class="quick_stats span6">
 		<h4>Quick Stats</h4>
 		<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
 		<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
 		<div class="scores"><strong>With Scores</strong> <%= @has_scores.count.count.to_s %></div>
 		<div class="accepted"><strong>Accepted</strong> <%= @accepted.count.to_s %></div>
 	</div><!--end quickstats-->
+</div>
 
-	<div class="filter_options">
-		
+<hr />
+<div class="well">
+<div class="row">
+
+	<div class="span6">
+	
 		<h4>Filter Students</h4>
 		
 			<%= form_for @search do |f| %>
 	 
 		    <%= f.text_field :name_contains, :placeholder => "Search..." %>
 		 
-		<div class="gender_filter">
 	 		<h3>Gender</h3>
-	 		<div class="btn-group">
-	    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
-	    		<div class="filter_checkbox">
-	    			<%= check.box %> 
-	    			<%= check.label %> 
-	    		</div>
-	    		<% end #end collection_checks of genders%>
+	 		<div class="btn-toolbar">
+		 		<div class="btn-group">
+		    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
+		    			<%= check.box %> 
+		    			<%= check.label %> 
+		    		<% end #end collection_checks of genders%>
+		  		</div>
 	  		</div>
-	    </div><!-- end gender_filter -->
-
-	    	
-		<% if @user.district %>
-			<div class="higschool_filter">
-			 	<h3>Highschools in Your District </h3>
-	 		<%= f.input :highschool do %>
-			    <%= f.collection_checks :highschool_id_in, @user.district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
-
-			<div class="filter_checkbox">
-			    	<%= check.box %>
-			    	<%= check.label %>
-			    </div>
-			    <% end %>
-			<% end %>
-			</div>
-		<% end #end user.district %>
+	  	
 
 
+	 		
 		<% if @user.role == "SuperAdmin" %>
 	 		
-	 		<div class="district_filter">
-	 			
-						<div class="districts">
-							<h4>By District</h4>
-							<%= f.collection_checks :highschool_district_id_in, District.all, :id, :name, :class => 'district_class' do |check| %>
-								
-			<div class="filter_checkbox">
+		<h3>University</h3>
+	 		<div class="btn-toolbar">
+		 		<div class="btn-group">
+		    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
+		    			<%= check.box %> 
+		    			<%= check.label %> 
+		    		<% end #end collection_checks of genders%>
+		  		</div>
+	  		</div>
+	  	</div>
+
+
+	 	<div>					
+
+	 		<h3>District and School</h3>
+					<div class="btn-toolbar">
+		    	
+		 			<% District.all.each do |district| %>
+				 		<div class="btn-group" data-toggle="buttons-checkbox">
+		 					<%= check_box_tag('search[highschool_district_id_in][]', district.id, params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
+		 					<%= label('search_highschool_district_id_in_', district.id, district.name) %>
+		 					<a class="btn" data-toggle="collapse" data-target="#schools_<%= district.id %>"><span class="caret"></span></a>
+		 					</div>
+		 			<% end %>
+		 	</div>
+		 		
+
+		 		<% District.all.each do |district| %>
+
+		 					<div id="schools_<%= district.id %>" class="collapse">
+		 						<div class="btn-group" data-toggle="buttons-checkbox">
+							<%= f.collection_checks :highschool_id_in, district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
 								<%= check.box %>
 								<%= check.label %>
-							</div>
-							<% end %>
-						</div>	 	
-
-						<div class="highschools">
-						<h4>By Highschool</h4>
-							<%= f.collection_checks :highschool_id_in, Highschool.all, :id, :name, :class => 'highschool_class' do |check| %>
-
-			<div class="filter_checkbox">
-								<%= check.box %>
-								<%= check.label %>
-							</div>
+							
 							<% end %>
 						</div>
-
+						</div>
+						<% end %>		
+					</div>		
 						
-			</div><!--end district_filter -->
 		<% end #end superadmin %>
 	
-	</div><!--end filter options -->
-</div><!--end span3-->
-	
-	<div id="exams" class="span9">
-	<div class="row">
-	
+</div>
+<hr/>
+	<div>
 	<% @subjects.each do |subject| %>
-  	<div class="span2">
+  	
   	<h4><%= subject.name %></h4>
-		<%= f.collection_checks :scores_exam_id_in, subject.exams.all, :id, :displayname, :class => 'highschool_class' do |check| %>
-			<div class="filter_checkbox">
-				<%= check.box %>
+  		<div class="btn-toolbar">
+		 		<div class="btn-group">
+		    	
+		<%= f.collection_checks :scores_exam_id_in, subject.exams.all, :id, :displayname, :class => 'exams_class' do |check| %>
+			<%= check.box %>
 				<%= check.label %>
-			</div>
 		<% end %>
+	</div>
+</div>
 
-
-  	</div>
+  	
 	<% end %>
 
 
 
 
-	 
-	
-	</div><!-- end span3-->
-	</div><!--end row-->
-	<div class="well">
+	 	<div class="well">
 <%= f.submit "Search", :class=>'btn btn-primary btn-large' %>
 </div>
-
 	<% end #end form %>
+</div>
 </div>
 
 </div><!-- end dashboard-->
