@@ -52,13 +52,14 @@
 		 
 		<div class="gender_filter">
 	 		<h3>Gender</h3>
+	 		<div class="btn-group">
 	    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
 	    		<div class="filter_checkbox">
 	    			<%= check.box %> 
 	    			<%= check.label %> 
 	    		</div>
 	    		<% end #end collection_checks of genders%>
-	  
+	  		</div>
 	    </div><!-- end gender_filter -->
 
 	    	
