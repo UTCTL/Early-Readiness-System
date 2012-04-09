@@ -47,7 +47,7 @@
 
 <hr />
 <div class="well">
-<div class="row">
+<div class="row-fluid">
 
 	<div class="span6">
 	
@@ -84,24 +84,26 @@
 	  	</div>
 
 
-	 	<div>					
+	 	<div class="span6">					
 
 	 		<h3>District and School</h3>
 					<div class="btn-toolbar">
 		    	
 		 			<% District.all.each do |district| %>
 				 		<div class="btn-group" data-toggle="buttons-checkbox">
-		 					<%= check_box_tag('search[highschool_district_id_in][]', district.id, params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
+		 					<%= check_box_tag('search[highschool_district_id_in][]', district.id, params.include?(:search) && params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
 		 					<%= label('search_highschool_district_id_in_', district.id, district.name) %>
 		 					<a class="btn" data-toggle="collapse" data-target="#schools_<%= district.id %>"><span class="caret"></span></a>
 		 					</div>
 		 			<% end %>
+		 	
 		 	</div>
 		 		
 
 		 		<% District.all.each do |district| %>
 
 		 					<div id="schools_<%= district.id %>" class="collapse">
+		 					<h6><%= district.name %></h6>
 		 						<div class="btn-group" data-toggle="buttons-checkbox">
 							<%= f.collection_checks :highschool_id_in, district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
 								<%= check.box %>
@@ -109,6 +111,7 @@
 							
 							<% end %>
 						</div>
+						<br/>
 						</div>
 						<% end %>		
 					</div>		

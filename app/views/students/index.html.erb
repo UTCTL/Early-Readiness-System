@@ -31,14 +31,18 @@
             <a class="btn btn-mini" data-toggle="collapse" data-target="#student_<%= student.id %>"><%= student.name %> <span class="caret"></span></a>
             <nav class="pull-right">
             <% if can? :edit, Student %> <%= link_to 'Edit', edit_student_path(student), :class => 'btn btn-mini' %><% end %>
-            <% if can? :destroy, Student %>  <%= link_to 'Delete', student, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini' %> <% end %>
+            <% if can? :destroy, Student %>  <%= link_to 'Delete', student, confirm: 'Are you sure?', method: :delete, :class => 'btn btn-mini btn-danger' %> <% end %>
           </nav>
 
           <div id="student_<%= student.id %>" class="collapse">
 
         <h2><%= link_to student.name, student %></h2>
               <% if student.eid %><h3><%= student.eid %></h3><% end  %>
-  <div class="clear"></div>
+ 
+  <% if student.gender %>
+  <span class="label label-gender"><%= student.gender.gender %></span>
+  <% end %>
+
   <address>
     <p><%= student.address1 %><br/>
         <% if student.address2? %> 
@@ -49,12 +53,61 @@
     <span><strong>Residency:</strong> <%= student.residency %></span>
 </address>
 <p>
+
+<% if student.highschool %>
+<p><span class="label"><%= student.highschool.name %></span></p>
+<% end %>
+
+
+<p>
 <% if student.universities %>
     <% student.universities.each do |university| %>
-      <span class="btn btn-mini <%= university.shortname %>"><%= link_to 'Interested in ' + university.shortname.upcase.gsub('_','&'), university %></span>
+      <span class="label label-<%= university.shortname %>">Interested in <%= university.shortname.upcase.gsub('_','&') %></span> 
     <% end %>
    <% end %></p>
     <span class="email"><a href="mailto:<%= student.email %>"><%= student.email %></a></span>
+
+<hr />
+
+  <h3>Exam scores</h3>
+
+<div class="student_exams row-fluid">
+<% @subjects.each do |subject| %>
+<div class="subject span4">
+  <h6 class="subject"><%= subject.name %></h6>
+  <% student.exams.each do |exam| %>
+    <% if exam.subject == subject %>
+      <% exam_name_display = '' %>
+      
+  <%= exam.displayname %> 
+  <% if student.scores.where(:exam_id => exam.id).first.student_score  %>
+  <% exam_score = student.scores.where(:exam_id => exam.id).first.student_score %>
+
+      <% if exam_score >= exam.required_score %>
+        <span class="badge badge-success"><%= exam_score %></span>
+      <% else %>
+        <span class="badge badge-warning"><%= exam_score %></span>
+      <% end %> 
+  <br/>  
+  <% else %>
+  <span class="label label-pending">Score Pending</span>
+  <br/>
+  <% end %>
+  <% end %>
+<% end %>
+  </div>
+<% end %>
+
+</div>
+
+<hr />
+<div class="student_responses">
+  <h3>Survey Responses</h3>
+<% student.question_responses.each do |response| %>
+<h6><%= response.question.text %></h6>
+<p><%= response.text %></p>
+<% end %>
+</div>
 
           </div>
       </td>
