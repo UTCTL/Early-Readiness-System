@@ -46,6 +46,7 @@ class StudentsController < ApplicationController
 
       @search = @accessible_students.search(params[:search])       
       @results = @search.group(:eid)
+      @results = @results.all(:order => 'highschool_id, name')
 
       @registered = @accessible_students
 
@@ -124,7 +125,7 @@ class StudentsController < ApplicationController
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
          if AdminUser.find_by_eid(session[:eid]) 
-            eid = 'sample567'
+            eid = 'sample102'
           else
             eid = session[:eid]
         end

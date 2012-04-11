@@ -1,20 +1,11 @@
-<div id="dashboard_header row">
-	<div class="page-header span12">
-	<h2>Welcome, <% if @user  %> 
-		<%= @user.name %>
-	<% end %>
-	</h2>
-</div>
-</div>
-<div class="row">
-	<div class="info_block span12">
-	<p>Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.</p>
-	</div>
-</div>
+
+<div class="row-fluid">
+	<div class="span3">
 
 
-<div class="row">
-	<div class="user_info span6">
+
+
+	<div class="user_info">
 		<% if @user %>
 			<h3>Your Information</h3>
 			<p><%= @user.name %></p>
@@ -24,11 +15,11 @@
 			<% end %>
 			
 			<% if @user.highschool %>
-				<p>From <%= link_to @user.highschool.name, @user.highschool %>
+				<p>From <%= link_to @user.highschool.name, @user.highschool %></p>
 			<% elsif @user.university %>
-				<p>From <%= link_to @user.university.name, @user.university %>
+				<p>From <%= link_to @user.university.name, @user.university %></p>
 			<% elsif @user.district %>
-				<p>From <%= link_to @user.district.name, @user.district %>
+				<p>From <%= link_to @user.district.name, @user.district %></p>
 			<% end %>
 
 		<% end %>
@@ -36,28 +27,31 @@
 	</div><!-- end userinfo-->
 
 
-	<div class="quick_stats span6">
+	<div class="quick_stats">
 		<h4>Quick Stats</h4>
 		<div class="registered"><strong>Registered</strong> <%= @registered.count.to_s %></div>
 		<div class="incomplete"><strong>Need Scores</strong> <%= @needs_scores.count.count.to_s %></div>	
 		<div class="scores"><strong>With Scores</strong> <%= @has_scores.count.count.to_s %></div>
 		<div class="accepted"><strong>Accepted</strong> <%= @accepted.count.to_s %></div>
 	</div><!--end quickstats-->
-</div>
+
 
 <hr />
-<div class="well">
-<div class="row-fluid">
-
-	<div class="span6">
+<h3>Filter Students</h3>
+		
+		<div class="well">
 	
-		<h4>Filter Students</h4>
+
 		
 			<%= form_for @search do |f| %>
 	 
-		    <%= f.text_field :name_contains, :placeholder => "Search..." %>
-		 
-	 		<h3>Gender</h3>
+	 		<div>
+	 		<h5>Search</h5>
+		    <%= f.text_field :name_contains, :placeholder => "Search...", :class => 'input-medium search-query' %>
+		 	</div>
+
+
+	 		<h5>Gender</h5>
 	 		<div class="btn-toolbar">
 		 		<div class="btn-group">
 		    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
@@ -69,10 +63,42 @@
 	  	
 
 
+
+		
+		<% if @user.highschool %>
+	 		
+		<h5>University</h5>
+	 		<div class="btn-toolbar">
+		 		<div class="btn-group">
+		    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
+		    			<%= check.box %> 
+		    			<%= check.label %> 
+		    		<% end #end collection_checks of universities%>
+		  		</div>
+	  		</div>
+	  	</div>
+
+						
+		<% end #end higschool admin %>
+
+		<% if @user.district %>
+
+		 					<h6>Schools in <%= @user.district.name %></h6>
+		 						<div class="btn-group" data-toggle="buttons-checkbox">
+							<%= f.collection_checks :highschool_id_in, @user.district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
+								<%= check.box %>
+								<%= check.label %>
+							
+							<% end %>
+						</div>
+		<% end %>
+	
+
+
 	 		
 		<% if @user.role == "SuperAdmin" %>
 	 		
-		<h3>University</h3>
+		<h5>University</h5>
 	 		<div class="btn-toolbar">
 		 		<div class="btn-group">
 		    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
@@ -80,25 +106,21 @@
 		    			<%= check.label %> 
 		    		<% end #end collection_checks of genders%>
 		  		</div>
-	  		</div>
-	  	</div>
+	</div>
+			
 
-
-	 	<div class="span6">					
-
-	 		<h3>District and School</h3>
+	 		<h5>District and School</h5>
 					<div class="btn-toolbar">
 		    	
 		 			<% District.all.each do |district| %>
 				 		<div class="btn-group" data-toggle="buttons-checkbox">
 		 					<%= check_box_tag('search[highschool_district_id_in][]', district.id, params.include?(:search) && params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
 		 					<%= label('search_highschool_district_id_in_', district.id, district.name) %>
-		 					<a class="btn" data-toggle="collapse" data-target="#schools_<%= district.id %>"><span class="caret"></span></a>
+		 					<a class="btn btn-mini" data-toggle="collapse" data-target="#schools_<%= district.id %>"><span class="caret"></span></a>
 		 					</div>
 		 			<% end %>
 		 	
-		 	</div>
-		 		
+	
 
 		 		<% District.all.each do |district| %>
 
@@ -117,34 +139,42 @@
 					</div>		
 						
 		<% end #end superadmin %>
-	
-</div>
+
 <hr/>
-	<div>
+		<% @subjects.each do |subject| %>
+			<div class="btn-group" data-toggle="buttons-checkbox">
+			 	<a class="btn btn-mini" data-toggle="collapse" data-target="#examsfor_<%= subject.name %>"><%= subject.name %> <span class="caret"></span></a>
+			</div>
+		<% end %>
+
 	<% @subjects.each do |subject| %>
-  	
-  	<h4><%= subject.name %></h4>
+	<div class="collapse" id="examsfor_<%= subject.name %>">
   		<div class="btn-toolbar">
 		 		<div class="btn-group">
-		    	
+	
 		<%= f.collection_checks :scores_exam_id_in, subject.exams.all, :id, :displayname, :class => 'exams_class' do |check| %>
 			<%= check.box %>
 				<%= check.label %>
 		<% end %>
+		</div>
 	</div>
 </div>
-
-  	
 	<% end %>
 
-
-
-
-	 	<div class="well">
+	
 <%= f.submit "Search", :class=>'btn btn-primary btn-large' %>
-</div>
 	<% end #end form %>
+
 </div>
 </div>
 
-</div><!-- end dashboard-->
+	<div class="span9">
+	<h2>Welcome, <% if @user  %> 
+		<%= @user.name %>
+	<% end %>
+	</h2>
+
+
+	<div class="info_block">
+	<p>Welcome to the Administration Dashboard.  Here you can view the status of student applications to the Early Readiness High School Graduation Option from your district.</p>
+	</div>
