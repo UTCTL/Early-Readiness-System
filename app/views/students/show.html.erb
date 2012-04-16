@@ -1,3 +1,8 @@
+<div class="row-fluid">
+<div class="span2">
+&nbsp;
+</div>
+<div class="span8">
 <% if AdminUser.find_by_eid(session[:eid]) %>
 <%= link_to 'All Students', students_path %>
 <% end %>
@@ -36,6 +41,7 @@
 		<dd>
 			<%= @student.birthday.to_formatted_s(:long_ordinal) %>
 		</dd>
+		
 		<% if @student.gender %>
 		<dt>
 			Gender
@@ -44,6 +50,7 @@
 			<%= link_to @student.gender.gender, @student.gender %>
 		</dd>
 		<% end %>
+		
 		<dt>
 			High School
 		</dt>
@@ -69,17 +76,29 @@
 	<div class="exams">
 		<h3>Exam scores</h3>
 		<table class="table table-striped table-bordered">
-			<tr>
-				<th>Subject</th>
-				<th>Exam</th>
-				<th>Required Score</th>
-			</tr>
 			<% @student.exams.each do |exam| %>
 			<tr>
-				<% if exam.subtopic %> <td><%= exam.subject.name + ' ' + exam.subtopic.name %></td>
-				<% else %> <td><%= exam.subject.name  %></td>
-				<% end %> <td><%= exam.name %></td>
-				<td><%= exam.required_score %></td>
+				<td><%= exam.displayname %></td>
+				<td>
+						<% if @student.scores.where(:exam_id => exam.id).first.student_score  %>
+                <% exam_score = @student.scores.where(:exam_id => exam.id).first.student_score %>
+                
+                <% if exam_score >= exam.required_score %>
+                
+                  <a href="#" rel="tooltip" data-original-title="<%= @student.name %> has met the required score of <%= exam.required_score.to_s %> for the <%= exam.displayname %> exam."><span class="badge badge-success"><%= exam_score %></span></a>
+                
+                <% else %>
+                
+                  <a href="#" rel="tooltip" data-original-title="<%= @student.name %> has not met the required score of <%= exam.required_score.to_s %> for the <%= exam.displayname %> exam."><span class="badge badge-error"><%= exam_score %></span></a>
+                
+                <% end %> 
+              
+              <% else %>
+              
+                <a href="#" rel="tooltip" data-original-title="Scores for <%= @student.name %> on the <%= exam.displayname %> exam are still pending. <% if @student.gender %><% if @student.gender.gender == 'Female' %>She<% elsif @student.gender.gender == 'Male' %>He<% end%><% else %>This student<% end %> must recieve a score of <%= exam.required_score.to_s %> on this exam to meet the requirement."><span class="badge badge-warning">Pending</span></a>
+              
+              <% end %>
+				</td>
 			</tr>
 			<% end %>
 		</table>
@@ -98,3 +117,4 @@
 	</div>
 	<div class="clear"></div>
 </div>
+</div></div>

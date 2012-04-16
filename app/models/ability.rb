@@ -10,7 +10,7 @@ class Ability
       if admin.role == 'SuperAdmin'
       	can :manage, :all
       elsif #not a super admin
-      	can :manage, Student 
+      	can :manage, Student
    	  end      
     elsif Student.find_by_eid(user) #logged in as student
       can :read, Student, :eid => user

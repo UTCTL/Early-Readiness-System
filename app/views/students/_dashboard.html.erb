@@ -37,135 +37,163 @@
 
 
 <hr />
+<div id="sidebar">
 <h3>Filter Students</h3>
-		
+	<br />	
 		<div class="well">
 	
 
 		
 			<%= form_for @search do |f| %>
 	 
-	 		<div>
 	 		<h5>Search</h5>
+		    <br/>
 		    <%= f.text_field :name_contains, :placeholder => "Search...", :class => 'input-medium search-query' %>
-		 	</div>
+		
+<hr />
 
-
-	 		<h5>Gender</h5>
-	 		<div class="btn-toolbar">
-		 		<div class="btn-group">
+	 		<h5>Gender <a data-toggle="collapse" data-target="#gender_choices"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+	 		<div id="gender_choices" class="collapse">
+	 		<br/>
 		    		<% f.collection_checks :gender_id_in, Gender.all, :id, :gender, :class => 'gender_class' do |check| %>   	
 		    			<%= check.box %> 
 		    			<%= check.label %> 
 		    		<% end #end collection_checks of genders%>
-		  		</div>
-	  		</div>
+		  	</div>
 	  	
-
+<hr />
 
 
 		
-		<% if @user.highschool %>
+		<% if @user.highschool || @user.district %>
 	 		
-		<h5>University</h5>
-	 		<div class="btn-toolbar">
-		 		<div class="btn-group">
-		    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
-		    			<%= check.box %> 
-		    			<%= check.label %> 
-		    		<% end #end collection_checks of universities%>
-		  		</div>
-	  		</div>
-	  	</div>
-
-						
-		<% end #end higschool admin %>
+		<h5>University <a data-toggle="collapse" data-target="#university_choices"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+		<div class="collapse" id="university_choices">
+			<br />
+	 			<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
+		    		<%= check.box %> 
+		    		<%= check.label %> 
+		
+				<% end #end collection_checks of universities%>
+		
+		<hr/>	
+		</div>
+				
+		<% end #end higschool or district admin %>
 
 		<% if @user.district %>
-
-		 					<h6>Schools in <%= @user.district.name %></h6>
-		 						<div class="btn-group" data-toggle="buttons-checkbox">
-							<%= f.collection_checks :highschool_id_in, @user.district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
-								<%= check.box %>
-								<%= check.label %>
+		 	<h5>Schools in <%= @user.district.name %> <a data-toggle="collapse" data-target="#highschools_indistrict"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+		 		<div class="collapse" id="highschools_indistrict">
+		 		<br />
+		 			<%= f.collection_checks :highschool_id_in, @user.district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
+						<%= check.box %>
+						<%= check.label %>
 							
-							<% end %>
-						</div>
+					<% end %>
+			</div>
 		<% end %>
-	
 
+		<% if @user.university %>
+
+		<h5>Districts and Schools<a data-toggle="collapse" data-target="#district_container"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+	 	
+	 	<div id="district_container" class="collapse">
+		<br/>
+		 <% @districts.each do |district| %>
+		 <%= check_box_tag('search[highschool_district_id_in][]', district.id, params.include?(:search) && params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
+		 		<div class="label_wrap"><%= label('search_highschool_district_id_in_', district.id, district.name) %><a data-toggle="collapse" data-target="#highschools_<%= district.id %>"><span class="btn btn-mini"><b class="caret"></b></span></a></div>
+
+		 	<div id="highschools_<%= district.id %>" class="collapse">
+		 		<br/>
+		 			<%= f.collection_checks :highschool_id_in, district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
+						<%= check.box %>
+						<%= check.label %>
+					<% end %>
+					<% if district != @districts.last %>	
+					<hr /> 
+					<% end %>	
+		
+			</div>
+			<br/>
+						<% end %>
+		</div>		
+		<hr />
+	
+		<% end %>
 
 	 		
 		<% if @user.role == "SuperAdmin" %>
 	 		
-		<h5>University</h5>
-	 		<div class="btn-toolbar">
-		 		<div class="btn-group">
-		    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
+		<h5>University <a data-toggle="collapse" data-target="#university_choices"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+		<div class="collapse" id="university_choices">
+			<br />
+	 	    		<% f.collection_checks :interested_universities_university_id_in, University.all, :id, :name, :class => 'university_class' do |check| %>   	
 		    			<%= check.box %> 
 		    			<%= check.label %> 
 		    		<% end #end collection_checks of genders%>
-		  		</div>
-	</div>
 			
+	</div>
 
-	 		<h5>District and School</h5>
-					<div class="btn-toolbar">
-		    	
-		 			<% District.all.each do |district| %>
-				 		<div class="btn-group" data-toggle="buttons-checkbox">
-		 					<%= check_box_tag('search[highschool_district_id_in][]', district.id, params.include?(:search) && params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
-		 					<%= label('search_highschool_district_id_in_', district.id, district.name) %>
-		 					<a class="btn btn-mini" data-toggle="collapse" data-target="#schools_<%= district.id %>"><span class="caret"></span></a>
-		 					</div>
-		 			<% end %>
-		 	
-	
+	<hr />
 
-		 		<% District.all.each do |district| %>
+	 	<h5>Districts and Schools  <a data-toggle="collapse" data-target="#district_container"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
+	 	
+	 	<div id="district_container" class="collapse">
+		<br/>
+		 <% @districts.each do |district| %>
+		 <%= check_box_tag('search[highschool_district_id_in][]', district.id, params.include?(:search) && params[:search].include?(:highschool_district_id_in) && params[:search][:highschool_district_id_in].include?(district.id), { :class => 'btn', :id => 'search_highschool_district_id_in_' + district.id.to_s })  %>
+		 		<div class="label_wrap"><%= label('search_highschool_district_id_in_', district.id, district.name) %><a data-toggle="collapse" data-target="#highschools_<%= district.id %>"><span class="btn btn-mini"><b class="caret"></b></span></a></div>
 
-		 					<div id="schools_<%= district.id %>" class="collapse">
-		 					<h6><%= district.name %></h6>
-		 						<div class="btn-group" data-toggle="buttons-checkbox">
-							<%= f.collection_checks :highschool_id_in, district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
-								<%= check.box %>
-								<%= check.label %>
-							
-							<% end %>
-						</div>
-						<br/>
-						</div>
-						<% end %>		
-					</div>		
-						
+		 	<div id="highschools_<%= district.id %>" class="collapse">
+		 		<br/>
+		 			<%= f.collection_checks :highschool_id_in, district.highschools.all, :id, :name, :class => 'highschool_class' do |check| %>
+						<%= check.box %>
+						<%= check.label %>
+					<% end %>
+					<% if district != @districts.last %>	
+					<hr /> 
+					<% end %>	
+		
+			</div>
+			<br/>
+						<% end %>
+		
+			
+		</div>		
+		<hr />
 		<% end #end superadmin %>
 
-<hr/>
-		<% @subjects.each do |subject| %>
-			<div class="btn-group" data-toggle="buttons-checkbox">
-			 	<a class="btn btn-mini" data-toggle="collapse" data-target="#examsfor_<%= subject.name %>"><%= subject.name %> <span class="caret"></span></a>
-			</div>
-		<% end %>
+<h5>Exams <a data-toggle="collapse" data-target="#exams_container"><span class="btn btn-mini"><b class="caret"></b></span></a></h5>
 
-	<% @subjects.each do |subject| %>
-	<div class="collapse" id="examsfor_<%= subject.name %>">
-  		<div class="btn-toolbar">
-		 		<div class="btn-group">
-	
+	<div class="collapse" id="exams_container">
+		<% @subjects.each do |subject| %>
+			<br/>
+			<p><%= subject.name %> <a data-toggle="collapse" data-target="#examsforsubject_<%= subject.id %>"><span class="btn btn-mini"><b class="caret"></b></span></a></p>
+		
+		<div id="examsforsubject_<%= subject.id %>" class="collapse">
+			<br/>
 		<%= f.collection_checks :scores_exam_id_in, subject.exams.all, :id, :displayname, :class => 'exams_class' do |check| %>
 			<%= check.box %>
 				<%= check.label %>
 		<% end %>
+		<% if subject != @subjects.last %>
+		<hr/>
+		<% end %>
 		</div>
-	</div>
+
+		<% end %>
+	
 </div>
-	<% end %>
+	
+<hr/>
 
 	
 <%= f.submit "Search", :class=>'btn btn-primary btn-large' %>
+<a class="btn btn-primary btn-large" href="<%= students_path %>" />View All</a>
 	<% end #end form %>
-
 </div>
+</div>
+
 </div>
 
 	<div class="span9">

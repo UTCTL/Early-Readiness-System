@@ -1,6 +1,16 @@
-<h1>Editing student</h1>
+<div class="row-fluid">
+<div class="span2">
+&nbsp;
+</div>
+<div class="span8">
+<div class="page-header">
+		<ul class="pull-right nav nav-pills">
+			<li><%= link_to 'Show', @student %></li>
+			<li><%= link_to 'Back', students_path %></li>
+		</ul>
+		<h1>Edit <%= @student.name %></h1>
+	</div>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @student %> |
-<%= link_to 'Back', students_path %>
+	<%= render 'form' %>
+ </div>
+</div>

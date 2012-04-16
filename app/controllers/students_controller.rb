@@ -60,9 +60,9 @@ class StudentsController < ApplicationController
     @has_scores = @accessible_students.has_scores
     @accepted = @accessible_students.accepted
     @universities = University.all
-    @exams = Exam.all(:order => :subject_id)
     @subjects = Subject.all
-    
+    @districts = District.all
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @students }
@@ -108,6 +108,7 @@ class StudentsController < ApplicationController
     @universities = University.all
     @genders = Gender.all
 
+
     @questions.each do |q|
         @student.question_responses.build(:question_id => q.id)  
     end
@@ -125,7 +126,7 @@ class StudentsController < ApplicationController
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
          if AdminUser.find_by_eid(session[:eid]) 
-            eid = 'sample102'
+            eid = 'sae102'
           else
             eid = session[:eid]
         end
@@ -204,6 +205,7 @@ class StudentsController < ApplicationController
     else 
       @newschool = @student.build_highschool(:name => @highschool_name)
       @student.highschool = @newschool
+      @newschool.district = District.find(5)
      end
       if @student.save
         format.html { redirect_to @student, notice: 'You have successfully registered.' }
