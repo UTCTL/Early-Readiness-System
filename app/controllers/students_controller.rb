@@ -7,18 +7,16 @@ class StudentsController < ApplicationController
 
   def index
 
-  if Student.find_by_eid(session[:eid]) 
-      logged_in = Student.find_by_eid(session[:eid])
-      redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
-      return
-    end
+
 
 
 
     if AdminUser.find_by_eid(session[:eid])
       @user =  AdminUser.find_by_eid(session[:eid])
-    else
-      @user =AdminUser.find_by_eid('lnd322')
+    elsif Student.find_by_eid(session[:eid]) 
+      logged_in = Student.find_by_eid(session[:eid])
+      redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
+      return
     end
     
 
@@ -205,7 +203,7 @@ class StudentsController < ApplicationController
     else 
       @newschool = @student.build_highschool(:name => @highschool_name)
       @student.highschool = @newschool
-      @newschool.district = District.find(5)
+      @newschool.district = District.find(1)
      end
       if @student.save
         format.html { redirect_to @student, notice: 'You have successfully registered.' }
