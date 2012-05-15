@@ -51,7 +51,7 @@
 
   <% i+=1 %>
 <% end %>
-<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Would you be interested in receiving application information about Spring admissions from', :label_method => 'Would you be interested in receiving application information about Spring admissions from' + :name + '?' %>
+<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
 <div class="well">
 <%=f.button :submit, "Register", :class=>'btn btn-primary btn-large'%>
 </div>
