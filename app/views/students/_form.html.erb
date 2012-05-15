@@ -38,6 +38,9 @@
   <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
 
 <% end %>
+
+<p class="note">Contact the program administrator for questions about additional language assessments</p>
+
 <hr />
 <h2>Questions</h2>
 <% i = 0 %>
@@ -48,7 +51,7 @@
 
   <% i+=1 %>
 <% end %>
-<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
+<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Would you be interested in receiving application information about Spring admissions from', :label_method => 'Would you be interested in receiving application information about Spring admissions from' + :name + '?' %>
 <div class="well">
 <%=f.button :submit, "Register", :class=>'btn btn-primary btn-large'%>
 </div>
