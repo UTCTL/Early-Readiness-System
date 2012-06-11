@@ -91,7 +91,7 @@ class StudentsController < ApplicationController
   # GET /students/new.json
   def new
  
-
+  
     if Student.find_by_eid(session[:eid]) 
       logged_in = Student.find_by_eid(session[:eid])
       redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
@@ -123,7 +123,7 @@ class StudentsController < ApplicationController
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
-         if AdminUser.find_by_eid(session[:eid]) 
+       if AdminUser.find_by_eid(session[:eid]) 
             eid = 'sae102'
           else
             eid = session[:eid]
@@ -143,7 +143,7 @@ class StudentsController < ApplicationController
       state=citystatezip.split(', ')[1].split(' ')[0]
       zip=citystatezip.split(', ')[1].split(' ')[1]
       fullPhone = entry.homePhone[0].split
-      phone=fullPhone[1]+"-"+fullPhone[2]+"-"+fullPhone[3]
+      #phone=fullPhone[1]+"-"+fullPhone[2]+"-"+fullPhone[3]
       birthday=Date.strptime(entry.utexasEduPersonBirthDate[0], '%Y%m%d')
       email=entry.mail[0].upcase
       @student.eid = eid
@@ -174,6 +174,16 @@ class StudentsController < ApplicationController
     @genders = Gender.all
     @universities = University.all
 
+    if(@student.question_responses)
+      @questions.each do |q|
+          @student.question_responses.find_by_question_id(q.id)  
+      end
+    else
+      @questions.each do |q|
+        @student.question_responses.create(:question_id => q.id)  
+    end
+    end
+    
     end
 
   # POST /students
@@ -206,7 +216,7 @@ class StudentsController < ApplicationController
       @newschool.district = District.find(1)
      end
       if @student.save
-        format.html { redirect_to @student, notice: 'You have successfully registered.' }
+        format.html { redirect_to @student, notice: 'Congratulations! You have successfully registered.' }
         format.json { render json: @student, status: :created, location: @student }
       else
         format.html { render action: "new" }
@@ -233,6 +243,7 @@ class StudentsController < ApplicationController
     else 
       @newschool = @student.build_highschool(:name => @highschool_name)
       @student.highschool = @newschool
+      @newschool.district = District.find(1)
      end
   if @student.update_attributes(params[:student])
   

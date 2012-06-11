@@ -1,16 +1,36 @@
+
+
 <div class="row-fluid">
 <div class="span2">
 &nbsp;
 </div>
 <div class="span8">
+	<ul class="pull-right nav nav-pills">
 <% if AdminUser.find_by_eid(session[:eid]) %>
-<%= link_to 'All Students', students_path %>
+<li><%= link_to 'All Students', students_path %></li>
 <% end %>
+<% if can? :update, @student %>
+   <li> <%= link_to 'Edit', edit_student_path(@student) %></li>
+<% end %>
+</ul>
 <div class="student">
-	<h2><%= @student.name %> <a href="mailto:<%= @student.email %>"><i class="icon-envelope"></i></a></h2>
+
+	<% if Student.find_by_eid(session[:eid]) %>
+		<h3>Registration Complete</h3>
+		<p>&nbsp;</p>
+	<% end %>
 	<div class="clear"></div>
-	<div class="span12">
+
+	<h1><%= @student.name %> <a href="mailto:<%= @student.email %>"><i class="icon-envelope"></i></a></h1>
+	<div class="clear"></div>
+	<div class="span8">
 	<dl class="dl-horizontal">
+		<dt>
+			UT EID
+		</dt>
+		<dd>
+			<%= @student.eid %>
+		</dd>
 		<dt>
 			Address
 		</dt>
@@ -47,7 +67,7 @@
 			Gender
 		</dt>
 		<dd>
-			<%= link_to @student.gender.gender, @student.gender %>
+			<%= @student.gender.gender %>
 		</dd>
 		<% end %>
 		
@@ -65,7 +85,7 @@
 		
 			<% @student.universities.each do |university| %>
 			<div class="<%= university.name %>">
-				<%= link_to 'Interested in' + university.name, university %>
+				<%= 'Interested in ' + university.name %>
 			</div>
 			<% end %>
 		
@@ -73,6 +93,7 @@
 		</dd>
 	</dl>
 	</div>
+	<div class="clear"></div>
 	<div class="exams">
 		<h3>Exam scores</h3>
 		<table class="table table-striped table-bordered">

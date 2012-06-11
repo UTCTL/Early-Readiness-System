@@ -21,7 +21,13 @@ class SessionsController < ApplicationController
     ldap.auth @dn, user_pass
     if ldap.bind
       session[:eid] = eid
-      redirect_to '/register', notice: 'Logged in'
+
+      if AdminUser.find_by_eid(session[:eid])
+        @user =  AdminUser.find_by_eid(session[:eid])
+        redirect_to(students_url, :notice => 'Welcome back, ' + @user.name.titlecase + '!')
+      else
+        redirect_to '/register', notice: 'Logged in'
+      end
     else
       flash.now.alert = "Username or password is invalid."
       render :action => 'new'

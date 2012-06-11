@@ -15,11 +15,11 @@
 			<% end %>
 			
 			<% if @user.highschool %>
-				<p>From <%= link_to @user.highschool.name, @user.highschool %></p>
+				<p>From <%= @user.highschool.name %></p>
 			<% elsif @user.university %>
-				<p>From <%= link_to @user.university.name, @user.university %></p>
+				<p>From <%= @user.university.name %></p>
 			<% elsif @user.district %>
-				<p>From <%= link_to @user.district.name, @user.district %></p>
+				<p>From <%= @user.district.name %></p>
 			<% end %>
 
 		<% end %>

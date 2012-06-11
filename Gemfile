@@ -1,11 +1,11 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.3' 
+gem 'rails'
 #gem 'activerecord-mysql-adapter'
 #gem 'mysql2', '< 0.3' # as stated above
 gem 'mysql2'
 gem 'mysql'
-
+gem 'sqlite3'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
@@ -20,6 +20,7 @@ gem "meta_search"  # Last officially released gem
 gem 'cancan'
 gem 'simple_form'
 gem 'rack', '1.4.1'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

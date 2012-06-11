@@ -1,3 +1,8 @@
+<style>
+textarea{
+	width: 400px;
+}
+</style>
 <%= simple_form_for @student, :html => {:class => 'form-horizontal'} do |f| %>
 <% if @student.errors.any? %>
 <div id="error_explanation">
@@ -15,6 +20,9 @@
 	<div class="span4">
 <%= f.input :eid, :as => :hidden %>
 <%= f.input :name %>
+<% if AdminUser.find_by_eid(session[:eid]) %>
+<%= f.input :eid %>
+<% end %>
 <%= f.input :address1 %>
 <%= f.input :address2 %>
 <%= f.input :city %>
@@ -32,27 +40,30 @@
 </div>
 <hr />
 <h2>Exams I Intend to Submit</h2>
-<p class="note">Students must submit at least one eligible exam in each of the four core subject areas (Math, English, Science, Social Sciences, and a language other than English).  For 2012-13, students must also take the ACT ENGAGE College diagnostic assessment of college readiness; UT Austin will contact students with additional information.</p>
-
+<br/>
+<p class="note">
+Students must submit at least one eligible exam in each of the four core subject areas (Math, English, Science, Social Sciences, and a language other than English).  For 2012-13, students must also take the ACT ENGAGE College diagnostic assessment of college readiness; UT Austin will contact students with additional information.
+</p>
+<br/>
 <% @subjects.each do |subject| %>
   <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
 
 <% end %>
-
-<p class="note">Contact the program administrator for questions about additional language assessments</p>
-
+<p class="note">Contact the program administrator for questions about additional language assessments.</p>
 <hr />
 <h2>Questions</h2>
 <% i = 0 %>
 <%= f.simple_fields_for :question_responses do |builder| %>
    <%= builder.hidden_field :question_id %>
   
-  <%= builder.input :text, :as => :text, :label => @questions[i].text, :cols => 80 %>
+  <%= builder.input :text, :as => :text, :label => @questions[i].text, :cols => 200 %>
 
   <% i+=1 %>
 <% end %>
-<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'Check any university you are interested in attending.' %>
+<%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'If you would like to receive application information for Spring admissions, please select one or more university.' %>
 <div class="well">
-<%=f.button :submit, "Register", :class=>'btn btn-primary btn-large'%>
+<% %>	
+<%=f.submit nil, :class=>'btn btn-primary btn-large'%>
 </div>
+
 <% end %> 
