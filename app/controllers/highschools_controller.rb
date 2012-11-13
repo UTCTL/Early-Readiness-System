@@ -14,7 +14,7 @@ class HighschoolsController < ApplicationController
   # GET /highschools/1.json
   def show
     @highschool = Highschool.find(params[:id])
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @highschool }
@@ -24,9 +24,9 @@ class HighschoolsController < ApplicationController
   # GET /highschools/new
   # GET /highschools/new.json
   def new
+
+    @districts = District.all
     @highschool = Highschool.new
-
-
 
     respond_to do |format|
       format.html # new.html.erb
@@ -42,6 +42,7 @@ class HighschoolsController < ApplicationController
   # POST /highschools
   # POST /highschools.json
   def create
+      @districts = District.all
        @highschool = Highschool.new(:name => params[:highschool][:name])
       @district_name = params[:highschool][:district]
    if District.find_by_name(@district_name)
@@ -67,6 +68,7 @@ class HighschoolsController < ApplicationController
   # PUT /highschools/1
   # PUT /highschools/1.json
   def update
+    @districts = District.all
     @highschool = Highschool.find(params[:id])
 
     respond_to do |format|

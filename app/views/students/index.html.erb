@@ -32,15 +32,33 @@
 
          <div class="span4"><h2><%= link_to student.name, student %> <a href="mailto:<%= student.email %>"><i class="icon-envelope"></i></a> </h2> </div>
          <div class="span4">
+          <%if student.district %>
+              <span class="label"><%= student.district.name %></span>
+          <% end %>
           <% if student.highschool %>
-            <span class="label"><%= student.highschool.name %></span>
+          <a class="btn btn-mini" data-toggle="collapse" data-target="#student_<%= student.id %>_highschool">
+            <%= student.highschool.name %> <span class="caret noscript expand_highschool"></span></a>
+              <div id="student_<%= student.id %>_highschool" class="collapse">
+                <address>
+                  <p>
+                <% if student.highschool.address1 %>
+                <%= student.highschool.address1 %><br/>
+                <% end %>
+                <% if student.highschool.address2 %>
+                <%= student.highschool.address2 %><br/>
+                <% end %>
+                <% if student.highschool.city %><%= student.highschool.city %>,<% end %> <% if student.highschool.state %><%= student.highschool.state %><% end %> <% if student.highschool.zipcode %><%= student.highschool.zipcode %><% end %>
+              </p>
+              </address>
+              </div>
           <% end %>
          </div>
               
          <div class="span4">
             <div class="btn-toolbar pull-right">
               <div class="btn-group" data-toggle="buttons-checkbox">
-                <a class="btn btn-mini" data-toggle="collapse" data-target="#student_<%= student.id %>">More <span class="caret"></span></a>
+                <a class="btn btn-mini noscript view_more" data-toggle="collapse" data-target="#student_<%= student.id %>">More <span class="caret"></span></a>
+                 <a class="btn btn-mini noscript alt_view_link" data-toggle="collapse" href="students/<%= student.id %>">View</a>
               </div>
 
               <% if can? :edit, Student %> 
@@ -124,7 +142,7 @@
       </tr>  
     </thead>
         <tbody>
-        <% student.exams.where(:subject_id => subject.id).each do |exam| %>
+        <% student.exams.order('shortname').where(:subject_id => subject.id).each do |exam| %>
 
 
           <tr>

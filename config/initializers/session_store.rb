@@ -1,6 +1,8 @@
 # Be sure to restart your server when you modify this file.
 
-EarlyReadinessSystem::Application.config.session_store :cookie_store, key: '_Early-Readiness-System_session'
+EarlyReadinessSystem::Application.config.session_store :cookie_store,
+	:key => '_Early-Readiness-System_session', 
+	:secure => true
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

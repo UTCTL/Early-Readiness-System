@@ -8,6 +8,8 @@ EarlyReadinessSystem::Application.routes.draw do
 
   get "log_out" => "sessions#destroy", :as => "log_out"
 
+  get "pages/success"
+
   resources :student_genders
 
   resources :interested_universities
@@ -39,6 +41,8 @@ EarlyReadinessSystem::Application.routes.draw do
   resources :sections
 
   match 'login/' => 'sessions#new'
+
+  match 'success/' => 'pages#success'
 
   match 'register/' => 'students#new'
 

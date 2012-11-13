@@ -1,10 +1,12 @@
 class Student < ActiveRecord::Base
-	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool_name, :presence => true
+	validates :name, :address1, :city, :state, :zip, :residency, :email, :birthday, :highschool, :presence => true
 	validate :oneExamPerSubject
 	validates_uniqueness_of :eid
 
+
 	belongs_to :gender
 	belongs_to :highschool, :foreign_key => "highschool_id"
+	belongs_to :district, :autosave => true
 
 	has_many :scores
 	has_many :exams, :through => :scores
@@ -15,7 +17,7 @@ class Student < ActiveRecord::Base
 	has_many :interested_universities
 	has_many :universities, :through => :interested_universities
 
-	accepts_nested_attributes_for :question_responses, :questions, :gender, :exams, :scores
+	accepts_nested_attributes_for :question_responses, :questions, :gender, :exams, :scores, :highschool, :district
 
 	scope :accepted, where(:accepted => true)
 	scope :has_scores, joins(:scores).merge(Exam.has_score).group(:eid)

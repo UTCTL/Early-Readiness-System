@@ -1,10 +1,17 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Name:</b>
-  <%= @district.name %>
-</p>
+<h2>  <%= @district.name %> </h2>
+
+<h3>Highschools in  <%= @district.name %></h3>
+
+<ul>
+<% @district.highschools.each do |highschool| %>
+	<li><%= link_to highschool.name, highschool %></li>
+<% end %>
+</ul>
+
+<p><%= link_to'Add New Highschool', new_highschool_path %></p>
 
 
-<%= link_to 'Edit', edit_district_path(@district) %> |
-<%= link_to 'Back', districts_path %>
+<%= link_to 'Edit District', edit_district_path(@district) %> |
+<%= link_to 'Back to District List', districts_path %>

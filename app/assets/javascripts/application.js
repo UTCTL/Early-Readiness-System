@@ -8,4 +8,28 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+jQuery(document).ready(function(){
 
+
+jQuery('.noscript').removeClass('noscript');
+
+	jQuery('#student_highschool_attributes_district_id').change(function(){
+		 if(this.selectedIndex != this.options.length - 1) {
+		 	jQuery('#add_new_district').fadeOut();	
+		 return;
+		}
+		jQuery('#add_new_district').fadeIn();
+
+	});
+
+
+	jQuery('#student_highschool_id').change(function(){
+		 if(this.selectedIndex != this.options.length - 1) {
+		 	jQuery('#add_highschool').fadeOut();	
+		 return;
+		}
+		jQuery('#add_highschool').fadeIn();
+
+	});
+
+});

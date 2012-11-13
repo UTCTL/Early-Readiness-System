@@ -7,18 +7,19 @@ class StudentsController < ApplicationController
 
   def index
 
-
-
-
-
+    logger.debug "Session is #{session[:eid]} line 10"
     if AdminUser.find_by_eid(session[:eid])
+      logger.debug "Session is #{session[:eid]} line 12"
       @user =  AdminUser.find_by_eid(session[:eid])
+      logger.debug "AdminUser is {@user} line 14"
     elsif Student.find_by_eid(session[:eid]) 
+      logger.debug "Session is #{session[:eid]}"
       logged_in = Student.find_by_eid(session[:eid])
+      logger.debug "StudentUser is {logged_in} line 18"
       redirect_to(logged_in, :notice => 'Welcome back, ' + logged_in.name.titlecase + '!')
       return
     end
-    
+    logger.debug "Session is #{session[:eid]} line 22"
 
     @accessible_students = Student
 
@@ -99,8 +100,10 @@ class StudentsController < ApplicationController
     end
 
     @student=Student.new
-    @exams = Exam.all
+    @highschool = @student.build_highschool
+    @exams = Exam.order('shortname')
     @highschools = Highschool.all
+    @districts = District.all
     @questions = Question.all
     @subjects = Subject.all
     @universities = University.all
@@ -123,7 +126,7 @@ class StudentsController < ApplicationController
     treebase = "dc=entdir,dc=utexas,dc=edu"
 
     ldap.search(:base => treebase, :filter => filter) do |entry|
-       if AdminUser.find_by_eid(session[:eid]) 
+         if AdminUser.find_by_eid(session[:eid]) 
             eid = 'sae102'
           else
             eid = session[:eid]
@@ -166,9 +169,10 @@ class StudentsController < ApplicationController
   # GET /students/1/edit
   def edit
     @student = Student.find(params[:id])
-    @exams = Exam.all
+    @exams = Exam.order('shortname')
     @sections = Section.all
     @highschools = Highschool.all
+    @districts = District.all
     @questions = Question.all
     @subjects = Subject.all
     @genders = Gender.all
@@ -189,37 +193,62 @@ class StudentsController < ApplicationController
   # POST /students
   # POST /students.json
   def create
+  
+  
+
     @student = Student.new(params[:student])
-
-
     @subjects = Subject.all
-    @exams = Exam.all
-    @highschools = Highschool.all
-    @sections = Section.all
     @questions = Question.all
+    @highschools = Highschool.all
+    @districts = District.all
     @genders = Gender.all
     @universities = University.all
-  
- 
+
+if(params[:student][:highschool_id] == 'new')
+    @student.build_highschool(:name => params[:student][:highschool_attributes][:name])
+    @student.highschool.address1 = params[:student][:highschool_attributes][:address1]
+    @student.highschool.address2 = params[:student][:highschool_attributes][:address2]
+    @student.highschool.city = params[:student][:highschool_attributes][:city]
+    @student.highschool.state = params[:student][:highschool_attributes][:state]
+    @student.highschool.zipcode = params[:student][:highschool_attributes][:zipcode]
+      
+      if(params[:student][:highschool_attributes][:district_id] == 'new')
+        @new_district_name = params[:new_district]
+        
+        if District.find_by_name(@new_district_name)
+          @student.highschool.district = District.find_by_name(@new_district_name)
+        else   
+          @new_district = @student.highschool.build_district(:name => @new_district_name)
+        end
+      else
+        if(params[:student][:highschool_attributes][:district_id]!="")
+        @student.highschool.district =  District.find(params[:student][:highschool_attributes][:district_id]) 
+        end   
+    end
+else #existing highschool and district
+    @student.highschool = Highschool.find(params[:student][:highschool_id])
+    params[:student].delete(:highschool_attributes)
+end
+
 
 
 
     respond_to do |format|
-    @highschool_name = params[:student][:highschool_name]
+   # @highschool_name = params[:student][:highschool_name]
 
-    if Highschool.find_by_name(@highschool_name)
-      @the_highschool = Highschool.find_by_name(@highschool_name)
-      @student.highschool = @the_highschool
-    else 
-      @newschool = @student.build_highschool(:name => @highschool_name)
-      @student.highschool = @newschool
-      @newschool.district = District.find(1)
-     end
+   # if Highschool.find_by_name(@highschool_name)
+   #   @the_highschool = Highschool.find_by_name(@highschool_name)
+   #   @student.highschool = @the_highschool
+   # else 
+   #   @newschool = @student.build_highschool(:name => @highschool_name)
+   #   @student.highschool = @newschool
+   #   @newschool.district = District.find(1)
+   #  end
       if @student.save
-        format.html { redirect_to @student, notice: 'Congratulations! You have successfully registered.' }
+        format.html { redirect_to '/success', :notice => 'Thank you for registering for the Early Readiness High School Graduation Option!' }
         format.json { render json: @student, status: :created, location: @student }
       else
-        format.html { render action: "new" }
+       format.html { render action: "new" }
         format.json { render json: @student.errors, status: :unprocessable_entity }
       end
     end
@@ -228,26 +257,61 @@ class StudentsController < ApplicationController
   # PUT /students/1
   # PUT /students/1.json
   def update
+
     @student = Student.find(params[:id])
     @subjects = Subject.all
     @questions = Question.all
     @highschools = Highschool.all
+    @districts = District.all
     @genders = Gender.all
     @universities = University.all
 
+
+
+
     respond_to do |format|
-  @highschool_name = params[:student][:highschool_name]
-   if Highschool.find_by_name(@highschool_name)
-      @the_highschool = Highschool.find_by_name(@highschool_name)
-      @student.highschool = @the_highschool
-    else 
-      @newschool = @student.build_highschool(:name => @highschool_name)
-      @student.highschool = @newschool
-      @newschool.district = District.find(1)
-     end
-  if @student.update_attributes(params[:student])
+#  @highschool_name = params[:student][:highschool_name]
+#   if Highschool.find_by_name(@highschool_name)
+#      @the_highschool = Highschool.find_by_name(@highschool_name)
+#      @student.highschool = @the_highschool
+#    else 
+#      @newschool = @student.build_highschool(:name => @highschool_name)
+#      @student.highschool = @newschool
+#      @newschool.district = District.find(1)
+#     end
+if(params[:student][:highschool_id] != 'new')
+    params[:student].delete(:highschool_attributes)
+  else
+    params[:student][:highschool_attributes][:id] = nil
+    @newhighschool = @student.build_highschool(:name => params[:student][:highschool_attributes][:name])
+    @newhighschool.address1 = params[:student][:highschool_attributes][:address1]
+    @newhighschool.address2 = params[:student][:highschool_attributes][:address2]
+    @newhighschool.city = params[:student][:highschool_attributes][:city]
+    @newhighschool.state = params[:student][:highschool_attributes][:state]
+    @newhighschool.zipcode = params[:student][:highschool_attributes][:zipcode]
+     
+    if(params[:student][:highschool_attributes][:district_id] != 'new')
+      @newhighschool.district = District.find(params[:student][:highschool_attributes][:district_id])
+    else
+      @new_district_name = params[:new_district]
+       logger.debug "new highschoool {#{@new_district_name.inspect}}"
+      if District.find_by_name(@new_district_name)
+        params[:student][:highschool_attributes][:district_id] = District.find_by_name(@new_district_name).id
+      else   
+         @newdistrict = @newhighschool.build_district(:name => @new_district_name)
+         @newdistrict.save
+        params[:student][:highschool_attributes][:district_id] = @newdistrict.id
+      end
+    end
+
   
-        format.html { redirect_to @student, notice: 'Student was successfully updated.' }
+  end
+
+
+
+  if @student.update_attributes(params[:student])
+       
+        format.html { redirect_to '/success' , notice: 'Student was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }

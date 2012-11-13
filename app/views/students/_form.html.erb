@@ -16,8 +16,8 @@ textarea{
 	</ul>
 </div>
 <% end %>
-<div class="row">
-	<div class="span4">
+<div class="row-fluid">
+	<div class="span6">
 <%= f.input :eid, :as => :hidden %>
 <%= f.input :name %>
 <% if AdminUser.find_by_eid(session[:eid]) %>
@@ -29,24 +29,73 @@ textarea{
 <%= f.input :state, :collection => us_states %>
 <%= f.input :zip %>
 </div>
-<div class="span4">
+<div class="span6">
 
 <%= f.input :residency, :collection => us_states %>
 <%= f.input :email %>
 <%= f.input :birthday %>
 <%= f.association :gender, :as => :radio_buttons, :label_method  => :gender %>
-<%= f.input :highschool_name %>
 </div>
 </div>
+<div class="row-fluid">
+	<div class="span12">
+<h4>Highchool Information</h4>
+</div>
+</div>
+<div class="row-fluid">
+<div class="span6" id="highschool_info">
+<%= f.association :highschool, :as => :select, :collection => @highschools.collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], :include_blank => true, :label => 'Choose Highschool' %> 
+</div>
+</div>
+<div class="row-fluid">
+
+<div id="add_highschool" class="noscript">
+<div class="span6">
+	<p><strong>If other, create new highschool</strong></p>
+<%= f.simple_fields_for :highschool do |h| %>
+	<%= h.association :district, :as => :select, :collection => @districts.collect {|p| [ p.name, p.id ] } + [ [ 'Other', 'new' ] ], :include_blank => true, :label => 'Choose District' %> 
+	<div class="control-group string optional noscript" id="add_new_district">
+<p><strong>If other, create new district</strong></p>
+		<label class="string optional control-label" for="new_district">Create New District</label><div class="controls"><input class="string optional" id="new_district" name="new_district" size="50" type="text" value="" /></div></div>
+	<%= h.input :name, :label => 'Highschool Name' %>
+		</div>
+		<div class="span6">
+	<%= h.input :address1, :label => 'Highschool Address' %>
+	<%= h.input :address2, :label => 'Address Line 2' %>
+	<%= h.input :city, :label => 'Highschool City' %>
+	<%= h.input :state, :collection => us_states, :label => 'Highschool State' %>
+	<%= h.input :zipcode, :label => 'Highschool Zipcode' %>
+<% end %>
+</div>
+</div>
+</div>
+<div class="row-fluid">
+<div class="span12">
 <hr />
-<h2>Exams I Intend to Submit</h2>
+<h2>Scores</h2>
 <br/>
+</div>
+<div class="row-fluid">
+	<div class="span8">
 <p class="note">
-Students must submit at least one eligible exam in each of the four core subject areas (Math, English, Science, Social Sciences, and a language other than English).  For 2012-13, students must also take the ACT ENGAGE College diagnostic assessment of college readiness; UT Austin will contact students with additional information.
+Students must submit at least one eligible exam in each of the four core subject areas (Math, English, Science, Social Sciences) and a language other than English. For 2012-13, students must also take the ACT ENGAGE college diagnostic assessment of college readiness; UT Austin will contact students with additional information.
+</p>
+<p class="note">
+Please consult the Early Readiness High School Graduation Option website at <a href="http://www.utexas.edu/ugs/teaching/crs/early-readiness-option">http://www.utexas.edu/ugs/teaching/crs/early-readiness-option</a> for more information on accepted scores. Contact Alicia Beth at <a href="earlyreadiness@austin.utexas.edu">earlyreadiness@austin.utexas.edu with</a> any other questions.
+</p>
+
+<h3>Exams I intend to submit</h3>
+<p class="note">
+For the below tests, the following abbreviations apply:
+<ul>
+	<li>AP: Advanced Placement</li>
+	<li>CLEP: College Level Examination Program</li>
+	<li>IB: International Baccalaureate</li>
+</ul>
 </p>
 <br/>
 <% @subjects.each do |subject| %>
-  <%= f.association :exams, :collection => subject.exams.all, :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
+  <%= f.association :exams, :collection => subject.exams.order('shortname'), :as => :check_boxes, :label_method => :displayname, :label => subject.name %>
 
 <% end %>
 <p class="note">Contact the program administrator for questions about additional language assessments.</p>
@@ -61,8 +110,10 @@ Students must submit at least one eligible exam in each of the four core subject
   <% i+=1 %>
 <% end %>
 <%= f.association :universities, :collection => @universities, :as => :check_boxes, :label => 'If you would like to receive application information for Spring admissions, please select one or more university.' %>
-<div class="well">
-<% %>	
+</div>
+</div>
+<div class="row">
+<div class="well span12">
 <%=f.submit nil, :class=>'btn btn-primary btn-large'%>
 </div>
 

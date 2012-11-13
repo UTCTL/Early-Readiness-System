@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120326212939) do
+ActiveRecord::Schema.define(:version => 20121107185727) do
 
   create_table "admin_users", :force => true do |t|
     t.string   "name"
@@ -78,6 +78,11 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.integer  "district_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "state"
+    t.string   "city"
+    t.string   "zipcode"
   end
 
   add_index "highschools", ["district_id"], :name => "index_highschools_on_district_id"
@@ -164,16 +169,16 @@ ActiveRecord::Schema.define(:version => 20120326212939) do
     t.string   "email"
     t.date     "birthday"
     t.string   "highschool_name"
-    t.boolean  "interested_ut",   :default => false
-    t.boolean  "interested_atm",  :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "gender_id"
     t.string   "eid"
     t.boolean  "accepted"
     t.integer  "highschool_id"
+    t.integer  "district_id"
   end
 
+  add_index "students", ["district_id"], :name => "index_students_on_district_id"
   add_index "students", ["highschool_id"], :name => "index_students_on_highschool_id"
 
   create_table "subjects", :force => true do |t|
